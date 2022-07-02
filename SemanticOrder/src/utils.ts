@@ -1,8 +1,8 @@
 //var fs = require('fs');
-var join = require('path').join;
+//var join = require('path').join;
 
 import { readFileSync } from 'fs'
-//import { join } from 'path'
+import { join } from 'path'
 
 export default function bufferFile(relPath: string): string | null {
     try {

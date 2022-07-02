@@ -31,14 +31,25 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="app.ts" />
+    <Content Include="data\lections\01 Введення.txt" />
+    <Content Include="data\lections\02 Прості типи.txt" />
+    <Content Include="data\lections\03 Конструкції керування.txt" />
+    <Content Include="data\lections\04 Функції.txt" />
+    <Content Include="data\lections\05 Об%27єкти.txt" />
+    <Content Include="data\lections\06 Масиви.txt" />
+    <Content Include="data\lections\07 Посилальні типи.txt" />
+    <Content Include="data\lections\08 Тип Number.txt" />
+    <Content Include="data\lections\09 Тип String.txt" />
+    <Content Include="data\lections\10 Тип Symbol.txt" />
     <Content Include="data\markers.txt" />
     <Content Include="package.json" />
-    <Content Include="src\Part.ts" />
+    <Content Include="src\Parts.ts" />
     <Content Include="README.md" />
     <Content Include="tsconfig.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="data\" />
+    <Folder Include="data\lections\" />
     <Folder Include="src\" />
   </ItemGroup>
   <ItemGroup>
