@@ -4,6 +4,7 @@ exports.Parts = exports.Part = void 0;
 const utils_js_1 = require("./utils.js");
 var os = require('os');
 const markersFile = '../data/markers.txt';
+const lectDir = '../data/lections/';
 class Part {
     constructor(id, markers) {
         this.id = id;
@@ -15,9 +16,8 @@ class Parts {
     // Load markers from 'markers.txt'
     //
     constructor() {
-        let text = (0, utils_js_1.default)(markersFile);
+        let text = (0, utils_js_1.bufferFile)(markersFile);
         const regex = /^---(.*)/gm;
-        // 1-st run: make temporary objects  
         let ts = this.doTemps(text, regex);
         // 2-nd run: create parts with markers only
         this._parts = [];
@@ -27,6 +27,8 @@ class Parts {
             this._parts.push(new Part(ts[i].name, markers));
         }
     }
+    // 1-st run: make temporary objects 
+    //
     doTemps(text, regex) {
         let ts = [];
         let match;
@@ -49,13 +51,13 @@ class Parts {
         } while (match);
         return ts;
     }
-    // Load part bodies from a lecture file
-    // "@2 id"
-    bodyFromLect(lectFile) {
-        let text = (0, utils_js_1.default)(lectFile);
+    // Get part bodies from a lecture file.
+    // sample: "@2 id"
+    bodyFromOneLect(lectFile) {
+        let text = (0, utils_js_1.bufferFile)(lectFile);
         const regex = /^@2\s*(.*)/gm;
-        // 1-st run: make temporary objects  
         let ts = this.doTemps(text, regex);
+        // 2-nd run: fill a part body
         for (let i = 0; i < ts.length - 1; i++) {
             let part = this._parts.find(p => p.id == ts[i].name);
             if (part) {
@@ -63,6 +65,12 @@ class Parts {
                 part.body = line;
             }
         }
+    }
+    // Get part bodies from a lecture dir
+    //
+    bodyFromAllLects() {
+        const fileNames = (0, utils_js_1.bufferDir)(lectDir);
+        fileNames === null || fileNames === void 0 ? void 0 : fileNames.forEach(fname => this.bodyFromOneLect(lectDir + fname));
     }
 }
 exports.Parts = Parts;

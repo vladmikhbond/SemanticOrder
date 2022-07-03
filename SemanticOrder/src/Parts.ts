@@ -1,9 +1,9 @@
 
-import bufferFile from "./utils.js";
+import { bufferFile, bufferDir } from "./utils.js";
 var os = require('os');
 
 const markersFile = '../data/markers.txt';
-
+const lectDir = '../data/lections/';
 
 
 export { Part, Parts }
@@ -35,8 +35,6 @@ class Parts {
    {
       let text: string | null = bufferFile(markersFile);
       const regex: RegExp = /^---(.*)/gm;
-
-      // 1-st run: make temporary objects  
       let ts: Temps = this.doTemps(text!, regex);
       
       // 2-nd run: create parts with markers only
@@ -48,6 +46,8 @@ class Parts {
       }
    }
 
+   // 1-st run: make temporary objects 
+   //
    doTemps(text: string, regex: RegExp): Temps {
       let ts: Temps = [];
       let match: RegExpExecArray | null;
@@ -77,9 +77,9 @@ class Parts {
    {
       let text: string | null = bufferFile(lectFile);
       const regex: RegExp = /^@2\s*(.*)/gm;
-
-      // 1-st run: make temporary objects  
       let ts: Temps = this.doTemps(text!, regex);
+
+      // 2-nd run: fill a part body
       for (let i = 0; i < ts.length - 1; i++) {
          let part = this._parts.find(p => p.id == ts[i].name);
          if (part) {
@@ -89,4 +89,12 @@ class Parts {
       }
 
    }
+
+   // Get part bodies from a lecture dir
+   //
+   bodyFromAllLects() {
+      const fileNames = bufferDir(lectDir);
+      fileNames?.forEach(fname => this.bodyFromOneLect(lectDir + fname));
+   }
+
 }

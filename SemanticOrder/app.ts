@@ -11,7 +11,7 @@ import { Part, Parts } from './src/Parts.js';
 
 
 const parts = new Parts();
-parts.bodyFromOneLect('../data/lections/03 Конструкції керування.txt')
+parts.bodyFromAllLects()
 console.log(parts);
 
 
