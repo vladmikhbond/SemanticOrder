@@ -6,7 +6,7 @@ export function bufferFile(relPath: string): string | null {
    try {
       return readFileSync(join(__dirname, relPath)).toString();
    } catch (err) {
-      console.log(err.message)
+      console.error(err);
       return null;
    }
 }
@@ -20,5 +20,6 @@ export function bufferDir(relPath: string): string[] | null {
    }
 }
 
-let ss = bufferDir('../data/lections/');
-console.log(ss);
+// TEST ===============================
+//let ss = bufferDir('../data/lections/');
+//console.log(ss);
