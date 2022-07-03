@@ -30,6 +30,7 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="_doc\readme.md" />
     <None Include="app.ts" />
     <Content Include="data\lections\01 Введення.txt" />
     <Content Include="data\lections\02 Прості типи.txt" />
@@ -50,6 +51,7 @@
   <ItemGroup>
     <Folder Include="data\" />
     <Folder Include="data\lections\" />
+    <Folder Include="_doc\" />
     <Folder Include="src\" />
   </ItemGroup>
   <ItemGroup>

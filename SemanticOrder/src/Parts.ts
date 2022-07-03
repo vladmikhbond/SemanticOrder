@@ -10,7 +10,7 @@ export { Part, Parts }
 
 class Part {
    id: string;
-   markrers: string[];
+   markers: string[];
    body: string;
    deps: Part[];
    _lectName: string;  
@@ -18,8 +18,9 @@ class Part {
    constructor(id, markers)
    {
       this.id = id;
-      this.markrers = markers;
+      this.markers = markers;
    }
+
 }
 
 type Temps = { index: number, name: string, start: number }[];
@@ -42,6 +43,7 @@ class Parts {
       for (let i = 0; i < ts.length - 1; i++) {
           let line = text!.slice(ts[i].start, ts[i + 1].index).trim();
           let markers = line.split(os.EOL);
+          
           this._parts.push(new Part(ts[i].name, markers));
       }
    }

@@ -8,7 +8,7 @@ const lectDir = '../data/lections/';
 class Part {
     constructor(id, markers) {
         this.id = id;
-        this.markrers = markers;
+        this.markers = markers;
     }
 }
 exports.Part = Part;
