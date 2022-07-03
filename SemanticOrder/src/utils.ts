@@ -50,4 +50,4 @@ export function marker2regex(marker: string): RegExp {
 
 console.log(marker2regex("111\\111"));         //  /111\\111/
 console.log(marker2regex("111*111'111-111"));  //  /111\*111\'111\-111/
-console.log(marker2regex("111+ 222+"));  //  /111\*111\'111\-111/
+console.log(marker2regex("111+ 222+"));        //  /111\*111\'111\-111/

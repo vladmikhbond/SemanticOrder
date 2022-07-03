@@ -1,6 +1,6 @@
 
-import { bufferFile, bufferDir } from "./utils.js";
-var os = require('os');
+import { bufferFile, bufferDir, marker2regex } from "./utils.js";
+const os = require('os');
 
 const markersFile = '../data/markers.txt';
 const lectDir = '../data/lections/';
@@ -11,14 +11,16 @@ export { Part, Parts }
 class Part {
    id: string;
    markers: string[];
+   regexps: RegExp[];
    body: string;
-   deps: Part[];
+   deps: Part[] = [];
    _lectName: string;  
 
-   constructor(id, markers)
+   constructor(id: string, markers: string[])
    {
       this.id = id;
       this.markers = markers;
+      this.regexps = markers.map(m => marker2regex(m));
    }
 
 }
@@ -26,7 +28,6 @@ class Part {
 type Temps = { index: number, name: string, start: number }[];
 
 class Parts {
-  
    _parts: Part[];
 
 
@@ -98,5 +99,24 @@ class Parts {
       const fileNames = bufferDir(lectDir);
       fileNames?.forEach(fname => this.bodyFromOneLect(lectDir + fname));
    }
+
+   // 
+   findDeps() {
+      for (let i = 0; i < this._parts.length; i++) {
+         const p1 = this._parts[i]; 
+         for (let j = 0; j < this._parts.length; j++) {
+            if (i == j) continue;
+            const p2 = this._parts[j];
+            for (let regexp of p1.regexps) {
+               if (regexp.test(p2.body)) {
+                  // is deps: p2 -> p1
+                  p2.deps.push(p1);
+               }
+            }
+         }
+
+      }
+   }
+
 
 }

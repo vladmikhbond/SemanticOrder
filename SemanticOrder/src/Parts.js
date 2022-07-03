@@ -2,13 +2,15 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Parts = exports.Part = void 0;
 const utils_js_1 = require("./utils.js");
-var os = require('os');
+const os = require('os');
 const markersFile = '../data/markers.txt';
 const lectDir = '../data/lections/';
 class Part {
     constructor(id, markers) {
+        this.deps = [];
         this.id = id;
         this.markers = markers;
+        this.regexps = markers.map(m => (0, utils_js_1.marker2regex)(m));
     }
 }
 exports.Part = Part;
@@ -71,6 +73,23 @@ class Parts {
     bodyFromAllLects() {
         const fileNames = (0, utils_js_1.bufferDir)(lectDir);
         fileNames === null || fileNames === void 0 ? void 0 : fileNames.forEach(fname => this.bodyFromOneLect(lectDir + fname));
+    }
+    // 
+    findDeps() {
+        for (let i = 0; i < this._parts.length; i++) {
+            const p1 = this._parts[i];
+            for (let j = 0; j < this._parts.length; j++) {
+                if (i == j)
+                    continue;
+                const p2 = this._parts[j];
+                for (let regexp of p1.regexps) {
+                    if (regexp.test(p2.body)) {
+                        // is deps: p2 -> p1
+                        p2.deps.push(p1);
+                    }
+                }
+            }
+        }
     }
 }
 exports.Parts = Parts;
