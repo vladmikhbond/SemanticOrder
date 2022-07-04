@@ -5,6 +5,7 @@ class Part {
     constructor(id, markers) {
         this.deps = [];
         this.id = id;
+        this.markers = markers;
         this.regexps = markers.map(m => marker2regex(m));
     }
 }

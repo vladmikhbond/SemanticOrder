@@ -1,8 +1,9 @@
 ﻿
-export type Dep = { partId: string, len: number, regexp: RegExp };
+export type Dep = { partId: string, len: number, marker: string };
 
 export class Part {
    id: string;
+   markers: string[];
    regexps: RegExp[];
    body: string;
    deps: Dep[] = [];
@@ -11,6 +12,7 @@ export class Part {
    constructor(id: string, markers: string[])
    {
       this.id = id;
+      this.markers = markers;
       this.regexps = markers.map(m => marker2regex(m));
    }
 }

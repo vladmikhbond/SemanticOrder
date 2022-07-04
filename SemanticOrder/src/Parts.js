@@ -75,10 +75,11 @@ class Parts {
                 if (i1 == i2)
                     continue;
                 const part2 = this._parts[i2];
-                for (let regexp of part1.regexps) {
+                for (let i = 0; i < part1.regexps.length; i++) {
+                    const regexp = part1.regexps[i];
                     if (regexp.test(part2.body)) {
                         // deps: part2 -> part1
-                        part2.deps.push({ partId: part1.id, len: i2 - i1, regexp });
+                        part2.deps.push({ partId: part1.id, len: i2 - i1, marker: part1.markers[i] });
                     }
                 }
             }
