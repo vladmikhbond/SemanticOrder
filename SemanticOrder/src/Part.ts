@@ -1,9 +1,11 @@
 ﻿
-export default class Part {
+export type Dep = { partId: string, len: number, regexp: RegExp };
+
+export class Part {
    id: string;
    regexps: RegExp[];
    body: string;
-   deps: Part[] = [];
+   deps: Dep[] = [];
    _lectName: string;  
 
    constructor(id: string, markers: string[])

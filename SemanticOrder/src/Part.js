@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Part = void 0;
 class Part {
     constructor(id, markers) {
         this.deps = [];
@@ -7,7 +8,7 @@ class Part {
         this.regexps = markers.map(m => marker2regex(m));
     }
 }
-exports.default = Part;
+exports.Part = Part;
 // Виробляємо регекс 
 // Символам *\.'"-{}$^  передує бекслеш.
 // Заміни:

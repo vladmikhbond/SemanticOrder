@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Parts = exports.Part = void 0;
 const utils_js_1 = require("./utils.js");
 const Part_js_1 = require("./Part.js");
-exports.Part = Part_js_1.default;
+Object.defineProperty(exports, "Part", { enumerable: true, get: function () { return Part_js_1.Part; } });
 const os_1 = require("os");
 const markersFile = '../data/markers.txt';
 const lectDir = '../data/lections/';
@@ -19,7 +19,7 @@ class Parts {
         for (let i = 0; i < ts.length - 1; i++) {
             let line = text.slice(ts[i].start, ts[i + 1].index).trim();
             let markers = line.split(os_1.EOL);
-            this._parts.push(new Part_js_1.default(ts[i].name, markers));
+            this._parts.push(new Part_js_1.Part(ts[i].name, markers));
         }
     }
     // 1-st run: make temporary objects 
@@ -69,16 +69,16 @@ class Parts {
     }
     // 
     findDeps() {
-        for (let i = 0; i < this._parts.length; i++) {
-            const p1 = this._parts[i];
-            for (let j = 0; j < this._parts.length; j++) {
-                if (i == j)
+        for (let i1 = 0; i1 < this._parts.length; i1++) {
+            const part1 = this._parts[i1];
+            for (let i2 = 0; i2 < this._parts.length; i2++) {
+                if (i1 == i2)
                     continue;
-                const p2 = this._parts[j];
-                for (let regexp of p1.regexps) {
-                    if (regexp.test(p2.body)) {
-                        // is deps: p2 -> p1
-                        p2.deps.push(p1);
+                const part2 = this._parts[i2];
+                for (let regexp of part1.regexps) {
+                    if (regexp.test(part2.body)) {
+                        // deps: part2 -> part1
+                        part2.deps.push({ partId: part1.id, len: i2 - i1, regexp });
                     }
                 }
             }

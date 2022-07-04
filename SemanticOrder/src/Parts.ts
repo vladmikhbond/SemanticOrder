@@ -1,6 +1,6 @@
 
 import { bufferFile, bufferDir } from "./utils.js";
-import Part from "./Part.js";
+import { Part, Dep } from "./Part.js";
 import { EOL } from "os";
 
 
@@ -8,6 +8,7 @@ const markersFile = '../data/markers.txt';
 const lectDir = '../data/lections/';
 
 export { Part, Parts }
+
 
 type Temps = { index: number, name: string, start: number }[];
 
@@ -86,15 +87,15 @@ class Parts {
 
    // 
    findDeps() {
-      for (let i = 0; i < this._parts.length; i++) {
-         const p1 = this._parts[i]; 
-         for (let j = 0; j < this._parts.length; j++) {
-            if (i == j) continue;
-            const p2 = this._parts[j];
-            for (let regexp of p1.regexps) {
-               if (regexp.test(p2.body)) {
-                  // is deps: p2 -> p1
-                  p2.deps.push(p1);
+      for (let i1 = 0; i1 < this._parts.length; i1++) {
+         const part1 = this._parts[i1]; 
+         for (let i2 = 0; i2 < this._parts.length; i2++) {
+            if (i1 == i2) continue;
+            const part2 = this._parts[i2];
+            for (let regexp of part1.regexps) {
+               if (regexp.test(part2.body)) {
+                  // deps: part2 -> part1
+                  part2.deps.push({ partId: part1.id, len: i2 - i1, regexp });
                }
             }
          }

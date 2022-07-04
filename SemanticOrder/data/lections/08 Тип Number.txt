@@ -1,5 +1,7 @@
 @1 08 Тип Number
 
+@2 Тип Number
+
 @3 Всі числа зберігаються за стандартом IEEE-754 - «double precision»
 [[ieee-754.png]]
 
