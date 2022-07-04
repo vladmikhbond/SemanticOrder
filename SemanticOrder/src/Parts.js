@@ -2,18 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Parts = exports.Part = void 0;
 const utils_js_1 = require("./utils.js");
-const os = require('os');
+const Part_js_1 = require("./Part.js");
+exports.Part = Part_js_1.default;
+const os_1 = require("os");
 const markersFile = '../data/markers.txt';
 const lectDir = '../data/lections/';
-class Part {
-    constructor(id, markers) {
-        this.deps = [];
-        this.id = id;
-        this.markers = markers;
-        this.regexps = markers.map(m => (0, utils_js_1.marker2regex)(m));
-    }
-}
-exports.Part = Part;
 class Parts {
     // Load markers from 'markers.txt'
     //
@@ -25,8 +18,8 @@ class Parts {
         this._parts = [];
         for (let i = 0; i < ts.length - 1; i++) {
             let line = text.slice(ts[i].start, ts[i + 1].index).trim();
-            let markers = line.split(os.EOL);
-            this._parts.push(new Part(ts[i].name, markers));
+            let markers = line.split(os_1.EOL);
+            this._parts.push(new Part_js_1.default(ts[i].name, markers));
         }
     }
     // 1-st run: make temporary objects 

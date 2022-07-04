@@ -1,29 +1,13 @@
 
-import { bufferFile, bufferDir, marker2regex } from "./utils.js";
-const os = require('os');
+import { bufferFile, bufferDir } from "./utils.js";
+import Part from "./Part.js";
+import { EOL } from "os";
+
 
 const markersFile = '../data/markers.txt';
 const lectDir = '../data/lections/';
 
-
 export { Part, Parts }
-
-class Part {
-   id: string;
-   markers: string[];
-   regexps: RegExp[];
-   body: string;
-   deps: Part[] = [];
-   _lectName: string;  
-
-   constructor(id: string, markers: string[])
-   {
-      this.id = id;
-      this.markers = markers;
-      this.regexps = markers.map(m => marker2regex(m));
-   }
-
-}
 
 type Temps = { index: number, name: string, start: number }[];
 
@@ -43,7 +27,7 @@ class Parts {
       this._parts = [];
       for (let i = 0; i < ts.length - 1; i++) {
           let line = text!.slice(ts[i].start, ts[i + 1].index).trim();
-          let markers = line.split(os.EOL);
+          let markers = line.split(EOL);
           
           this._parts.push(new Part(ts[i].name, markers));
       }
