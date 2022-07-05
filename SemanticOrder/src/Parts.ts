@@ -3,7 +3,6 @@ import { bufferFile, bufferDir } from "./utils.js";
 import { Part, Dep } from "./Part.js";
 import { EOL } from "os";
 
-
 const markersFile = '../data/markers.txt';
 const lectDir = '../data/lections/';
 
@@ -21,7 +20,7 @@ class Parts {
    constructor()
    {
       let text: string | null = bufferFile(markersFile);
-      const regex: RegExp = /^---(.*)/gm;
+      const regex: RegExp = /^\@2\s(.*)/gm;
       let ts: Temps = this.doTemps(text!, regex);
       
       // 2-nd run: create parts with markers only

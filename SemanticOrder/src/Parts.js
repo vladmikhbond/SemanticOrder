@@ -12,7 +12,7 @@ class Parts {
     //
     constructor() {
         let text = (0, utils_js_1.bufferFile)(markersFile);
-        const regex = /^---(.*)/gm;
+        const regex = /^\@2\s(.*)/gm;
         let ts = this.doTemps(text, regex);
         // 2-nd run: create parts with markers only
         this._parts = [];

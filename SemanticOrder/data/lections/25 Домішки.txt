@@ -1,0 +1,108 @@
+@1 25 Домішки
+
+@2 Домішки
+
+@3 Домішка – це клас, методи якого призначені для використання в інших класах, 
+причому без наслідування домішки.
+
+@3 Приклад. Домішка sayHiMixin має методи, які надають об'єктам класу User можливість вести розмову:
+{{
+let sayHiMixin = {
+  sayHi() {
+    alert(`Привіт, ${this.name}`);
+  },
+  sayBye() {
+    alert(`Бувай, ${this.name}`);
+  }
+};
+}}
+
+@3 Використання домішки
+{{
+class User {
+  constructor(name) {
+    this.name = name;
+  }
+}
+
+// копіюємо методи домішки в прототип
+Object.assign(User.prototype, sayHiMixin);
+
+// тепер юзер має домішані здібності
+new User("Василю").sayHi(); // Привіт, Василю!
+}}
+
+@3 Домішка не заважає класу успадковувати інший клас.
+Сама домішка може успадковувати іншу домішку.
+
+@2 Події як домішка
+
+@3 Події - спосіб передавати інформацію за підпискою.
+Щоб скористатися ним треба мати можливість
+1) підписатися на подію,
+2) відписатися від події,
+3) створити подію.
+{{
+let eventMixin = {
+
+   // Спосіб підписатися:
+   // menu.on('select', function(item) { ... }
+   // 
+   on(eventName, handler) {
+     if (!this._eventHandlers) this._eventHandlers = {};
+     if (!this._eventHandlers[eventName]) {
+       this._eventHandlers[eventName] = [];
+     }
+     this._eventHandlers[eventName].push(handler);
+   },
+ 
+   // Спосіб відписатися:
+   // menu.off('select', handler)
+   //
+   off(eventName, handler) {
+     let handlers = this._eventHandlers && this._eventHandlers[eventName];
+     if (!handlers) return;
+     for (let i = 0; i < handlers.length; i++) {
+       if (handlers[i] === handler) {
+         handlers.splice(i--, 1);
+       }
+     }
+   },
+ 
+   // Спосіб створити подію
+   // this.trigger('select', data1, data2);
+   //
+   trigger(eventName, ...args) {
+     if (!this._eventHandlers || !this._eventHandlers[eventName]) {
+       return; 
+     }
+ 
+     // виклик усіх підписаних обробників
+     this._eventHandlers[eventName].forEach(handler => handler.apply(this, args));
+   }
+ };
+}}
+
+@3 Меню створює подію "select" у методі choose.
+{{
+class Menu {
+   choose(value) {
+     this.trigger("select", value);
+   }
+}
+
+// Додамо до меню домішок eventMixin
+Object.assign(Menu.prototype, eventMixin);
+}}
+
+@3 Підписка на подію.
+{{ 
+let menu = new Menu();
+ 
+// Підписуємо обробник на подію "select"
+menu.on("select", value => console.log(`Обрано значення: ${value}`));
+ 
+// Виникне подія - спрацює обробник.
+menu.choose("123");    // Обрано значення: 123
+}}
+

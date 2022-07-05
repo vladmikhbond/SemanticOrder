@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Part = void 0;
+// Частина лекц курсу
+//
 class Part {
     constructor(id, markers) {
         this.deps = [];
@@ -17,7 +19,7 @@ exports.Part = Part;
 //   +     ->   \w{0,3}
 //
 function marker2regex(marker) {
-    const META = "*\\.'\"-{}$^";
+    const META = "*\\.'\"-{}$^()";
     let arr = [];
     for (let c of marker) {
         if (META.includes(c))
@@ -27,10 +29,9 @@ function marker2regex(marker) {
     ;
     marker = arr.join('');
     marker = marker
-        .replace(/\s/gm, "\\s")
-        .replace(/\+/gm, "\\w\{0\,3\}");
-    let regexp = new RegExp(marker);
-    return regexp;
+        .replace(/\+/gm, "\\w\{0\,3\}") // 	    + -> \w{0,3}
+        .replace(/\s/gm, "\\s+"); //   space -> \s+      
+    return new RegExp(marker);
 }
 // TEST ===============================
 //console.log(marker2regex("111\\111"));         //  /111\\111/

@@ -1,6 +1,8 @@
 ﻿
 export type Dep = { partId: string, len: number, marker: string };
 
+// Частина лекц курсу
+//
 export class Part {
    id: string;
    markers: string[];
@@ -24,7 +26,7 @@ export class Part {
 //   +     ->   \w{0,3}
 //
 function marker2regex(marker: string): RegExp {
-   const META = "*\\.'\"-{}$^";
+   const META = "*\\.'\"-{}$^()";
    let arr: string[] = [];
    for (let c of marker) {
       if (META.includes(c)) arr.push('\\');
@@ -33,11 +35,10 @@ function marker2regex(marker: string): RegExp {
    marker = arr.join('');
 
    marker = marker
-      .replace(/\s/gm, "\\s")
-      .replace(/\+/gm, "\\w\{0\,3\}");
+      .replace(/\+/gm, "\\w\{0\,3\}")   // 	    + -> \w{0,3}
+      .replace(/\s/gm, "\\s+");         //   space -> \s+      
 
-   let regexp = new RegExp(marker);
-   return regexp;
+   return new RegExp(marker);
 }
 
 // TEST ===============================
