@@ -6,14 +6,14 @@ const Part_js_1 = require("./Part.js");
 Object.defineProperty(exports, "Part", { enumerable: true, get: function () { return Part_js_1.Part; } });
 const os_1 = require("os");
 const markersFile = '../data/markers.txt';
-const lectDir = '../data/lections/';
+const lectDir = '../data/lections/v1/';
 class Parts {
     // Load markers from 'markers.txt'
     //
     constructor() {
+        const PART_SEPAR = /^\@2\s*(.*)/gm;
         let text = (0, utils_js_1.bufferFile)(markersFile);
-        const regex = /^\@2\s(.*)/gm;
-        let ts = this.doTemps(text, regex);
+        let ts = this.doTemps(text, PART_SEPAR);
         // 2-nd run: create parts with markers only
         this._parts = [];
         for (let i = 0; i < ts.length - 1; i++) {
@@ -49,9 +49,10 @@ class Parts {
     // Get part bodies from a lecture file.
     // sample: "@2 id"
     bodyFromOneLect(lectFile) {
+        const PART_SEPAR = /^\@2\s*(.*)/gm;
+        //const regex: RegExp = /^@2\s*(.*)/gm;
         let text = (0, utils_js_1.bufferFile)(lectFile);
-        const regex = /^@2\s*(.*)/gm;
-        let ts = this.doTemps(text, regex);
+        let ts = this.doTemps(text, PART_SEPAR);
         // 2-nd run: fill a part body
         for (let i = 0; i < ts.length - 1; i++) {
             let part = this._parts.find(p => p.id == ts[i].name);

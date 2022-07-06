@@ -4,7 +4,7 @@ import { Part, Dep } from "./Part.js";
 import { EOL } from "os";
 
 const markersFile = '../data/markers.txt';
-const lectDir = '../data/lections/';
+const lectDir = '../data/lections/v1/';
 
 export { Part, Parts }
 
@@ -19,9 +19,10 @@ class Parts {
    //
    constructor()
    {
+      const PART_SEPAR: RegExp = /^\@2\s*(.*)/gm;
+
       let text: string | null = bufferFile(markersFile);
-      const regex: RegExp = /^\@2\s(.*)/gm;
-      let ts: Temps = this.doTemps(text!, regex);
+      let ts: Temps = this.doTemps(text!, PART_SEPAR);
       
       // 2-nd run: create parts with markers only
       this._parts = [];
@@ -62,9 +63,11 @@ class Parts {
    // sample: "@2 id"
    bodyFromOneLect(lectFile: string)
    {
+      const PART_SEPAR: RegExp = /^\@2\s*(.*)/gm;
+      //const regex: RegExp = /^@2\s*(.*)/gm;
+
       let text: string | null = bufferFile(lectFile);
-      const regex: RegExp = /^@2\s*(.*)/gm;
-      let ts: Temps = this.doTemps(text!, regex);
+      let ts: Temps = this.doTemps(text!, PART_SEPAR);
 
       // 2-nd run: fill a part body
       for (let i = 0; i < ts.length - 1; i++) {

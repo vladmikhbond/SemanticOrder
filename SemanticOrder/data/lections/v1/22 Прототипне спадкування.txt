@@ -6,10 +6,8 @@
 саме так, як це відбувається з ланцюжком прототипів.
 Тому в JS спадкування реалізовано за допомогою прототипів.
 
-
-@2 Приклад.  User нащадок Person.
-
-@3 Оголосимо конструктор Person.
+@3 Приклад:  User нащадок Person.
+Оголосимо конструктор Person.
 {{
 function Person(name) {
    // name - властивість об'єкта
@@ -59,7 +57,6 @@ Child.prototype.__proto__ = Parent.prototype ?
 {{
 User.prototype.f = function() {console.log('I am user ' + this.name)};
 }}
-
 
 @2 Виклик конструктора і методів предка
 
