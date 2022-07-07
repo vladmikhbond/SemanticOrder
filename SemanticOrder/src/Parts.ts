@@ -1,10 +1,14 @@
+import { EOL } from "os";
 
+import { basename } from 'path'
 import { bufferFile, bufferDir } from "./utils.js";
 import { Part, Dep } from "./Part.js";
-import { EOL } from "os";
 
 const markersFile = '../data/markers.txt';
 const lectDir = '../data/lections/v1/';
+const PART_SEPAR: RegExp = /^\@2\s*(.*)/gm;
+
+
 
 export { Part, Parts }
 
@@ -19,10 +23,8 @@ class Parts {
    //
    constructor()
    {
-      const PART_SEPAR: RegExp = /^\@2\s*(.*)/gm;
-
       let text: string | null = bufferFile(markersFile);
-      let ts: Temps = this.doTemps(text!, PART_SEPAR);
+      let ts: Temps = this.doTemps(text!);
       
       // 2-nd run: create parts with markers only
       this._parts = [];
@@ -32,15 +34,19 @@ class Parts {
           
           this._parts.push(new Part(ts[i].name, markers));
       }
+
+      this.bodyFromAllLects();
+
+      this.findDeps();
    }
 
-   // 1-st run: make temporary objects 
+   // 1-st run: make temporary objects: {index, name, start}[]
    //
-   doTemps(text: string, regex: RegExp): Temps {
+   doTemps(text: string): Temps {
       let ts: Temps = [];
       let match: RegExpExecArray | null;
       do {
-         match = regex.exec(text!);
+         match = PART_SEPAR.exec(text!);
          if (match) {
             ts.push({
                index: match.index,
@@ -59,20 +65,18 @@ class Parts {
    }
 
 
-   // Get part bodies from a lecture file.
+   // Get part bodiy from a lecture file.
    // sample: "@2 id"
    bodyFromOneLect(lectFile: string)
    {
-      const PART_SEPAR: RegExp = /^\@2\s*(.*)/gm;
-      //const regex: RegExp = /^@2\s*(.*)/gm;
-
       let text: string | null = bufferFile(lectFile);
-      let ts: Temps = this.doTemps(text!, PART_SEPAR);
+      let ts: Temps = this.doTemps(text!);
 
       // 2-nd run: fill a part body
       for (let i = 0; i < ts.length - 1; i++) {
          let part = this._parts.find(p => p.id == ts[i].name);
          if (part) {
+            part.lectName = basename(lectFile, 'txt');
             let line = text!.slice(ts[i].start, ts[i + 1].index).trim();
             part.body = line;
          }

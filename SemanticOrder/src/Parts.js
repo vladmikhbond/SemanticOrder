@@ -1,19 +1,20 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Parts = exports.Part = void 0;
+const os_1 = require("os");
+const path_1 = require("path");
 const utils_js_1 = require("./utils.js");
 const Part_js_1 = require("./Part.js");
 Object.defineProperty(exports, "Part", { enumerable: true, get: function () { return Part_js_1.Part; } });
-const os_1 = require("os");
 const markersFile = '../data/markers.txt';
 const lectDir = '../data/lections/v1/';
+const PART_SEPAR = /^\@2\s*(.*)/gm;
 class Parts {
     // Load markers from 'markers.txt'
     //
     constructor() {
-        const PART_SEPAR = /^\@2\s*(.*)/gm;
         let text = (0, utils_js_1.bufferFile)(markersFile);
-        let ts = this.doTemps(text, PART_SEPAR);
+        let ts = this.doTemps(text);
         // 2-nd run: create parts with markers only
         this._parts = [];
         for (let i = 0; i < ts.length - 1; i++) {
@@ -21,14 +22,16 @@ class Parts {
             let markers = line.split(os_1.EOL);
             this._parts.push(new Part_js_1.Part(ts[i].name, markers));
         }
+        this.bodyFromAllLects();
+        this.findDeps();
     }
-    // 1-st run: make temporary objects 
+    // 1-st run: make temporary objects: {index, name, start}[]
     //
-    doTemps(text, regex) {
+    doTemps(text) {
         let ts = [];
         let match;
         do {
-            match = regex.exec(text);
+            match = PART_SEPAR.exec(text);
             if (match) {
                 ts.push({
                     index: match.index,
@@ -46,17 +49,16 @@ class Parts {
         } while (match);
         return ts;
     }
-    // Get part bodies from a lecture file.
+    // Get part bodiy from a lecture file.
     // sample: "@2 id"
     bodyFromOneLect(lectFile) {
-        const PART_SEPAR = /^\@2\s*(.*)/gm;
-        //const regex: RegExp = /^@2\s*(.*)/gm;
         let text = (0, utils_js_1.bufferFile)(lectFile);
-        let ts = this.doTemps(text, PART_SEPAR);
+        let ts = this.doTemps(text);
         // 2-nd run: fill a part body
         for (let i = 0; i < ts.length - 1; i++) {
             let part = this._parts.find(p => p.id == ts[i].name);
             if (part) {
+                part.lectName = (0, path_1.basename)(lectFile, 'txt');
                 let line = text.slice(ts[i].start, ts[i + 1].index).trim();
                 part.body = line;
             }

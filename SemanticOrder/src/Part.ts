@@ -9,7 +9,7 @@ export class Part {
    regexps: RegExp[];
    body: string;
    deps: Dep[] = [];
-   _lectName: string;  
+   lectName: string;  
 
    constructor(id: string, markers: string[])
    {
