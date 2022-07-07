@@ -31,9 +31,12 @@ export class Part {
 // Заміни:
 //   space ->   \s+
 //   +     ->   \w{0,3}
-//
-function marker2regex(marker: string): RegExp {
-   const META = "*\\.'\"-{}$^()";
+// Якщо маркер - слово, оточуємо його межами слова  \b
+function marker2regex(marker: string): RegExp
+{
+   const META = "*\\.'\"-{}$^()[]";
+   const NON_ALPHA = "\\ $.=[_";
+
    let arr: string[] = [];
    for (let c of marker) {
       if (META.includes(c)) arr.push('\\');
@@ -43,7 +46,10 @@ function marker2regex(marker: string): RegExp {
 
    marker = marker
       .replace(/\+/gm, "\\w\{0\,3\}")   // 	    + -> \w{0,3}
-      .replace(/\s/gm, "\\s+");         //   space -> \s+      
+      .replace(/\s/gm, "\\s+");         //   space -> \s+
+
+   if (!NON_ALPHA.includes(marker[0]))
+      marker = '\\b' + marker + '\\b';
 
    return new RegExp(marker);
 }

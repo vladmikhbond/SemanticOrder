@@ -9,6 +9,7 @@ showPartDeps(parts);
 function showPartDeps(parts: Parts)
 {
    let i = 1;
+   let sumDeps = 0;
    for (const part of parts._parts)
    {
       let inversIndex = part.depsInversIndex ? part.depsInversIndex.toString() : '';
@@ -22,11 +23,13 @@ function showPartDeps(parts: Parts)
 
       for (let d of part.deps) {
          let distanceColor: string = d.distance > 0 ? color.red : color.green;
-         // залежності частини
+         sumDeps += d.distance;
+         // залежності 
          console.log('        ' +
             color.white + d.partId + ' ' +
             color.yellow + d.marker + ' ' +
             distanceColor + d.distance + color.white);
       }
    }
+   console.log('\nSum Deps: ' + sumDeps);
 }
