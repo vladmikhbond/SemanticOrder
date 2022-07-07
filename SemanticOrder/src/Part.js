@@ -10,6 +10,12 @@ class Part {
         this.markers = markers;
         this.regexps = markers.map(m => marker2regex(m));
     }
+    get depsInversIndex() {
+        let sum = 0;
+        this.deps.filter(d => d.distance > 0)
+            .forEach(d => sum += d.distance);
+        return sum;
+    }
 }
 exports.Part = Part;
 // Виробляємо регекс 

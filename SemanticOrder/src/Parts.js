@@ -7,7 +7,7 @@ const utils_js_1 = require("./utils.js");
 const Part_js_1 = require("./Part.js");
 Object.defineProperty(exports, "Part", { enumerable: true, get: function () { return Part_js_1.Part; } });
 const markersFile = '../data/markers.txt';
-const lectDir = '../data/lections/v1/';
+const lectDir = '../data/lections/v2/';
 const PART_SEPAR = /^\@2\s*(.*)/gm;
 class Parts {
     // Load markers from 'markers.txt'
@@ -82,7 +82,7 @@ class Parts {
                     const regexp = part1.regexps[i];
                     if (regexp.test(part2.body)) {
                         // deps: part2 -> part1
-                        part2.deps.push({ partId: part1.id, len: i2 - i1, marker: part1.markers[i] });
+                        part2.deps.push({ partId: part1.id, distance: i1 - i2, marker: part1.markers[i] });
                     }
                 }
             }

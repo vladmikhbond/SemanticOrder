@@ -8,21 +8,25 @@ showPartDeps(parts);
 
 function showPartDeps(parts: Parts)
 {
+   let i = 1;
    for (const part of parts._parts)
    {
+      let inversIndex = part.depsInversIndex ? part.depsInversIndex.toString() : '';
       // назва частини
-      console.log(color.white + '@2 ' + part.id + '  ' + color.magenta + part.lectName);
+      console.log(color.white + (i++) + '. ' + part.id + '  '
+         + color.magenta + part.lectName
+         + color.red + inversIndex);
 
       if (part.deps.length == 0)
-         console.log('        -');
+         console.log(color.green + '        - no deps');
 
       for (let d of part.deps) {
-         let letColor: string = d.len < 0 ? color.red : color.green;
+         let distanceColor: string = d.distance > 0 ? color.red : color.green;
          // залежності частини
          console.log('        ' +
             color.white + d.partId + ' ' +
             color.yellow + d.marker + ' ' +
-            letColor + d.len + color.white);
+            distanceColor + d.distance + color.white);
       }
    }
 }

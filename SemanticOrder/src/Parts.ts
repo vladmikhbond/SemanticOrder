@@ -5,7 +5,7 @@ import { bufferFile, bufferDir } from "./utils.js";
 import { Part, Dep } from "./Part.js";
 
 const markersFile = '../data/markers.txt';
-const lectDir = '../data/lections/v1/';
+const lectDir = '../data/lections/v2/';
 const PART_SEPAR: RegExp = /^\@2\s*(.*)/gm;
 
 
@@ -102,7 +102,7 @@ class Parts {
                const regexp = part1.regexps[i];
                if (regexp.test(part2.body)) {
                   // deps: part2 -> part1
-                  part2.deps.push({ partId: part1.id, len: i2 - i1, marker: part1.markers[i] });
+                  part2.deps.push({ partId: part1.id, distance: i1 - i2, marker: part1.markers[i] });
                }
             }
          }

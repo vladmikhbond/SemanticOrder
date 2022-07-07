@@ -1,5 +1,5 @@
 ﻿
-export type Dep = { partId: string, len: number, marker: string };
+export type Dep = { partId: string, distance: number, marker: string };
 
 // Частина лекц курсу
 //
@@ -9,7 +9,14 @@ export class Part {
    regexps: RegExp[];
    body: string;
    deps: Dep[] = [];
-   lectName: string;  
+   lectName: string; 
+
+   get depsInversIndex(): number {
+      let sum = 0;
+      this.deps.filter(d => d.distance > 0)
+          .forEach(d => sum += d.distance);
+      return sum;
+   }
 
    constructor(id: string, markers: string[])
    {
