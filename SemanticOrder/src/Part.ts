@@ -1,5 +1,9 @@
 ﻿
-export type Dep = { partId: string, distance: number, marker: string };
+export type Dep = {
+   partId: string,
+   distance: number,
+   marker: string
+};
 
 // Частина лекц курсу
 //

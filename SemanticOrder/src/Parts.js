@@ -5,7 +5,7 @@ const path_1 = require("path");
 const utils_js_1 = require("./utils.js");
 const Part_js_1 = require("./Part.js");
 Object.defineProperty(exports, "Part", { enumerable: true, get: function () { return Part_js_1.Part; } });
-const LECT_DIR = '../data/lections/';
+const LECT_DIR = '../data/js/';
 class Parts {
     // Load markers from 'markers.txt'
     //
@@ -42,8 +42,9 @@ class Parts {
         return ts;
     }
     // Get part bodiy from a lecture file.
-    // @2 Версії JS 
-    // @@ECMAScript| ES2015 | ES6 | ES
+    // Example of a header:
+    //    @2 Версії JS 
+    //    @@ ECMAScript| ES2015 | ES6 | ES
     //
     bodyFromOneLect(lectFile) {
         let text = (0, utils_js_1.bufferFile)(lectFile);
@@ -82,6 +83,22 @@ class Parts {
                 }
             }
         }
+    }
+    get resume() {
+        let sum = { count: 0, posDist: 0, negDist: 0, bodyLength: 0 };
+        for (const part of this._parts) {
+            sum.bodyLength += part.body.length;
+            sum.count++;
+            for (let dep of part.deps) {
+                if (dep.distance > 0) {
+                    sum.posDist += dep.distance;
+                }
+                else {
+                    sum.negDist += -dep.distance;
+                }
+            }
+        }
+        return sum;
     }
 }
 exports.Parts = Parts;

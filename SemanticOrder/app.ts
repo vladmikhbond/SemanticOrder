@@ -5,31 +5,28 @@ const parts = new Parts();
 
 showPartDeps(parts);
 
+console.log('\n', parts.resume);
 
 function showPartDeps(parts: Parts)
 {
    let i = 1;
-   let sumDeps = 0;
    for (const part of parts._parts)
    {
       let inversIndex = part.depsInversIndex ? part.depsInversIndex.toString() : '';
-      // назва частини
-      console.log(color.white + (i++) + '. ' + part.id + '  '
-         + color.magenta + part.lectName
-         + color.red + inversIndex);
+      // показ назви частини
+      console.log(color.white + (i++) + '. ' + part.id + '  ' +
+         '  [' + part.lectName + '] ' +
+         color.red + inversIndex);
 
       if (part.deps.length == 0)
          console.log(color.green + '        - no deps');
-
-      for (let d of part.deps) {
-         let distanceColor: string = d.distance > 0 ? color.red : color.green;
-         sumDeps += d.distance;
-         // залежності 
+      for (let dep of part.deps) {
+         let distanceColor: string = dep.distance > 0 ? color.red : color.green;
+         // показ залежності 
          console.log('        ' +
-            color.white + d.partId + ' ' +
-            color.yellow + d.marker + ' ' +
-            distanceColor + d.distance + color.white);
+            color.white + dep.partId + ' ' +
+            color.yellow + dep.marker + ' ' +
+            distanceColor + dep.distance + color.white);
       }
    }
-   console.log('\nSum Deps: ' + sumDeps);
 }
