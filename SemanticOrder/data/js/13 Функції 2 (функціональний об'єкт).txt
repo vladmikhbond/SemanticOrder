@@ -81,7 +81,7 @@ function avg(...args) {
 function Petia() {}
 console.log(Petia.name);
 
-let John = x => x;
+let John = function(x) { return x; }
 console.log(John.name);
 }}
 

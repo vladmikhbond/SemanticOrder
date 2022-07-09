@@ -12,6 +12,7 @@ function showPartDeps(parts) {
         // показ назви частини
         console.log(utils_js_1.color.white + (i++) + '. ' + part.id + '  ' +
             '  [' + part.lectName + '] ' +
+            utils_js_1.color.yellow + part.markers + '  ' +
             utils_js_1.color.red + inversIndex);
         if (part.deps.length == 0)
             console.log(utils_js_1.color.green + '        - no deps');

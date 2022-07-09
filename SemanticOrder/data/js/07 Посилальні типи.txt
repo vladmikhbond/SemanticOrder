@@ -42,7 +42,7 @@ function append(a1, a2) {
 {{
 let x = [10, 20, 30], y = [40, 50];
 append(x, y);
-console.log(x);     // в чому помилка?
+console.log(x);     // що не так?
 }}
 
 @3 Правильне рішення

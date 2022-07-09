@@ -15,7 +15,7 @@
 @3 Внутрішнім форматом рядків є Юнікод, тому будь-який символ можна зобразити так {{ '\u00FF' }}
 
 @2 Методи рядків
-@@ charAt|fromCharCode|toLowerCase|indexOf|slice
+@@ charAt|fromCharCode|toLowerCase
 
 @3 s.charAt(i) - те саме, що s[i]
 Різниця в тому, що якщо символу немає – charAt видає порожній рядок, а дужки – undefined.
@@ -33,7 +33,7 @@ if (str.indexOf("get") != -1) {
 }}
 {Примітка}. Оскільки ~-1 = 0, умову можна записати коротше
 {{
-if (~str.indexOf("get") ) ...
+if (~str.indexOf("get") ) . . .
 }}
 
 @3 Виділити підрядок: substring, substr, slice
@@ -41,7 +41,7 @@ if (~str.indexOf("get") ) ...
 slice(start [, end]) (негативні значення відраховуються від кінця рядка):
 }}
 
-@3 Переходи Код <=> Символ
+@3 Переходи Код <-> Символ
 String.fromCharCode(code)
 str.charCodeAt(pos)
 {{

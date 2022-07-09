@@ -35,8 +35,10 @@ console.log(obj[sym])
 
 @3 На відміну від інших простих типів, символи не перетворюються автоматично на рядки.
 {{
-alert(Symbol("id")) // помилка
+alert(Symbol("id")) // _помилка_
 }}
+
+
 
 @2 Well known symbols
 @@ сховищ+ символ+|Symbol.for|Symbol.keyFor|Symbol.iterator

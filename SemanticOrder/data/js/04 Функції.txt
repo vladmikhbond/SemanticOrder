@@ -43,35 +43,7 @@ function getCurrentUser() {
 sayHi();   // Привіт Василь
 }}
 
-@2 Деструктуризація у параметрах
-@@ деструктуризац+
 
-@3 Якщо функція отримує об'єкт, вона може його відразу розподілити по змінним:
-{{
-let options = {
-   title: "Меню",
-   width: 100,
-   height: 200
-};
-
-function showOpts({title, width, height}) {
-   console.log(title + '' + width + '' + height);
-}
-
-showOpts(options); // Меню 100200
-}}
-
-@3 Те саме стосується масивів.
-{{
-function showOpts([title, width, height]) {
-   console.log(title + '' + width + '' + height);
-}
-
-showOpts([1,2,3]);
-}}
-
-@3 Інші правила деструктуризації (за замовчуванням, перейменування)
-тут також працюють.
 
 @2 Область видимості
 @@ област+ видимості
