@@ -40,13 +40,13 @@
     <Content Include="data\js\08 Тип Number.txt" />
     <Content Include="data\js\09 Тип String.txt" />
     <Content Include="data\js\10 Тип Symbol.txt" />
-    <Content Include="data\js\11 Деструктуризація та оператор spread.txt" />
+    <Content Include="data\js\11 Помилки %28винятки%29.txt" />
+    <Content Include="data\js\12 Деструктуризація та оператор spread.txt" />
     <Content Include="data\js\13 Функції 2 %28функціональний об%27єкт%29.txt" />
     <Content Include="data\js\14 Функції 3 %28оточення і замикання%29.txt" />
     <Content Include="data\js\15 Ітератори.txt" />
     <Content Include="data\js\16 Генератори.txt" />
-    <Content Include="data\js\17 Винятки.txt" />
-    <Content Include="data\js\18 Модулі.txt" />
+    <Content Include="data\js\17 Модулі.txt" />
     <Content Include="data\js\21 Конструктори і прототипи.txt" />
     <Content Include="data\js\22 Прототипне спадкування.txt" />
     <Content Include="data\js\23 Класи.txt" />
