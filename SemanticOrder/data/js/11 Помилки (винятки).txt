@@ -1,4 +1,4 @@
-@1 17 Винятки
+@1 11 Помилки (винятки)
 
 @2 Як створити помилку
 @@ помилк+|throw|Error|SyntaxError|ReferenceError|TypeError

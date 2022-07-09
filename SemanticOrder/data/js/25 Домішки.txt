@@ -74,7 +74,7 @@ let eventMixin = {
    // Спосіб створити подію
    // this.trigger('select', data1, data2);
    //
-   trigger(eventName, ...args) {
+   trigger(eventName, ... args) {
      if (!this._eventHandlers || !this._eventHandlers[eventName]) {
        return; 
      }
