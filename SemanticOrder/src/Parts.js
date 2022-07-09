@@ -1,33 +1,23 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Parts = exports.Part = void 0;
-const os_1 = require("os");
 const path_1 = require("path");
 const utils_js_1 = require("./utils.js");
 const Part_js_1 = require("./Part.js");
 Object.defineProperty(exports, "Part", { enumerable: true, get: function () { return Part_js_1.Part; } });
-const markersFile = '../data/markers.txt';
-const lectDir = '../data/lections/v2/';
-const PART_SEPAR = /^\@2\s*(.*)/gm;
+const LECT_DIR = '../data/lections/';
 class Parts {
     // Load markers from 'markers.txt'
     //
     constructor() {
-        let text = (0, utils_js_1.bufferFile)(markersFile);
-        let ts = this.doTemps(text);
-        // 2-nd run: create parts with markers only
         this._parts = [];
-        for (let i = 0; i < ts.length - 1; i++) {
-            let line = text.slice(ts[i].start, ts[i + 1].index).trim();
-            let markers = line.split(os_1.EOL);
-            this._parts.push(new Part_js_1.Part(ts[i].name, markers));
-        }
-        this.bodyFromAllLects();
+        this.partsFromAllLects();
         this.findDeps();
     }
     // 1-st run: make temporary objects: {index, name, start}[]
     //
     doTemps(text) {
+        const PART_SEPAR = /@2\s*(.+)\s*@@(.+)/g;
         let ts = [];
         let match;
         do {
@@ -36,6 +26,7 @@ class Parts {
                 ts.push({
                     index: match.index,
                     name: match[1],
+                    markers: match[2],
                     start: match.index + match[0].length
                 });
             }
@@ -43,6 +34,7 @@ class Parts {
                 ts.push({
                     index: text === null || text === void 0 ? void 0 : text.length,
                     name: "",
+                    markers: "",
                     start: -1
                 });
             }
@@ -50,27 +42,30 @@ class Parts {
         return ts;
     }
     // Get part bodiy from a lecture file.
-    // sample: "@2 id"
+    // @2 Версії JS 
+    // @@ECMAScript| ES2015 | ES6 | ES
+    //
     bodyFromOneLect(lectFile) {
         let text = (0, utils_js_1.bufferFile)(lectFile);
         let ts = this.doTemps(text);
         // 2-nd run: fill a part body
         for (let i = 0; i < ts.length - 1; i++) {
-            let part = this._parts.find(p => p.id == ts[i].name);
-            if (part) {
-                part.lectName = (0, path_1.basename)(lectFile, 'txt');
-                let line = text.slice(ts[i].start, ts[i + 1].index).trim();
-                part.body = line;
-            }
+            let markers = ts[i].markers.split('|');
+            let part = new Part_js_1.Part(ts[i].name, markers); // this._parts.find(p => p.id == ts[i].name);
+            part.lectName = (0, path_1.basename)(lectFile, 'txt');
+            let line = text.slice(ts[i].start, ts[i + 1].index).trim();
+            part.body = line;
+            this._parts.push(part);
         }
     }
     // Get part bodies from a lecture dir
     //
-    bodyFromAllLects() {
-        const fileNames = (0, utils_js_1.bufferDir)(lectDir);
-        fileNames === null || fileNames === void 0 ? void 0 : fileNames.forEach(fname => this.bodyFromOneLect(lectDir + fname));
+    partsFromAllLects() {
+        const fileNames = (0, utils_js_1.bufferDir)(LECT_DIR);
+        fileNames === null || fileNames === void 0 ? void 0 : fileNames.forEach(fname => this.bodyFromOneLect(LECT_DIR + fname));
     }
-    // 
+    // Find all dependencies
+    //
     findDeps() {
         for (let i1 = 0; i1 < this._parts.length; i1++) {
             const part1 = this._parts[i1];

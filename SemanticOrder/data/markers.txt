@@ -129,6 +129,10 @@ Symbol.for
 Symbol.keyFor
 Symbol.iterator
 
+
+
+
+
 @2 Деструктуризація масивів
 destructuring assignment
 деструктуризаці+

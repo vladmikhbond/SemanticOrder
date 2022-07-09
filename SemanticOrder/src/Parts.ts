@@ -1,19 +1,15 @@
-import { EOL } from "os";
+﻿import { EOL } from "os";
 
 import { basename } from 'path'
 import { bufferFile, bufferDir } from "./utils.js";
 import { Part, Dep } from "./Part.js";
 
-const markersFile = '../data/markers.txt';
-const lectDir = '../data/lections/v2/';
-const PART_SEPAR: RegExp = /^\@2\s*(.*)/gm;
-
+const LECT_DIR = '../data/lections/';
 
 
 export { Part, Parts }
 
-
-type Temps = { index: number, name: string, start: number }[];
+type Temps = { index: number, name: string, markers: string, start: number }[];
 
 class Parts {
    _parts: Part[];
@@ -23,26 +19,17 @@ class Parts {
    //
    constructor()
    {
-      let text: string | null = bufferFile(markersFile);
-      let ts: Temps = this.doTemps(text!);
-      
-      // 2-nd run: create parts with markers only
       this._parts = [];
-      for (let i = 0; i < ts.length - 1; i++) {
-          let line = text!.slice(ts[i].start, ts[i + 1].index).trim();
-          let markers = line.split(EOL);
-          
-          this._parts.push(new Part(ts[i].name, markers));
-      }
-
-      this.bodyFromAllLects();
-
+      this.partsFromAllLects();
       this.findDeps();
    }
 
    // 1-st run: make temporary objects: {index, name, start}[]
    //
-   doTemps(text: string): Temps {
+   private doTemps(text: string): Temps {
+
+      const PART_SEPAR: RegExp = /@2\s*(.+)\s*@@(.+)/g;
+
       let ts: Temps = [];
       let match: RegExpExecArray | null;
       do {
@@ -51,12 +38,14 @@ class Parts {
             ts.push({
                index: match.index,
                name: match[1],
+               markers: match[2],
                start: match.index + match[0].length
             });
          } else {
             ts.push({
                index: text?.length!,
                name: "",
+               markers: "",
                start: -1
             });
          }
@@ -66,33 +55,38 @@ class Parts {
 
 
    // Get part bodiy from a lecture file.
-   // sample: "@2 id"
-   bodyFromOneLect(lectFile: string)
+   // @2 Версії JS 
+   // @@ECMAScript| ES2015 | ES6 | ES
+   //
+   private bodyFromOneLect(lectFile: string)
    {
       let text: string | null = bufferFile(lectFile);
       let ts: Temps = this.doTemps(text!);
 
       // 2-nd run: fill a part body
       for (let i = 0; i < ts.length - 1; i++) {
-         let part = this._parts.find(p => p.id == ts[i].name);
-         if (part) {
-            part.lectName = basename(lectFile, 'txt');
-            let line = text!.slice(ts[i].start, ts[i + 1].index).trim();
-            part.body = line;
-         }
+         let markers = ts[i].markers.split('|');
+         let part = new Part(ts[i].name, markers)    // this._parts.find(p => p.id == ts[i].name);
+  
+         part.lectName = basename(lectFile, 'txt');
+         let line = text!.slice(ts[i].start, ts[i + 1].index).trim();
+         part.body = line;
+         this._parts.push(part);
       }
 
    }
 
    // Get part bodies from a lecture dir
    //
-   bodyFromAllLects() {
-      const fileNames = bufferDir(lectDir);
-      fileNames?.forEach(fname => this.bodyFromOneLect(lectDir + fname));
+   private partsFromAllLects() {
+
+      const fileNames = bufferDir(LECT_DIR);
+      fileNames?.forEach(fname => this.bodyFromOneLect(LECT_DIR + fname));
    }
 
-   // 
-   findDeps() {
+   // Find all dependencies
+   //
+   private findDeps() {
       for (let i1 = 0; i1 < this._parts.length; i1++) {
          const part1 = this._parts[i1]; 
          for (let i2 = 0; i2 < this._parts.length; i2++) {
