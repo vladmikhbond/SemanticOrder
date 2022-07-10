@@ -23,7 +23,7 @@ function factorial(n) {
 {{
 function main()
 {
-    let f = factorial(-1); // те саме, що thrоw ...
+    let f = factorial(-1); // те саме, що thrоw . . .
 }
 }}
 
@@ -73,7 +73,7 @@ throw err;
 
 @3 В node.js це обробник події процесу "uncaughtException".
 {{
-process.on("uncaughtException", err => {
+process.on("uncaughtException", function(err) {
    console.log(err.message);
 });
 }}
@@ -81,7 +81,7 @@ process.on("uncaughtException", err => {
 @3 А в браузері ми можемо присвоїти функцію спеціальній властивості window.onerror.
 {{
 window.onerror = function(message, url, line, col, error) {
-  // ...
+  // . . .
 };
 }}
 message - повідомлення про помилку.
@@ -123,9 +123,9 @@ finally
 {{
 try {
      // ризикований код
-     return …
-     throw …
-     goto …
+     return . . . 
+     throw . . . 
+     goto . . .
 }
 catch
 {

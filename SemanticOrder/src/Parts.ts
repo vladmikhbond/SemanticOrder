@@ -1,11 +1,11 @@
-﻿import { EOL } from "os";
+﻿// import { EOL } from "os";
 
 import { basename } from 'path'
-import { bufferFile, bufferDir } from "./utils.js";
-import { Part, Dep } from "./Part.js";
+import { bufferFile, bufferDir, marker2regex } from "./utils.js";
+import { Part, Concept } from "./Part.js";
 
 const LECT_DIR = '../data/js/';
-
+const PART_SEPAR: RegExp = /@2\s*(.+)\s*@@\s*(.+)/g;
 
 export { Part, Parts }
 
@@ -17,23 +17,22 @@ type Temp = {
 };
 
 class Parts {
-   _parts: Part[];
-
+   parts: Part[];
+   allConcepts: Concept[];
 
    // Load markers from 'markers.txt'
    //
    constructor()
    {
-      this._parts = [];
+      this.parts = [];
       this.partsFromAllLects();
+      this.fillAllConcepts();
       this.findDeps();
    }
 
    // 1-st run: make temporary objects: {index, name, start}[]
    //
    private doTemps(text: string): Temp[] {
-
-      const PART_SEPAR: RegExp = /@2\s*(.+)\s*@@(.+)/g;
 
       let ts: Temp[] = [];
       let match: RegExpExecArray | null;
@@ -77,7 +76,7 @@ class Parts {
          part.lectName = basename(lectFile, 'txt');
          let line = text!.slice(ts[i].start, ts[i + 1].index).trim();
          part.body = line;
-         this._parts.push(part);
+         this.parts.push(part);
       }
 
    }
@@ -86,35 +85,51 @@ class Parts {
    //
    private partsFromAllLects()
    {
-      const fileNames = bufferDir(LECT_DIR);
+      const fileNames = bufferDir(LECT_DIR)?.sort();
       fileNames?.forEach(fname => this.bodyFromOneLect(LECT_DIR + fname));
+      // ordNo's
+      this.parts.forEach((p, i) => p.ordNo = i)
+   }
+
+   private fillAllConcepts() {
+      this.allConcepts = [];
+
+      for (let part of this.parts) {
+         for (let marker of part.markers) {
+            let idx = this.allConcepts.map(c => c.marker).indexOf(marker);
+            if (idx == -1) {
+               this.allConcepts.push(new Concept(marker, part));
+            } else {
+               this.allConcepts[idx].homeParts.push(part);
+            }
+         }
+      }
    }
 
    // Find all dependencies
    //
-   private findDeps() {
-      for (let i1 = 0; i1 < this._parts.length; i1++) {
-         const part1 = this._parts[i1]; 
-         for (let i2 = 0; i2 < this._parts.length; i2++) {
-            if (i1 == i2) continue;
-            const part2 = this._parts[i2];
-            for (let i = 0; i < part1.regexps.length; i++) { 
-               const regexp = part1.regexps[i];
-               if (regexp.test(part2.body))
-               {
-                  // deps: part2 -> part1
-                  part2.deps.push({ partId: part1.id, distance: i1 - i2, marker: part1.markers[i] });
+   private findDeps()
+   {
+      for (let part2 of this.parts) {
+         for (let concept of this.allConcepts) {
+            if (concept.regexp.test(part2.body)) {
+               let part1 = concept.homeParts[0];
+               // залежність: part2 -> part1
+               let distance = part1.ordNo - part2.ordNo;
+               if (distance) {
+                  part2.deps.push({ partId: part1.id, distance, marker: concept.marker });
                }
             }
          }
       }
+
    }
 
    
    public get resume() : Resume
    {
       let sum: Resume = { count: 0, posDist: 0, negDist: 0, bodyLength: 0 };
-      for (const part of this._parts) {
+      for (const part of this.parts) {
          sum.bodyLength += part.body.length;
          sum.count++;
          for (let dep of part.deps) {

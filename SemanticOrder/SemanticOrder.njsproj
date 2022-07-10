@@ -66,6 +66,7 @@
     <Folder Include="src\" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="src\View.ts" />
     <TypeScriptCompile Include="src\Part.ts" />
     <TypeScriptCompile Include="src\utils.ts" />
   </ItemGroup>

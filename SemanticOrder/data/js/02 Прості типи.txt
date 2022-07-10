@@ -1,7 +1,7 @@
 @1 02 Прості типи
 
 @2 Прості типи
-@@ typeof|number|bigint|string|boolean|null|undefined
+@@ typeof|number|bigint|string|boolean|null|undefined|new
 
 @3 Операція визначення типу - typeof.
 {{
@@ -25,6 +25,8 @@ const bigInt = 1234567890123456789012345678901234567890n;
 {{
 new BigInt(number);
 }}
+
+@3 Виклик функціі зі словом new створює і повертає нове значення відповідного типу.
 
 @3 У виразах не можна змішувати звичайні і довгі числа.
 

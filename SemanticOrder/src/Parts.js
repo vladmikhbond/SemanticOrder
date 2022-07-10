@@ -1,4 +1,5 @@
 "use strict";
+// import { EOL } from "os";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Parts = exports.Part = void 0;
 const path_1 = require("path");
@@ -6,18 +7,19 @@ const utils_js_1 = require("./utils.js");
 const Part_js_1 = require("./Part.js");
 Object.defineProperty(exports, "Part", { enumerable: true, get: function () { return Part_js_1.Part; } });
 const LECT_DIR = '../data/js/';
+const PART_SEPAR = /@2\s*(.+)\s*@@\s*(.+)/g;
 class Parts {
     // Load markers from 'markers.txt'
     //
     constructor() {
-        this._parts = [];
+        this.parts = [];
         this.partsFromAllLects();
+        this.fillAllConcepts();
         this.findDeps();
     }
     // 1-st run: make temporary objects: {index, name, start}[]
     //
     doTemps(text) {
-        const PART_SEPAR = /@2\s*(.+)\s*@@(.+)/g;
         let ts = [];
         let match;
         do {
@@ -56,29 +58,43 @@ class Parts {
             part.lectName = (0, path_1.basename)(lectFile, 'txt');
             let line = text.slice(ts[i].start, ts[i + 1].index).trim();
             part.body = line;
-            this._parts.push(part);
+            this.parts.push(part);
         }
     }
     // Get part bodies from a lecture dir
     //
     partsFromAllLects() {
-        const fileNames = (0, utils_js_1.bufferDir)(LECT_DIR);
+        var _a;
+        const fileNames = (_a = (0, utils_js_1.bufferDir)(LECT_DIR)) === null || _a === void 0 ? void 0 : _a.sort();
         fileNames === null || fileNames === void 0 ? void 0 : fileNames.forEach(fname => this.bodyFromOneLect(LECT_DIR + fname));
+        // ordNo's
+        this.parts.forEach((p, i) => p.ordNo = i);
+    }
+    fillAllConcepts() {
+        this.allConcepts = [];
+        for (let part of this.parts) {
+            for (let marker of part.markers) {
+                let idx = this.allConcepts.map(c => c.marker).indexOf(marker);
+                if (idx == -1) {
+                    this.allConcepts.push(new Part_js_1.Concept(marker, part));
+                }
+                else {
+                    this.allConcepts[idx].homeParts.push(part);
+                }
+            }
+        }
     }
     // Find all dependencies
     //
     findDeps() {
-        for (let i1 = 0; i1 < this._parts.length; i1++) {
-            const part1 = this._parts[i1];
-            for (let i2 = 0; i2 < this._parts.length; i2++) {
-                if (i1 == i2)
-                    continue;
-                const part2 = this._parts[i2];
-                for (let i = 0; i < part1.regexps.length; i++) {
-                    const regexp = part1.regexps[i];
-                    if (regexp.test(part2.body)) {
-                        // deps: part2 -> part1
-                        part2.deps.push({ partId: part1.id, distance: i1 - i2, marker: part1.markers[i] });
+        for (let part2 of this.parts) {
+            for (let concept of this.allConcepts) {
+                if (concept.regexp.test(part2.body)) {
+                    let part1 = concept.homeParts[0];
+                    // залежність: part2 -> part1
+                    let distance = part1.ordNo - part2.ordNo;
+                    if (distance) {
+                        part2.deps.push({ partId: part1.id, distance, marker: concept.marker });
                     }
                 }
             }
@@ -86,7 +102,7 @@ class Parts {
     }
     get resume() {
         let sum = { count: 0, posDist: 0, negDist: 0, bodyLength: 0 };
-        for (const part of this._parts) {
+        for (const part of this.parts) {
             sum.bodyLength += part.body.length;
             sum.count++;
             for (let dep of part.deps) {
