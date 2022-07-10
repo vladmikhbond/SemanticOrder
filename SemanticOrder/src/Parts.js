@@ -12,9 +12,8 @@ class Parts {
     // Load markers from 'markers.txt'
     //
     constructor() {
-        this.parts = [];
         this.partsFromAllLects();
-        this.fillAllConcepts();
+        this.fillConcepts();
         this.findDeps();
     }
     // 1-st run: make temporary objects: {index, name, start}[]
@@ -65,21 +64,23 @@ class Parts {
     //
     partsFromAllLects() {
         var _a;
+        this.parts = [];
         const fileNames = (_a = (0, utils_js_1.bufferDir)(LECT_DIR)) === null || _a === void 0 ? void 0 : _a.sort();
+        // bodies
         fileNames === null || fileNames === void 0 ? void 0 : fileNames.forEach(fname => this.bodyFromOneLect(LECT_DIR + fname));
-        // ordNo's
+        // ordNos
         this.parts.forEach((p, i) => p.ordNo = i);
     }
-    fillAllConcepts() {
-        this.allConcepts = [];
+    fillConcepts() {
+        this.concepts = [];
         for (let part of this.parts) {
             for (let marker of part.markers) {
-                let idx = this.allConcepts.map(c => c.marker).indexOf(marker);
+                let idx = this.concepts.map(c => c.marker).indexOf(marker);
                 if (idx == -1) {
-                    this.allConcepts.push(new Part_js_1.Concept(marker, part));
+                    this.concepts.push(new Part_js_1.Concept(marker, part));
                 }
                 else {
-                    this.allConcepts[idx].homeParts.push(part);
+                    this.concepts[idx].homeParts.push(part);
                 }
             }
         }
@@ -87,14 +88,14 @@ class Parts {
     // Find all dependencies
     //
     findDeps() {
-        for (let part2 of this.parts) {
-            for (let concept of this.allConcepts) {
-                if (concept.regexp.test(part2.body)) {
-                    let part1 = concept.homeParts[0];
-                    // залежність: part2 -> part1
-                    let distance = part1.ordNo - part2.ordNo;
+        for (let part of this.parts) {
+            for (let concept of this.concepts) {
+                if (concept.regexp.test(part.body)) {
+                    let homePart = concept.homeParts[0];
+                    // залежність: part -> homePart
+                    let distance = homePart.ordNo - part.ordNo;
                     if (distance) {
-                        part2.deps.push({ partId: part1.id, distance, marker: concept.marker });
+                        part.deps.push({ partId: homePart.id, distance, marker: concept.marker });
                     }
                 }
             }
