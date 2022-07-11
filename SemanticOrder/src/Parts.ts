@@ -1,9 +1,13 @@
 ﻿import { basename } from 'path'
-import { bufferFile, bufferDir, marker2regex } from "./utils.js";
+import { bufferFile, bufferDir } from "./utils.js";
 import { Part, Concept } from "./Part.js";
 
 const LECT_DIR = '../data/opr/';
-const PART_SEPAR: RegExp = /@2\s*(.+)\s*@@\s*(.+)/g;
+//const PART_SEPAR: RegExp = /@2\s*(.+)\s*@@\s*(.+)/g;
+
+const PART_SEPAR: RegExp = /^@2\s*(.+)\n@@\s*(.+)/gm;
+
+const EMPTY_MARKERS = '-';
 
 export { Part, Parts }
 
@@ -35,6 +39,44 @@ class Parts
       this.findDeps();
    }
 
+   // Get part bodies from a lecture dir
+   //
+   private partsFromAllLects() {
+      this.parts = [];
+      const fileNames = bufferDir(LECT_DIR)?.sort();
+      // bodies
+      fileNames?.forEach(fname => this.bodyFromOneLect(LECT_DIR + fname));
+      // ordNos
+      this.parts.forEach((p, i) => p.ordNo = i)
+   }
+
+
+   // Get part bodiy from a lecture file.
+   // Example of a header:
+   //    @2 Версії JS 
+   //    @@ ECMAScript| ES2015 | ES6 | ES
+   //
+   private bodyFromOneLect(lectFileName: string) {
+      let text: string | null = bufferFile(lectFileName);
+
+      // 1-st run
+      let ts: Temp[] = this.doTemps(text!);
+
+      // 2-nd run: fill a part body
+      for (let i = 0; i < ts.length - 1; i++) {
+         let markers = ts[i].markers.split('|');
+         if (ts[i].markers === EMPTY_MARKERS) {
+            markers = [];
+         }
+         let part = new Part(ts[i].name, markers);
+         part.lectName = basename(lectFileName, 'txt');
+         let line = text!.slice(ts[i].start, ts[i + 1].index).trim();
+         part.body = line;
+         this.parts.push(part);
+      }
+
+   }
+
    // 1-st run: make temporary objects: {index, name, start}[]
    //
    private doTemps(text: string): Temp[] {
@@ -46,7 +88,7 @@ class Parts
          if (match) {
             ts.push({
                index: match.index,
-               name: match[1],
+               name: match[1], 
                markers: match[2],
                start: match.index + match[0].length
             });
@@ -62,43 +104,6 @@ class Parts
       return ts;
    }
 
-
-   // Get part bodiy from a lecture file.
-   // Example of a header:
-   //    @2 Версії JS 
-   //    @@ ECMAScript| ES2015 | ES6 | ES
-   //
-   private bodyFromOneLect(lectFileName: string)
-   {
-      let text: string | null = bufferFile(lectFileName);
-
-      // 1-st run
-      let ts: Temp[] = this.doTemps(text!);
-
-      // 2-nd run: fill a part body
-      for (let i = 0; i < ts.length - 1; i++) {
-         let markers = ts[i].markers.split('|');
-         let part = new Part(ts[i].name, markers) 
-  
-         part.lectName = basename(lectFileName, 'txt');
-         let line = text!.slice(ts[i].start, ts[i + 1].index).trim();
-         part.body = line;
-         this.parts.push(part);
-      }
-
-   }
-
-   // Get part bodies from a lecture dir
-   //
-   private partsFromAllLects()
-   {
-      this.parts = [];
-      const fileNames = bufferDir(LECT_DIR)?.sort();
-      // bodies
-      fileNames?.forEach(fname => this.bodyFromOneLect(LECT_DIR + fname));
-      // ordNos
-      this.parts.forEach((p, i) => p.ordNo = i)
-   }
 
    private fillConcepts() {
       this.concepts = [];

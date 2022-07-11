@@ -54,16 +54,16 @@
     <Content Include="data\js\26 Домішки.txt" />
     <Content Include="data\opr\01 Вступ.txt" />
     <Content Include="data\opr\011 Мови програмування.txt" />
-    <Content Include="data\opr\raw\02 Мова Javascript.txt" />
-    <Content Include="data\opr\raw\03 Команда присвоювання.txt" />
-    <Content Include="data\opr\raw\04 Умовна команда.txt" />
-    <Content Include="data\opr\raw\05 Блок команд.txt" />
-    <Content Include="data\opr\raw\06 Команда повторення.txt" />
-    <Content Include="data\opr\raw\07 Найбільший спільний дільник.txt" />
-    <Content Include="data\opr\raw\08 Функції.txt" />
-    <Content Include="data\opr\raw\09 Граматика функцій.txt" />
-    <Content Include="data\opr\raw\10 Параметри і аргументи.txt" />
-    <Content Include="data\opr\raw\11 Масиви.txt" />
+    <Content Include="data\opr\02 Мова Javascript.txt" />
+    <Content Include="data\opr\03 Команда присвоювання.txt" />
+    <Content Include="data\opr\04 Умовна команда.txt" />
+    <Content Include="data\opr\05 Блок команд.txt" />
+    <Content Include="data\raw\06 Команда повторення.txt" />
+    <Content Include="data\raw\07 Найбільший спільний дільник.txt" />
+    <Content Include="data\raw\08 Функції.txt" />
+    <Content Include="data\raw\09 Граматика функцій.txt" />
+    <Content Include="data\raw\10 Параметри і аргументи.txt" />
+    <Content Include="data\raw\11 Масиви.txt" />
     <Content Include="_doc\readme.md" />
     <None Include="app.ts" />
     <Content Include="package.json" />
@@ -75,7 +75,7 @@
     <Folder Include="data\" />
     <Folder Include="data\js\" />
     <Folder Include="data\opr\" />
-    <Folder Include="data\opr\raw\" />
+    <Folder Include="data\raw\" />
     <Folder Include="_doc\" />
     <Folder Include="src\" />
   </ItemGroup>

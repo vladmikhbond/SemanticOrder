@@ -1,4 +1,7 @@
-@1 02 Мова Javascript
+@1 01 Мова Javascript
+
+@2 Мова Javascript
+@@ Брендан+ Айк+
 
 @3 JS з'явився в 1995 році як засіб пожвавлення веб-сторінок в браузерах.
 [[Aik.png]]
@@ -18,7 +21,7 @@
 IEEE Spectrum
 [[https://spectrum.ieee.org/top-programming-languages/]]
 
-@2 Приклад програми
+@3 Приклад програми, яка складає два числа.
 
 @3 example.html
 {{
@@ -31,6 +34,7 @@ IEEE Spectrum
 }}
 
 @2 Числа і вирази
+@@ вираз
  
 @3 Приклади чисел:
 -125
@@ -55,6 +59,7 @@ IEEE Spectrum
 **
 
 @2 Розширена арифметика
+@@ Infinity|NaN|MAX_VALUE|MIN_VALUE
 
 @3 Infinity
 
