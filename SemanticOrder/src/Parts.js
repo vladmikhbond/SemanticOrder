@@ -5,7 +5,7 @@ const path_1 = require("path");
 const utils_js_1 = require("./utils.js");
 const Part_js_1 = require("./Part.js");
 Object.defineProperty(exports, "Part", { enumerable: true, get: function () { return Part_js_1.Part; } });
-const LECT_DIR = '../data/js/';
+const LECT_DIR = '../data/opr/';
 const PART_SEPAR = /@2\s*(.+)\s*@@\s*(.+)/g;
 class Parts {
     // Load markers from 'markers.txt'

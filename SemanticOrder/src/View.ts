@@ -17,7 +17,7 @@ export function showDeps(parts: Part[])
          let sumInvers = part.sumOfInversions ? `  (${part.sumOfInversions})` : '';
          // print part id
          console.log(color.white + part.ordNo + '.' + part.id + '  ' + color.red + sumInvers);
-         console.log(color.yellow + part.markers);
+         console.log(color.yellow, part.markers.join(' | '));
 
          if (part.deps.length == 0)
             console.log(color.green + '        - no deps');

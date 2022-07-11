@@ -14,7 +14,7 @@ function showDeps(parts) {
             let sumInvers = part.sumOfInversions ? `  (${part.sumOfInversions})` : '';
             // print part id
             console.log(utils_js_1.color.white + part.ordNo + '.' + part.id + '  ' + utils_js_1.color.red + sumInvers);
-            console.log(utils_js_1.color.yellow + part.markers);
+            console.log(utils_js_1.color.yellow, part.markers.join(' | '));
             if (part.deps.length == 0)
                 console.log(utils_js_1.color.green + '        - no deps');
             // print dependencies

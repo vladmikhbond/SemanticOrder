@@ -2,7 +2,7 @@
 import { bufferFile, bufferDir, marker2regex } from "./utils.js";
 import { Part, Concept } from "./Part.js";
 
-const LECT_DIR = '../data/js/';
+const LECT_DIR = '../data/opr/';
 const PART_SEPAR: RegExp = /@2\s*(.+)\s*@@\s*(.+)/g;
 
 export { Part, Parts }
