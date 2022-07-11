@@ -1,13 +1,15 @@
 ﻿import { Parts } from './Parts.js';
+import { Concept } from './Part.js';
 import { color } from "./utils.js";
 
-export function showPartDeps(parts: Parts)
+export function showDeps(parts: Parts)
 {
+   console.log("---------------------- DEPENDENCIES ------------------------\n")
    for (const part of parts.parts) {
       let inversIndex = part.depsInversIndex ? part.depsInversIndex.toString() : '';
       // показ назви частини
       console.log(color.white + part.ordNo + '. ' + part.id + '  ' +
-         '  in lect ' + part.lectName + '\n' +
+         '  in ' + part.lectName + '\n' +
          color.yellow + part.markers + '  ' +
          color.red + inversIndex);
 
@@ -24,3 +26,13 @@ export function showPartDeps(parts: Parts)
    }
 }
 
+export function showConcepts(concepts: Concept[])
+{
+   console.log("---------------------- CONCEPTS ------------------------\n")
+   for (const concept of concepts) {
+      const markerColor = concept.homeParts.length > 1 ? color.red : color.yellow; 
+      console.log(markerColor + concept.marker + color.white,
+         concept.homeParts.map(p => `${p.ordNo}.${p.id}  in  ${p.lectName.slice(0, 10)}...`));
+   }
+
+}
