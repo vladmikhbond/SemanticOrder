@@ -1,5 +1,4 @@
 "use strict";
-// import { EOL } from "os";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Parts = exports.Part = void 0;
 const path_1 = require("path");
@@ -47,14 +46,15 @@ class Parts {
     //    @2 Версії JS 
     //    @@ ECMAScript| ES2015 | ES6 | ES
     //
-    bodyFromOneLect(lectFile) {
-        let text = (0, utils_js_1.bufferFile)(lectFile);
+    bodyFromOneLect(lectFileName) {
+        let text = (0, utils_js_1.bufferFile)(lectFileName);
+        // 1-st run
         let ts = this.doTemps(text);
         // 2-nd run: fill a part body
         for (let i = 0; i < ts.length - 1; i++) {
             let markers = ts[i].markers.split('|');
-            let part = new Part_js_1.Part(ts[i].name, markers); // this._parts.find(p => p.id == ts[i].name);
-            part.lectName = (0, path_1.basename)(lectFile, 'txt');
+            let part = new Part_js_1.Part(ts[i].name, markers);
+            part.lectName = (0, path_1.basename)(lectFileName, 'txt');
             let line = text.slice(ts[i].start, ts[i + 1].index).trim();
             part.body = line;
             this.parts.push(part);
@@ -101,17 +101,19 @@ class Parts {
             }
         }
     }
+    // Resume of a lecture course
+    //
     get resume() {
-        let sum = { count: 0, posDist: 0, negDist: 0, bodyLength: 0 };
+        let sum = { count: 0, posDistance: 0, negDistance: 0, bodyLength: 0 };
         for (const part of this.parts) {
             sum.bodyLength += part.body.length;
             sum.count++;
             for (let dep of part.deps) {
                 if (dep.distance > 0) {
-                    sum.posDist += dep.distance;
+                    sum.posDistance += dep.distance;
                 }
                 else {
-                    sum.negDist += -dep.distance;
+                    sum.negDistance += -dep.distance;
                 }
             }
         }

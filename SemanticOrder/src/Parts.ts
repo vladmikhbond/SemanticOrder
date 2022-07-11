@@ -1,6 +1,4 @@
-﻿// import { EOL } from "os";
-
-import { basename } from 'path'
+﻿import { basename } from 'path'
 import { bufferFile, bufferDir, marker2regex } from "./utils.js";
 import { Part, Concept } from "./Part.js";
 
@@ -16,7 +14,15 @@ type Temp = {
    start: number
 };
 
-class Parts {
+type Resume = {
+   count: number,
+   posDistance: number,
+   negDistance: number,
+   bodyLength: number
+};
+
+class Parts
+{
    parts: Part[];
    concepts: Concept[];
 
@@ -62,17 +68,19 @@ class Parts {
    //    @2 Версії JS 
    //    @@ ECMAScript| ES2015 | ES6 | ES
    //
-   private bodyFromOneLect(lectFile: string)
+   private bodyFromOneLect(lectFileName: string)
    {
-      let text: string | null = bufferFile(lectFile);
+      let text: string | null = bufferFile(lectFileName);
+
+      // 1-st run
       let ts: Temp[] = this.doTemps(text!);
 
       // 2-nd run: fill a part body
       for (let i = 0; i < ts.length - 1; i++) {
          let markers = ts[i].markers.split('|');
-         let part = new Part(ts[i].name, markers)    // this._parts.find(p => p.id == ts[i].name);
+         let part = new Part(ts[i].name, markers) 
   
-         part.lectName = basename(lectFile, 'txt');
+         part.lectName = basename(lectFileName, 'txt');
          let line = text!.slice(ts[i].start, ts[i + 1].index).trim();
          part.body = line;
          this.parts.push(part);
@@ -126,18 +134,19 @@ class Parts {
 
    }
 
-   
+   // Resume of a lecture course
+   //
    public get resume() : Resume
    {
-      let sum: Resume = { count: 0, posDist: 0, negDist: 0, bodyLength: 0 };
+      let sum: Resume = { count: 0, posDistance: 0, negDistance: 0, bodyLength: 0 };
       for (const part of this.parts) {
          sum.bodyLength += part.body.length;
          sum.count++;
          for (let dep of part.deps) {
             if (dep.distance > 0) {
-               sum.posDist += dep.distance;
+               sum.posDistance += dep.distance;
             } else {
-               sum.negDist += -dep.distance;
+               sum.negDistance += -dep.distance;
             }
          }
       }
@@ -145,4 +154,3 @@ class Parts {
    } 
 }
 
-type Resume = { count: number, posDist: number, negDist: number, bodyLength: number };

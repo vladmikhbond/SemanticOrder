@@ -8,7 +8,7 @@ function showDeps(parts) {
         let inversIndex = part.depsInversIndex ? part.depsInversIndex.toString() : '';
         // показ назви частини
         console.log(utils_js_1.color.white + part.ordNo + '. ' + part.id + '  ' +
-            '  in lect ' + part.lectName + '\n' +
+            '  in ' + part.lectName + '\n' +
             utils_js_1.color.yellow + part.markers + '  ' +
             utils_js_1.color.red + inversIndex);
         if (part.deps.length == 0)

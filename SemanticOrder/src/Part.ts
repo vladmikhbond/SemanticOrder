@@ -6,7 +6,7 @@ export type Dep = {
    marker: string
 };
 
-// Частина лекц курсу
+// Частина лекційного курсу
 //
 export class Part {
    id: string;
@@ -30,6 +30,8 @@ export class Part {
    }
 }
 
+// Поняття і частини, де воно визначається
+//
 export class Concept {
    marker: string;
    regexp: RegExp;

@@ -53,7 +53,7 @@ p2.name = "John"
 }}
 
 @2 Метод constructor
-@@ constructor|Object.getPrototypeOf|Object.create
+@@ constructor|Object.getPrototypeOf
 
 @3 Конструктор вказує на прототип своєю властивістю prototye,
 а прототип посилається на конструктор функціональною властивістю constructor.

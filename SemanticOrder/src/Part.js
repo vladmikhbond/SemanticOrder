@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Concept = exports.Part = void 0;
 const utils_js_1 = require("./utils.js");
-// Частина лекц курсу
+// Частина лекційного курсу
 //
 class Part {
     constructor(id, markers) {
@@ -18,6 +18,8 @@ class Part {
     }
 }
 exports.Part = Part;
+// Поняття і частини, де воно визначається
+//
 class Concept {
     constructor(marker, part) {
         this.marker = marker;
