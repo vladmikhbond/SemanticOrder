@@ -27,7 +27,7 @@ export const color = {
    yellow: '\x1b[33m',
    blue: '\x1b[34m',
    magenta: '\x1b[35m',
-   cian: '\x1b[36m ',
+   cian: '\x1b[36m',
 }
 
 // Виробляємо регекс 

@@ -46,12 +46,12 @@
     <Content Include="data\js\14 Функції 3 %28оточення і замикання%29.txt" />
     <Content Include="data\js\15 Ітератори.txt" />
     <Content Include="data\js\16 Генератори.txt" />
-    <Content Include="data\js\17 Модулі.txt" />
+    <Content Include="data\js\25 Модулі.txt" />
     <Content Include="data\js\21 Конструктори і прототипи.txt" />
     <Content Include="data\js\22 Прототипне спадкування.txt" />
     <Content Include="data\js\23 Класи.txt" />
     <Content Include="data\js\24 Cпадкування класів.txt" />
-    <Content Include="data\js\25 Домішки.txt" />
+    <Content Include="data\js\26 Домішки.txt" />
     <Content Include="_doc\readme.md" />
     <None Include="app.ts" />
     <Content Include="package.json" />

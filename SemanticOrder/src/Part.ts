@@ -16,7 +16,7 @@ export class Part {
    lectName: string;
    ordNo: number;
 
-   get depsInversIndex(): number {
+   get sumOfInversions(): number {
       let sum = 0;
       this.deps.filter(d => d.distance > 0)
           .forEach(d => sum += d.distance);

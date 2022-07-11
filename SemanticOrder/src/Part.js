@@ -10,7 +10,7 @@ class Part {
         this.id = id;
         this.markers = markers;
     }
-    get depsInversIndex() {
+    get sumOfInversions() {
         let sum = 0;
         this.deps.filter(d => d.distance > 0)
             .forEach(d => sum += d.distance);
