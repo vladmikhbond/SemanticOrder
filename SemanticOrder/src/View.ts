@@ -14,10 +14,10 @@ export function showDeps(parts: Parts)
             console.log(color.cian + '\n -------' + lectName + ' -------') ;
          }
 
-         //let sumInvers = part.sumOfInversions ? `  (${part.sumOfInversions})` : '';
          // print part id
-         console.log(color.white+ part.ordNo + '.' + part.id); // + '  ' + color.red + sumInvers);
-         console.log(' ' + color.yellow, part.markers.join(' | '));
+         let partMarkers = part.markers.join(' | ');
+         console.log(color.white + part.ordNo + '.' + part.id + '   ' + color.yellow, partMarkers);
+
 
          if (part.deps.length == 0)
             console.log(color.green + '        - no deps');
@@ -26,8 +26,7 @@ export function showDeps(parts: Parts)
          for (let dep of part.deps) {
             let distanceColor: string = dep.distance > 0 ? color.red : color.green;
             let depOrdNo = dep.distance + part.ordNo;
-            console.log('        ' +
-               color.white + depOrdNo + '.' + dep.partId + ' ' +
+            console.log(`        ${color.white}${depOrdNo}.${dep.partId} ` +
                color.yellow + dep.marker + ' ' +
                distanceColor + dep.distance + color.white);
          }
@@ -50,9 +49,11 @@ export function showDeps(parts: Parts)
 
 export function showConcepts(parts: Parts)
 {
-   console.log("---------------------- CONCEPTS ------------------------\n")
-   for (const concept of parts.concepts) {
-      const markerColor = concept.homeParts.length > 1 ? color.red : color.yellow; 
+   console.log("--- CONCEPTS ---\n")
+   for (const concept of parts.concepts)
+   {
+      let markerColor = concept.homeParts.length > 1 ? color.white : color.yellow; 
+
       console.log(markerColor + concept.marker + color.white,
          concept.homeParts.map(p => `${p.ordNo}.${p.id}  in  ${p.lectName.slice(0, 10)}...`));
    }

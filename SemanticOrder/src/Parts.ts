@@ -54,7 +54,7 @@ class Parts
    // Get part bodiy from a lecture file.
    // Example of a header:
    //    @2 Версії JS 
-   //    @@ ECMAScript| ES2015 | ES6 | ES
+   //    @@ ECMAScript|ES2015|ES6|ES
    //
    private bodyFromOneLect(lectFileName: string) {
       let text: string | null = bufferFile(lectFileName);

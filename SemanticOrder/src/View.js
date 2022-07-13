@@ -11,18 +11,16 @@ function showDeps(parts) {
                 lectName = part.lectName;
                 console.log(utils_js_1.color.cian + '\n -------' + lectName + ' -------');
             }
-            //let sumInvers = part.sumOfInversions ? `  (${part.sumOfInversions})` : '';
             // print part id
-            console.log(utils_js_1.color.white + part.ordNo + '.' + part.id); // + '  ' + color.red + sumInvers);
-            console.log(' ' + utils_js_1.color.yellow, part.markers.join(' | '));
+            let partMarkers = part.markers.join(' | ');
+            console.log(utils_js_1.color.white + part.ordNo + '.' + part.id + '   ' + utils_js_1.color.yellow, partMarkers);
             if (part.deps.length == 0)
                 console.log(utils_js_1.color.green + '        - no deps');
             // print dependencies
             for (let dep of part.deps) {
                 let distanceColor = dep.distance > 0 ? utils_js_1.color.red : utils_js_1.color.green;
                 let depOrdNo = dep.distance + part.ordNo;
-                console.log('        ' +
-                    utils_js_1.color.white + depOrdNo + '.' + dep.partId + ' ' +
+                console.log(`        ${utils_js_1.color.white}${depOrdNo}.${dep.partId} ` +
                     utils_js_1.color.yellow + dep.marker + ' ' +
                     distanceColor + dep.distance + utils_js_1.color.white);
             }
@@ -41,9 +39,9 @@ function showDeps(parts) {
 }
 exports.showDeps = showDeps;
 function showConcepts(parts) {
-    console.log("---------------------- CONCEPTS ------------------------\n");
+    console.log("--- CONCEPTS ---\n");
     for (const concept of parts.concepts) {
-        const markerColor = concept.homeParts.length > 1 ? utils_js_1.color.red : utils_js_1.color.yellow;
+        let markerColor = concept.homeParts.length > 1 ? utils_js_1.color.white : utils_js_1.color.yellow;
         console.log(markerColor + concept.marker + utils_js_1.color.white, concept.homeParts.map(p => `${p.ordNo}.${p.id}  in  ${p.lectName.slice(0, 10)}...`));
     }
 }

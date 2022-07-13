@@ -4,6 +4,9 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <Name>SemanticOrder</Name>
     <RootNamespace>HelloApp</RootNamespace>
+    <ScriptArguments>
+    </ScriptArguments>
+    <SaveNodeJsSettingsInProjectFile>True</SaveNodeJsSettingsInProjectFile>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -21,7 +24,7 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
     <EnableTypeScript>true</EnableTypeScript>
-    <StartWebBrowser>false</StartWebBrowser>
+    <StartWebBrowser>False</StartWebBrowser>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -64,6 +67,21 @@
     <Content Include="data\opr\09 Граматика функцій.txt" />
     <Content Include="data\opr\10 Параметри і аргументи.txt" />
     <Content Include="data\opr\11 Масиви.txt" />
+    <Content Include="data\opr\12 Цикл for.txt" />
+    <Content Include="data\opr\13 Методи масивів.txt" />
+    <Content Include="data\opr\14 Рядки.txt" />
+    <Content Include="data\opr\15 Методи рядків.txt" />
+    <Content Include="data\opr\16 Логічні значення.txt" />
+    <Content Include="data\opr\17 Типи даних.txt" />
+    <Content Include="data\opr\18 Посилальні типи.txt" />
+    <Content Include="data\opr\19 Об%27єкти.txt" />
+    <Content Include="data\opr\20 Робота з об%27єктами.txt" />
+    <Content Include="data\opr\21 Системи числення.txt" />
+    <Content Include="data\raw\22 Дробові числа.txt" />
+    <Content Include="data\raw\23 Ще про числа.txt" />
+    <Content Include="data\raw\24 Ще про функції.txt" />
+    <Content Include="data\raw\25 Рекурсія.txt" />
+    <Content Include="data\raw\26 Задача про ханойські вежі.txt" />
     <Content Include="data\test\Тестова Лекція.txt" />
     <Content Include="_doc\readme.md" />
     <None Include="app.ts" />
@@ -75,6 +93,7 @@
   <ItemGroup>
     <Folder Include="data\" />
     <Folder Include="data\js\" />
+    <Folder Include="data\raw\" />
     <Folder Include="data\test\" />
     <Folder Include="data\opr\" />
     <Folder Include="_doc\" />

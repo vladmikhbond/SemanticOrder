@@ -32,29 +32,34 @@ exports.color = {
     magenta: '\x1b[35m',
     cian: '\x1b[36m',
 };
-// Виробляємо регекс 
+// Виробляє регекс 
 // Символам *\.'"-{}$^  передує бекслеш.
 // Заміни:
 //   space ->   \s+
 //   +     ->   \w{0,3}
 // Якщо маркер - слово, оточуємо його межами слова  \b
 function marker2regex(marker) {
-    const META = "+-*\/\\.'\"{}$^()[]";
+    const META = "+-*/|\\.'\"{}$^()[]";
     const NON_ALPHA = "\\ $.=[_";
-    let arr = [];
+    // stage 1 - replacement in marker
+    marker = marker.replace('verbar2', '||'); // 'verbar2' -> '||'
+    // stage 2 - insert '\' before META symbols
+    let markerArray = [];
     for (let c of marker) {
         if (META.includes(c))
-            arr.push('\\');
-        arr.push(c);
+            markerArray.push('\\');
+        markerArray.push(c);
     }
     ;
-    marker = arr.join('');
-    marker = marker
-        .replace(/\+/gm, "\\w\{0\,3\}") // 	    + -> \w{0,3}
-        .replace(/\s/gm, "\\s+"); //   space -> \s+
-    if (!NON_ALPHA.includes(marker[0]))
-        marker = '\\b' + marker + '\\b';
-    return new RegExp(marker);
+    marker = markerArray.join('');
+    // stage 3 - replacement in regex
+    let regex = marker
+        .replace(/\+/gm, "\\w\{0\,3\}") //        '+' -> '\w{0,3}'
+        .replace(/\s/gm, "\\s+") //      space -> '\s+'
+        .replace(/ANYCHARS/gm, "\\s+"); // 'ANYCHARS' -> '.+'
+    if (!NON_ALPHA.includes(regex[0]))
+        regex = '\\b' + regex + '\\b';
+    return new RegExp(regex);
 }
 exports.marker2regex = marker2regex;
 // TEST ===============================
