@@ -58,12 +58,13 @@
     <Content Include="data\opr\03 Команда присвоювання.txt" />
     <Content Include="data\opr\04 Умовна команда.txt" />
     <Content Include="data\opr\05 Блок команд.txt" />
-    <Content Include="data\raw\06 Команда повторення.txt" />
-    <Content Include="data\raw\07 Найбільший спільний дільник.txt" />
-    <Content Include="data\raw\08 Функції.txt" />
-    <Content Include="data\raw\09 Граматика функцій.txt" />
-    <Content Include="data\raw\10 Параметри і аргументи.txt" />
-    <Content Include="data\raw\11 Масиви.txt" />
+    <Content Include="data\opr\06 Команда повторення.txt" />
+    <Content Include="data\opr\07 Найбільший спільний дільник.txt" />
+    <Content Include="data\opr\08 Функції.txt" />
+    <Content Include="data\opr\09 Граматика функцій.txt" />
+    <Content Include="data\opr\10 Параметри і аргументи.txt" />
+    <Content Include="data\opr\11 Масиви.txt" />
+    <Content Include="data\test\Тестова Лекція.txt" />
     <Content Include="_doc\readme.md" />
     <None Include="app.ts" />
     <Content Include="package.json" />
@@ -74,8 +75,8 @@
   <ItemGroup>
     <Folder Include="data\" />
     <Folder Include="data\js\" />
+    <Folder Include="data\test\" />
     <Folder Include="data\opr\" />
-    <Folder Include="data\raw\" />
     <Folder Include="_doc\" />
     <Folder Include="src\" />
   </ItemGroup>

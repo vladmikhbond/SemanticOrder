@@ -6,7 +6,7 @@ const utils_js_1 = require("./utils.js");
 const Part_js_1 = require("./Part.js");
 Object.defineProperty(exports, "Part", { enumerable: true, get: function () { return Part_js_1.Part; } });
 const LECT_DIR = '../data/opr/';
-//const PART_SEPAR: RegExp = /@2\s*(.+)\s*@@\s*(.+)/g;
+// const LECT_DIR = '../data/test/';
 const PART_SEPAR = /^@2\s*(.+)\n@@\s*(.+)/gm;
 const EMPTY_MARKERS = '-';
 class Parts {

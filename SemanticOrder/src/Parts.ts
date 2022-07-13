@@ -3,7 +3,7 @@ import { bufferFile, bufferDir } from "./utils.js";
 import { Part, Concept } from "./Part.js";
 
 const LECT_DIR = '../data/opr/';
-//const PART_SEPAR: RegExp = /@2\s*(.+)\s*@@\s*(.+)/g;
+// const LECT_DIR = '../data/test/';
 
 const PART_SEPAR: RegExp = /^@2\s*(.+)\n@@\s*(.+)/gm;
 

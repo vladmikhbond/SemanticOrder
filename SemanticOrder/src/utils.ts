@@ -37,7 +37,7 @@ export const color = {
 //   +     ->   \w{0,3}
 // Якщо маркер - слово, оточуємо його межами слова  \b
 export function marker2regex(marker: string): RegExp {
-   const META = "*\\.'\"-{}$^()[]";
+   const META = "+-*\/\\.'\"{}$^()[]";
    const NON_ALPHA = "\\ $.=[_";
 
    let arr: string[] = [];
