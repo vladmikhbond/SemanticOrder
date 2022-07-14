@@ -82,6 +82,12 @@
     <Content Include="data\opr\24 Ще про функції.txt" />
     <Content Include="data\opr\25 Рекурсія.txt" />
     <Content Include="data\opr\26 Задача про ханойські вежі.txt" />
+    <Content Include="data\raw\30 Пошук в масиві.txt" />
+    <Content Include="data\raw\31 Сортування масиву.txt" />
+    <Content Include="data\raw\34 Швидке сортування.txt" />
+    <Content Include="data\raw\40 Функціональне програмування.txt" />
+    <Content Include="data\raw\41 ФП. Списки та кортежі.txt" />
+    <Content Include="data\raw\43 ФП Типи даних.txt" />
     <Content Include="data\test\Тестова Лекція.txt" />
     <Content Include="_doc\readme.md" />
     <None Include="app.ts" />
