@@ -42,7 +42,9 @@ function marker2regex(marker) {
     const META = "+-*/|\\.'\"{}$^()[]";
     const NON_ALPHA = "\\ $.=[_";
     // stage 1 - replacement in marker
-    marker = marker.replace('verbar2', '||'); // 'verbar2' -> '||'
+    marker = marker
+        .replace('verbar2', '||') // 'verbar2' -> '||'
+        .replace('verbar', '|'); // 'verbar' -> '|'
     // stage 2 - insert '\' before META symbols
     let markerArray = [];
     for (let c of marker) {

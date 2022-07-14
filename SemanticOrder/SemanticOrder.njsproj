@@ -77,8 +77,8 @@
     <Content Include="data\opr\19 Об%27єкти.txt" />
     <Content Include="data\opr\20 Робота з об%27єктами.txt" />
     <Content Include="data\opr\21 Системи числення.txt" />
-    <Content Include="data\raw\22 Дробові числа.txt" />
-    <Content Include="data\raw\23 Ще про числа.txt" />
+    <Content Include="data\opr\22 Дробові числа.txt" />
+    <Content Include="data\opr\23 Ще про числа.txt" />
     <Content Include="data\raw\24 Ще про функції.txt" />
     <Content Include="data\raw\25 Рекурсія.txt" />
     <Content Include="data\raw\26 Задача про ханойські вежі.txt" />

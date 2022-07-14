@@ -7,15 +7,15 @@ let params = process.argv[2];
 if (!params)
     params = 'dr';
 if (params.includes('c')) {
-    console.log('CONCEPTS:');
+    console.log('CONCEPTS:\n');
     (0, View_js_1.showConcepts)(parts);
 }
 if (params.includes('d')) {
-    console.log('\nDEPENDENCIES:');
+    console.log('\nDEPENDENCIES:\n');
     (0, View_js_1.showDeps)(parts);
 }
 if (params.includes('r')) {
-    console.log('\nRESUME');
+    console.log('\nRESUME:\n');
     (0, View_js_1.showResume)(parts);
 }
 //# sourceMappingURL=app.js.map

@@ -111,7 +111,7 @@ let user = Person.createGuest();
 console.log(user.firstName);      // Guest
 }}
 
-@2 Завдання
+@2 Задачі
 
 @6 Клас Segment | 786
 @6 Замкнена Лінія | 791
