@@ -1,40 +1,47 @@
 ﻿import { Parts, Part } from './Parts.js';
-import { Concept } from './Part.js';
+//import { Concept } from './Concept.js';
 import { color } from "./utils.js";
 
-export function show(parts: Parts, params = 'dr'): void {
+/**
+ * 
+ * c - concepts
+ * b - bad deps
+ * d - deps
+ * s - summary
+ */
+
+export function show(parts: Parts, params = 'c'): void
+{
    if (params.includes('c')) {
       console.log('CONCEPTS:\n');
       showConcepts(parts);
    }
-
    if (params.includes('d')) {
       console.log('\nDEPENDENCIES:\n');
       showDeps(parts);
    }
-
-   if (params.includes('r')) {
-      console.log('\nRESUME:\n');
-      showResume(parts);
+   if (params.includes('b')) {
+      console.log('\nBAD DEPS:\n');
+      showBadDeps(parts);
    }
-
+   if (params.includes('r')) {
+      console.log('\nSUMMARY:\n');
+      showSummary(parts);
+   }
 }
 
 
+function showDeps(parts: Parts) {
+   partsWithDeps(parts.parts);
+}
 
 
-
-function showDeps(parts: Parts)
+function showBadDeps(parts: Parts)
 {
-   let _parts = parts.parts
-
-   partsWithDeps(_parts);
-
-   const badParts = _parts.filter(p => p.sumOfInversions > 0);
+   const badParts = parts.parts.filter(p => p.sumOfInversions > 0);
    if (badParts.length == 0) {
-      console.log("\nNO BAD PARTS");
+      console.log("\nNo bad deps.");
    } else {
-      console.log("\n---------------- INVERSE DEPENDENCIES ONLY ------------------\n");
       partsWithDeps(badParts);
    }
 }
@@ -71,18 +78,18 @@ function partsWithDeps(parts: Part[]) {
 
 function showConcepts(parts: Parts)
 {
-   console.log("--- CONCEPTS ---\n")
    for (const concept of parts.concepts)
    {
       let markerColor = concept.homeParts.length > 1 ? color.white : color.yellow; 
 
       console.log(markerColor + concept.marker + color.white,
          concept.homeParts.map(p => `${p.ordNo}.${p.id}  in  ${p.lectName.slice(0, 10)}...`));
+      console.log(concept.dependantParts.length);
    }
 
 }
 
-function showResume(parts: Parts) {
+function showSummary(parts: Parts) {
    let res = parts.resume;
    console.log('Concept number', parts.concepts.length);
    console.log('Parts number  ', res.count);

@@ -1,6 +1,7 @@
 ﻿import { basename } from 'path'
 import { bufferFile, bufferDir } from "./utils.js";
-import { Part, Concept } from "./Part.js";
+import { Part} from "./Part.js";
+import { Concept } from "./Concept.js";
 
 const LECT_DIR = '../data/opr/';
 // const LECT_DIR = '../data/test/';
@@ -139,6 +140,7 @@ class Parts
                let distance = homePart.ordNo - part.ordNo;
                if (distance) {
                   part.deps.push({ partId: homePart.id, distance, marker: concept.marker });
+                  concept.dependantParts.push(part);
                }
             }
          }

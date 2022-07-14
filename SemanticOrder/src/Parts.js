@@ -5,6 +5,7 @@ const path_1 = require("path");
 const utils_js_1 = require("./utils.js");
 const Part_js_1 = require("./Part.js");
 Object.defineProperty(exports, "Part", { enumerable: true, get: function () { return Part_js_1.Part; } });
+const Concept_js_1 = require("./Concept.js");
 const LECT_DIR = '../data/opr/';
 // const LECT_DIR = '../data/test/';
 const PART_SEPAR = /^@2\s*(.+)\n@@\s*(.+)/gm;
@@ -88,7 +89,7 @@ class Parts {
             for (let marker of part.markers) {
                 let idx = this.concepts.map(c => c.marker).indexOf(marker);
                 if (idx == -1) {
-                    this.concepts.push(new Part_js_1.Concept(marker, part));
+                    this.concepts.push(new Concept_js_1.Concept(marker, part));
                 }
                 else {
                     this.concepts[idx].homeParts.push(part);
@@ -100,6 +101,8 @@ class Parts {
     //
     findDeps() {
         for (let part of this.parts) {
+            //for (let i = 0; i < this.concepts.length; i++) { 
+            //   let concept = this.concepts[i];
             for (let concept of this.concepts) {
                 if (concept.regexp.test(part.body)) {
                     let homePart = concept.homeParts[0];
@@ -107,6 +110,7 @@ class Parts {
                     let distance = homePart.ordNo - part.ordNo;
                     if (distance) {
                         part.deps.push({ partId: homePart.id, distance, marker: concept.marker });
+                        concept.dependantParts.push(part);
                     }
                 }
             }

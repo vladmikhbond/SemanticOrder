@@ -1,5 +1,4 @@
-﻿import { marker2regex } from "./utils.js";
-
+﻿
 export type Dep = {
    partId: string,
    distance: number,
@@ -27,20 +26,6 @@ export class Part {
    {
       this.id = id;
       this.markers = markers;
-   }
-}
-
-// Поняття і частини, де воно визначається
-//
-export class Concept {
-   marker: string;
-   regexp: RegExp;
-   homeParts: Part[];
-
-   constructor(marker: string, part: Part) {
-      this.marker = marker;
-      this.homeParts = [part];
-      this.regexp = marker2regex(marker);
    }
 }
 
