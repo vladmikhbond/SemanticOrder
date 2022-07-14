@@ -80,11 +80,16 @@ function showConcepts(parts: Parts)
 {
    for (const concept of parts.concepts)
    {
-      let markerColor = concept.homeParts.length > 1 ? color.white : color.yellow; 
+      let t = concept.homeParts.map(p => `${p.ordNo}.${p.id} in  ${p.lectName.slice(0, 10)}`);
+      let ts = t.join(',');
+      console.log(`${concept.marker}~${concept.homeParts.length}~${concept.dependantParts.length}~${ts}`);
 
-      console.log(markerColor + concept.marker + color.white,
-         concept.homeParts.map(p => `${p.ordNo}.${p.id}  in  ${p.lectName.slice(0, 10)}...`));
-      console.log(concept.dependantParts.length);
+
+      //let markerColor = concept.homeParts.length > 1 ? color.white : color.yellow; 
+
+      //console.log(markerColor + concept.marker + color.white,
+      //   concept.homeParts.map(p => `${p.ordNo}.${p.id}  in  ${p.lectName.slice(0, 10)}...`));
+      //console.log(concept.dependantParts.length);
    }
 
 }

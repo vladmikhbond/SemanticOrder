@@ -101,8 +101,6 @@ class Parts {
     //
     findDeps() {
         for (let part of this.parts) {
-            //for (let i = 0; i < this.concepts.length; i++) { 
-            //   let concept = this.concepts[i];
             for (let concept of this.concepts) {
                 if (concept.regexp.test(part.body)) {
                     let homePart = concept.homeParts[0];
