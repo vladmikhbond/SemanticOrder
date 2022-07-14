@@ -79,9 +79,9 @@
     <Content Include="data\opr\21 Системи числення.txt" />
     <Content Include="data\opr\22 Дробові числа.txt" />
     <Content Include="data\opr\23 Ще про числа.txt" />
-    <Content Include="data\raw\24 Ще про функції.txt" />
-    <Content Include="data\raw\25 Рекурсія.txt" />
-    <Content Include="data\raw\26 Задача про ханойські вежі.txt" />
+    <Content Include="data\opr\24 Ще про функції.txt" />
+    <Content Include="data\opr\25 Рекурсія.txt" />
+    <Content Include="data\opr\26 Задача про ханойські вежі.txt" />
     <Content Include="data\test\Тестова Лекція.txt" />
     <Content Include="_doc\readme.md" />
     <None Include="app.ts" />

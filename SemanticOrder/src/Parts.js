@@ -8,6 +8,7 @@ Object.defineProperty(exports, "Part", { enumerable: true, get: function () { re
 const LECT_DIR = '../data/opr/';
 // const LECT_DIR = '../data/test/';
 const PART_SEPAR = /^@2\s*(.+)\n@@\s*(.+)/gm;
+const PART_IGNORED = /^@2/gm;
 const EMPTY_MARKERS = '-';
 class Parts {
     // Load markers from 'markers.txt'
@@ -46,6 +47,11 @@ class Parts {
             let part = new Part_js_1.Part(ts[i].name, markers);
             part.lectName = (0, path_1.basename)(lectFileName, 'txt');
             let line = text.slice(ts[i].start, ts[i + 1].index).trim();
+            // cut of ignored part
+            let match = (/^@2/gm).exec(line);
+            if (match) {
+                line = line.slice(0, match.index);
+            }
             part.body = line;
             this.parts.push(part);
         }

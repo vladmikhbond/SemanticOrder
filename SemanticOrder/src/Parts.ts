@@ -6,6 +6,7 @@ const LECT_DIR = '../data/opr/';
 // const LECT_DIR = '../data/test/';
 
 const PART_SEPAR: RegExp = /^@2\s*(.+)\n@@\s*(.+)/gm;
+const PART_IGNORED: RegExp = /^@2/gm;
 
 const EMPTY_MARKERS = '-';
 
@@ -71,6 +72,12 @@ class Parts
          let part = new Part(ts[i].name, markers);
          part.lectName = basename(lectFileName, 'txt');
          let line = text!.slice(ts[i].start, ts[i + 1].index).trim();
+         // cut of ignored part
+         let match = (/^@2/gm).exec(line);
+         if (match) {
+            line = line.slice(0, match.index);
+         }
+
          part.body = line;
          this.parts.push(part);
       }
