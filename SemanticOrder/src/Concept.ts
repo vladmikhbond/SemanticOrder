@@ -20,21 +20,12 @@ export class Concept {
 }
 
 // Виробляє регекс
-// Символам *\.'"-{}$^  передує бекслеш.
-// Заміни:
-//   space ->   \s+
-//   +     ->   \w{0,3}
-// Якщо маркер - слово, оточуємо його межами слова  \b
 //
 function marker2regex(marker: string): RegExp {
    const META = "-*/|\\.'\"{}$^()[]";
    const NON_ALPHA = "\\ $.=[_";
 
-   // stage 1 - replacement in marker
-   marker = marker
-      .replace('verbar2', '||')  // 'verbar2' -> '||'
-      .replace('verbar', '|');   // 'verbar' -> '|'
-   // stage 2 - insert '\' before META symbols
+   // stage 1 - insert '\' before META symbols
    let markerArray: string[] = [];
    for (let c of marker) {
       if (META.includes(c)) markerArray.push('\\');
@@ -42,17 +33,18 @@ function marker2regex(marker: string): RegExp {
    };
    marker = markerArray.join('');
 
-   // stage 3 - replacement in regex
+   // stage 2 - replacement in marker
    marker = marker
       .replace(/\+/g, "\\w{0,3}")      //        '+' -> '\w{0,3}'
       .replace(/\s/g, "\\s+")          //      space -> '\s+'
       .replace(/ANYCHARS/g, ".+")      // 'ANYCHARS' -> '.+'
-      .replace(/PLUS/g, "\\+");         // 'ANYCHARS' -> '.+'
+      .replace(/PLUS/g, "\\+")         //     'PLUS' -> '\+'
+      .replace('VERBAR2', '\\|\\|')    //  'VERBAR2' -> '\|\|'
+      .replace('VERBAR', '\\|');       //   'VERBAR' -> '\|'
 
-   ////////////////
+   // stage 3 - add word bounds
    if (!NON_ALPHA.includes(marker[0]))  
-      marker = '\\W' + marker + '\\W';
-   ////////////////
+      marker = '\\W' + marker + '\\W'; 
 
    return new RegExp(marker, "gm");
 }
@@ -60,4 +52,4 @@ function marker2regex(marker: string): RegExp {
 
 // TEST ===============================
 
-// console.log(marker2regex("111+ 222+").toString());        //   \b111\w{0,3}\s+222\w{0,3}\b
+// console.log(marker2regex("111+ 222+").toString());       
