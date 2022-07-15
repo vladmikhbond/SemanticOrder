@@ -12,14 +12,15 @@ class Concept {
     }
 }
 exports.Concept = Concept;
-// Виробляє регекс 
+// Виробляє регекс
 // Символам *\.'"-{}$^  передує бекслеш.
 // Заміни:
 //   space ->   \s+
 //   +     ->   \w{0,3}
 // Якщо маркер - слово, оточуємо його межами слова  \b
+//
 function marker2regex(marker) {
-    const META = "+-*/|\\.'\"{}$^()[]";
+    const META = "-*/|\\.'\"{}$^()[]";
     const NON_ALPHA = "\\ $.=[_";
     // stage 1 - replacement in marker
     marker = marker
@@ -35,16 +36,14 @@ function marker2regex(marker) {
     ;
     marker = markerArray.join('');
     // stage 3 - replacement in regex
-    let regex = marker
-        .replace(/\+/gm, "\\w\{0\,3\}") //        '+' -> '\w{0,3}'
-        .replace(/\s/gm, "\\s+") //      space -> '\s+'
-        .replace(/ANYCHARS/gm, "\\s+"); // 'ANYCHARS' -> '.+'
-    if (!NON_ALPHA.includes(regex[0]))
-        regex = '\\b' + regex + '\\b';
-    return new RegExp(regex);
+    marker = marker
+        .replace(/\+/g, "\\w{0,3}") //        '+' -> '\w{0,3}'
+        .replace(/\s/g, "\\s+") //      space -> '\s+'
+        .replace(/ANYCHARS/, ".+"); // 'ANYCHARS' -> '.+'
+    if (!NON_ALPHA.includes(marker[0]))
+        marker = '\\b' + marker + '\\b';
+    return new RegExp(marker, "gu");
 }
 // TEST ===============================
-//console.log(marker2regex("111\\111"));         //  /111\\111/
-//console.log(marker2regex("111*111'111-111"));  //  /111\*111\'111\-111/
-//console.log(marker2regex("111+ 222+"));        //  /111\*111\'111\-111/
+// console.log(marker2regex("111+ 222+").toString());        //   \b111\w{0,3}\s+222\w{0,3}\b
 //# sourceMappingURL=Concept.js.map

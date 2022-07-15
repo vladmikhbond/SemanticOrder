@@ -1,5 +1,4 @@
 ﻿import { Parts, Part } from './Parts.js';
-//import { Concept } from './Concept.js';
 import { color } from "./utils.js";
 
 /**
@@ -75,21 +74,22 @@ function partsWithDeps(parts: Part[]) {
 }
 
 
-
 function showConcepts(parts: Parts)
 {
-   for (const concept of parts.concepts)
-   {
+   for (const concept of parts.concepts) {
       let t = concept.homeParts.map(p => `${p.ordNo}.${p.id} in  ${p.lectName.slice(0, 10)}`);
       let ts = t.join(',');
-      console.log(`${concept.marker}~${concept.homeParts.length}~${concept.dependantParts.length}~${ts}`);
+      console.log(`${concept.marker}~${concept.regexp}~${concept.homeParts.length}~${concept.dependantParts.length}~${ts}`);
+   }
+   for (const concept of parts.concepts) {
 
 
-      //let markerColor = concept.homeParts.length > 1 ? color.white : color.yellow; 
+      let markerColor = concept.homeParts.length > 1 ? color.white : color.yellow; 
 
-      //console.log(markerColor + concept.marker + color.white,
-      //   concept.homeParts.map(p => `${p.ordNo}.${p.id}  in  ${p.lectName.slice(0, 10)}...`));
-      //console.log(concept.dependantParts.length);
+      console.log(markerColor + concept.marker + color.white,
+         concept.homeParts.map(p => `${p.ordNo}.${p.id}  in  ${p.lectName.slice(0, 10)}...`),
+         concept.dependantParts.length );
+      console.log(concept.dependantParts.length);
    }
 
 }

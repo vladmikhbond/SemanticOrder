@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.show = void 0;
-//import { Concept } from './Concept.js';
 const utils_js_1 = require("./utils.js");
 /**
  *
@@ -68,11 +67,12 @@ function showConcepts(parts) {
     for (const concept of parts.concepts) {
         let t = concept.homeParts.map(p => `${p.ordNo}.${p.id} in  ${p.lectName.slice(0, 10)}`);
         let ts = t.join(',');
-        console.log(`${concept.marker}~${concept.homeParts.length}~${concept.dependantParts.length}~${ts}`);
-        //let markerColor = concept.homeParts.length > 1 ? color.white : color.yellow; 
-        //console.log(markerColor + concept.marker + color.white,
-        //   concept.homeParts.map(p => `${p.ordNo}.${p.id}  in  ${p.lectName.slice(0, 10)}...`));
-        //console.log(concept.dependantParts.length);
+        console.log(`${concept.marker}~${concept.regexp}~${concept.homeParts.length}~${concept.dependantParts.length}~${ts}`);
+    }
+    for (const concept of parts.concepts) {
+        let markerColor = concept.homeParts.length > 1 ? utils_js_1.color.white : utils_js_1.color.yellow;
+        console.log(markerColor + concept.marker + utils_js_1.color.white, concept.homeParts.map(p => `${p.ordNo}.${p.id}  in  ${p.lectName.slice(0, 10)}...`), concept.dependantParts.length);
+        console.log(concept.dependantParts.length);
     }
 }
 function showSummary(parts) {
