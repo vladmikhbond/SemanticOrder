@@ -7,9 +7,8 @@ const Part_js_1 = require("./Part.js");
 Object.defineProperty(exports, "Part", { enumerable: true, get: function () { return Part_js_1.Part; } });
 const Concept_js_1 = require("./Concept.js");
 const LECT_DIR = '../data/opr/';
-// const LECT_DIR = '../data/test/';
-const PART_SEPAR = /^@2\s*(.+)\n@@\s*(.+)/gm;
-const PART_IGNORED = /^@2/gm;
+//const LECT_DIR = '../data/test/';
+const PART_SEPAR = /^@2\s*(.+)\r\n@@\s*(.+)/gm; // \r\n
 const EMPTY_MARKERS = '-';
 class Parts {
     // Load markers from 'markers.txt'

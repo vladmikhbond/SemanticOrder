@@ -44,14 +44,17 @@ function marker2regex(marker: string): RegExp {
 
    // stage 3 - replacement in regex
    marker = marker
-      .replace(/\+/g, "\\w{0,3}")   //        '+' -> '\w{0,3}'
+      .replace(/\+/g, "\\w{0,3}")      //        '+' -> '\w{0,3}'
       .replace(/\s/g, "\\s+")          //      space -> '\s+'
-      .replace(/ANYCHARS/, ".+");   // 'ANYCHARS' -> '.+'
+      .replace(/ANYCHARS/g, ".+")      // 'ANYCHARS' -> '.+'
+      .replace(/PLUS/g, "\\+");         // 'ANYCHARS' -> '.+'
 
-   if (!NON_ALPHA.includes(marker[0]))
-      marker = '\\b' + marker + '\\b';
+   ////////////////
+   if (!NON_ALPHA.includes(marker[0]))  
+      marker = '\\W' + marker + '\\W';
+   ////////////////
 
-   return new RegExp(marker, "gu");
+   return new RegExp(marker, "gm");
 }
 
 

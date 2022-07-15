@@ -9,7 +9,7 @@ import { color } from "./utils.js";
  * s - summary
  */
 
-export function show(parts: Parts, params = 'c'): void
+export function show(parts: Parts, params = 'cdbr'): void
 {
    if (params.includes('c')) {
       console.log('CONCEPTS:\n');
@@ -81,16 +81,15 @@ function showConcepts(parts: Parts)
       let ts = t.join(',');
       console.log(`${concept.marker}~${concept.regexp}~${concept.homeParts.length}~${concept.dependantParts.length}~${ts}`);
    }
-   for (const concept of parts.concepts) {
 
+   //for (const concept of parts.concepts) {
+   //   let markerColor = concept.homeParts.length > 1 ? color.white : color.yellow; 
 
-      let markerColor = concept.homeParts.length > 1 ? color.white : color.yellow; 
-
-      console.log(markerColor + concept.marker + color.white,
-         concept.homeParts.map(p => `${p.ordNo}.${p.id}  in  ${p.lectName.slice(0, 10)}...`),
-         concept.dependantParts.length );
-      console.log(concept.dependantParts.length);
-   }
+   //   console.log(markerColor + concept.marker + color.white,
+   //      concept.homeParts.map(p => `${p.ordNo}.${p.id}  in  ${p.lectName.slice(0, 10)}...`),
+   //      concept.dependantParts.length );
+   //   console.log(concept.dependantParts.length);
+   //}
 
 }
 
@@ -102,5 +101,4 @@ function showSummary(parts: Parts) {
    console.log('Negative dist ', res.negDistance);
    console.log('Sum body size ', res.bodyLength);
    console.log();
-
 }

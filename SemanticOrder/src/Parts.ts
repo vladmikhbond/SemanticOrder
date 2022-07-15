@@ -4,10 +4,10 @@ import { Part} from "./Part.js";
 import { Concept } from "./Concept.js";
 
 const LECT_DIR = '../data/opr/';
-// const LECT_DIR = '../data/test/';
+//const LECT_DIR = '../data/test/';
 
-const PART_SEPAR: RegExp = /^@2\s*(.+)\n@@\s*(.+)/gm;
-const PART_IGNORED: RegExp = /^@2/gm;
+const PART_SEPAR: RegExp = /^@2\s*(.+)\r\n@@\s*(.+)/gm;   // \r\n
+
 
 const EMPTY_MARKERS = '-';
 

@@ -39,10 +39,13 @@ function marker2regex(marker) {
     marker = marker
         .replace(/\+/g, "\\w{0,3}") //        '+' -> '\w{0,3}'
         .replace(/\s/g, "\\s+") //      space -> '\s+'
-        .replace(/ANYCHARS/, ".+"); // 'ANYCHARS' -> '.+'
+        .replace(/ANYCHARS/g, ".+") // 'ANYCHARS' -> '.+'
+        .replace(/PLUS/g, "\\+"); // 'ANYCHARS' -> '.+'
+    ////////////////
     if (!NON_ALPHA.includes(marker[0]))
-        marker = '\\b' + marker + '\\b';
-    return new RegExp(marker, "gu");
+        marker = '\\W' + marker + '\\W';
+    ////////////////
+    return new RegExp(marker, "gm");
 }
 // TEST ===============================
 // console.log(marker2regex("111+ 222+").toString());        //   \b111\w{0,3}\s+222\w{0,3}\b

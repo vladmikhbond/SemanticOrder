@@ -46,7 +46,7 @@ function factorial (n)
 [[http://www.pythontutor.com/javascript.html#mode=edit]]
 
 @2 Рекурсивний ряд Фібоначчі
-@@ Фібоначч+
+@@ -
 
 @3 Визначення n-го члена ряду Фібоначчі.
 {{
