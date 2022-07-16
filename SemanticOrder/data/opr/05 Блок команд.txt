@@ -5,47 +5,6 @@
 
 @4 ax² + bx + c = 0
 
-@3 UI
-{{
-<!DOCTYPE HTML>
-<html>
-   <head> </head>
-   <body>
-      <style>
-          #_a, #_b, #_c {
-              width: 20px;
-          }
-      </style> 
-      <h1>Вирішення квадратного рівняння</h1>
-      <div> 
-          <input type="text" id="_a"> x<sup>2</sup> + 
-          <input type="text" id="_b"> x + 
-          <input type="text" id="_c"> = 0
-      </div>
-      <p></p>
-       <div>
-           <input type="button" id="findButton" 
-                  value="Знайти корені" />
-       </div>
-      <div id="roots"></div>
-      <script src="index.js"></script>   
-   </body>
-</html>  
-}}
-
-@3 Файл index.js
-{{
-findButton.addEventListener('click', function() {
-   //----------------------------
-   let a = +_a.value;  // 2
-   let b = +_b.value;  // 3
-   let c = +_c.value;  //-4
-   
-   roots.innerHTML = a + b + c;
-   //----------------------------
-});
-}}
-
 @3 Будемо шукати тільки дійсні корені.
 Дискримінант рівняння: d = b² - 4ac.
 
@@ -128,4 +87,3 @@ let y = 2;
 @3 Але з кількох команд можна створити одну, поєднавши їх в блок.
 @3 Змінні, оголошені в блоці, недосяжні за його межами.
 @3 Код потребує форматування.
-

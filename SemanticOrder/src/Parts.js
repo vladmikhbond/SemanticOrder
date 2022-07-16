@@ -6,7 +6,7 @@ const utils_js_1 = require("./utils.js");
 const Part_js_1 = require("./Part.js");
 Object.defineProperty(exports, "Part", { enumerable: true, get: function () { return Part_js_1.Part; } });
 const Concept_js_1 = require("./Concept.js");
-const LECT_DIR = '../data/opr/';
+const LECT_DIR = '../data/js/';
 //const LECT_DIR = '../data/test/';
 const PART_SEPAR = /^@2\s*(.+)\r\n@@\s*(.+)/gm; // \r\n
 const EMPTY_MARKERS = '-';

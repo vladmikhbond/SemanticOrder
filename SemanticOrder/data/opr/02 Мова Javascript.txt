@@ -1,4 +1,4 @@
-@1 01 Мова Javascript
+@1 02 Мова Javascript
 
 @2 Мова Javascript
 @@ Брендан+ Айк+
