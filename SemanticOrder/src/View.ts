@@ -1,20 +1,28 @@
-﻿import { Parts, Part } from './Parts.js';
+﻿import { writeFileSync } from 'fs';
+import { EOL } from 'os';
+import { Parts, Part } from './Parts.js';
 import { color } from "./utils.js";
+
+export function conceptsToFile(parts: Parts, fname: string) {
+   let str = 'concept\tregex\thome\thome-lect\tdep~dep-lect\tbadDist' + EOL;
+   for (const c of parts.concepts) {
+      let partLects = c.homeParts.map(p => `${p.ordNo}.${p.id} (${p.lectName.slice(0, 15)})`).join(', ');
+      let dependLects = c.dependantParts.map(p => `${p.ordNo}.${p.id} (${p.lectName.slice(0, 15)})`).join(', ');
+      str += `${c.marker}\t${c.regexp}\t${c.homeParts.length}\t${partLects}\t` +
+         `${c.dependantParts.length}\t${dependLects}\t${c.badDistance}${EOL}`;
+   }
+   writeFileSync(fname, str);
+}
+
 
 /**
  * 
- * c - concepts
  * b - bad deps
  * d - deps
  * s - summary
  */
-
 export function show(parts: Parts, params = 'cr'): void
 {
-   if (params.includes('c')) {
-      //console.log('CONCEPTS:\n');
-      showConcepts(parts);
-   }
    if (params.includes('d')) {
       console.log('\nDEPENDENCIES:\n');
       showDeps(parts);
@@ -71,31 +79,6 @@ function partsWithDeps(parts: Part[]) {
             distanceColor + dep.distance + color.white);
       }
    }
-}
-
-
-function showConcepts(parts: Parts)
-{
-   console.log('concept~regex~home~home-lect~dep~dep-lect~badDist');
-
-   for (const c of parts.concepts) {
-      let partLects = c.homeParts.map(p => `${p.ordNo}.${p.id} (${p.lectName.slice(0, 15)})`).join(', ');
-      let dependLects = c.dependantParts.map(p => `${p.ordNo}.${p.id} (${p.lectName.slice(0, 15)})`).join(', ');
-      console.log(
-         `${c.marker}~${c.regexp}~${c.homeParts.length}~${partLects}~` +
-         `${c.dependantParts.length}~${dependLects}~${c.badDistance}`);
-   }
-   console.log();
-
-   //for (const concept of parts.concepts) {
-   //   let markerColor = concept.homeParts.length > 1 ? color.white : color.yellow; 
-
-   //   console.log(markerColor + concept.marker + color.white,
-   //      concept.homeParts.map(p => `${p.ordNo}.${p.id}  in  ${p.lectName.slice(0, 10)}...`),
-   //      concept.dependantParts.length );
-   //   console.log(concept.dependantParts.length);
-   //}
-
 }
 
 function showSummary(parts: Parts) {

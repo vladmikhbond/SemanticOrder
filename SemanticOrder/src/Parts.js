@@ -6,13 +6,15 @@ const utils_js_1 = require("./utils.js");
 const Part_js_1 = require("./Part.js");
 Object.defineProperty(exports, "Part", { enumerable: true, get: function () { return Part_js_1.Part; } });
 const Concept_js_1 = require("./Concept.js");
-const LECT_DIR = '../data/opr/';
 const PART_SEPAR = /^@2\s*(.+)\r\n@@\s*(.+)/gm; // \r\n
 const EMPTY_MARKERS = '-';
+;
+;
 class Parts {
     // Load markers from 'markers.txt'
     //
-    constructor() {
+    constructor(lectDir) {
+        this.lectDir = lectDir;
         this.partsFromAllLects();
         this.fillConcepts();
         this.findDeps();
@@ -22,9 +24,9 @@ class Parts {
     partsFromAllLects() {
         var _a;
         this.parts = [];
-        const fileNames = (_a = (0, utils_js_1.bufferDir)(LECT_DIR)) === null || _a === void 0 ? void 0 : _a.sort();
+        const fileNames = (_a = (0, utils_js_1.bufferDir)(this.lectDir)) === null || _a === void 0 ? void 0 : _a.sort();
         // bodies
-        fileNames === null || fileNames === void 0 ? void 0 : fileNames.forEach(fname => this.bodyFromOneLect(LECT_DIR + fname));
+        fileNames === null || fileNames === void 0 ? void 0 : fileNames.forEach(fname => this.bodyFromOneLect(this.lectDir + fname));
         // ordNos
         this.parts.forEach((p, i) => p.ordNo = i);
     }

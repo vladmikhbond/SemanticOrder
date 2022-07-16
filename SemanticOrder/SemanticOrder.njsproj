@@ -33,6 +33,7 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="111.txt" />
     <Content Include="data\js\01 Введення.txt" />
     <Content Include="data\js\02 Прості типи.txt" />
     <Content Include="data\js\03 Конструкції керування.txt" />

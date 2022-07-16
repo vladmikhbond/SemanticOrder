@@ -1,5 +1,5 @@
 ﻿
-import { readFileSync, readdirSync } from 'fs'
+import { readFileSync, readdirSync, writeFileSync  } from 'fs'
 import { join } from 'path'
 
 export function bufferFile(relPath: string): string | null {
@@ -19,6 +19,9 @@ export function bufferDir(relPath: string): string[] | null {
       return null;
    }
 }
+
+
+
 
 export const color = {
    white: '\x1b[0m',

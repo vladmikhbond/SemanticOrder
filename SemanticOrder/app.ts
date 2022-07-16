@@ -1,9 +1,11 @@
 ﻿import { Parts } from './src/Parts.js';
-import { show } from "./src/View.js";
+import { show, conceptsToFile } from "./src/View.js";
 
-const parts = new Parts();
+
+const parts = new Parts('../data/opr/');
 
 //show(parts, process.argv[2]);
-show(parts, undefined);
+show(parts, 'r');
+conceptsToFile(parts, '111.txt');
 
 

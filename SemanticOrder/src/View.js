@@ -1,19 +1,27 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.show = void 0;
+exports.show = exports.conceptsToFile = void 0;
+const fs_1 = require("fs");
+const os_1 = require("os");
 const utils_js_1 = require("./utils.js");
+function conceptsToFile(parts, fname) {
+    let str = 'concept\tregex\thome\thome-lect\tdep~dep-lect\tbadDist' + os_1.EOL;
+    for (const c of parts.concepts) {
+        let partLects = c.homeParts.map(p => `${p.ordNo}.${p.id} (${p.lectName.slice(0, 15)})`).join(', ');
+        let dependLects = c.dependantParts.map(p => `${p.ordNo}.${p.id} (${p.lectName.slice(0, 15)})`).join(', ');
+        str += `${c.marker}\t${c.regexp}\t${c.homeParts.length}\t${partLects}\t` +
+            `${c.dependantParts.length}\t${dependLects}\t${c.badDistance}${os_1.EOL}`;
+    }
+    (0, fs_1.writeFileSync)(fname, str);
+}
+exports.conceptsToFile = conceptsToFile;
 /**
  *
- * c - concepts
  * b - bad deps
  * d - deps
  * s - summary
  */
 function show(parts, params = 'cr') {
-    if (params.includes('c')) {
-        //console.log('CONCEPTS:\n');
-        showConcepts(parts);
-    }
     if (params.includes('d')) {
         console.log('\nDEPENDENCIES:\n');
         showDeps(parts);
@@ -62,23 +70,6 @@ function partsWithDeps(parts) {
                 distanceColor + dep.distance + utils_js_1.color.white);
         }
     }
-}
-function showConcepts(parts) {
-    console.log('concept~regex~home~home-lect~dep~dep-lect~badDist');
-    for (const c of parts.concepts) {
-        let partLects = c.homeParts.map(p => `${p.ordNo}.${p.id} (${p.lectName.slice(0, 15)})`).join(', ');
-        let dependLects = c.dependantParts.map(p => `${p.ordNo}.${p.id} (${p.lectName.slice(0, 15)})`).join(', ');
-        console.log(`${c.marker}~${c.regexp}~${c.homeParts.length}~${partLects}~` +
-            `${c.dependantParts.length}~${dependLects}~${c.badDistance}`);
-    }
-    console.log();
-    //for (const concept of parts.concepts) {
-    //   let markerColor = concept.homeParts.length > 1 ? color.white : color.yellow; 
-    //   console.log(markerColor + concept.marker + color.white,
-    //      concept.homeParts.map(p => `${p.ordNo}.${p.id}  in  ${p.lectName.slice(0, 10)}...`),
-    //      concept.dependantParts.length );
-    //   console.log(concept.dependantParts.length);
-    //}
 }
 function showSummary(parts) {
     let res = parts.resume;

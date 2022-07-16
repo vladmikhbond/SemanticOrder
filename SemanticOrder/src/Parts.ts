@@ -3,8 +3,6 @@ import { bufferFile, bufferDir } from "./utils.js";
 import { Part} from "./Part.js";
 import { Concept } from "./Concept.js";
 
-const LECT_DIR = '../data/opr/';
-
 const PART_SEPAR: RegExp = /^@2\s*(.+)\r\n@@\s*(.+)/gm;   // \r\n
 
 
@@ -12,14 +10,14 @@ const EMPTY_MARKERS = '-';
 
 export { Part, Parts }
 
-type Temp = {
+interface Temp {
    index: number,
    name: string,
    markersLine: string,
    start: number
 };
 
-type Resume = {
+interface Resume {
    count: number,
    posDistance: number,
    negDistance: number,
@@ -30,11 +28,13 @@ class Parts
 {
    parts: Part[];
    concepts: Concept[];
+   lectDir: string;
 
    // Load markers from 'markers.txt'
    //
-   constructor()
+   constructor(lectDir: string)
    {
+      this.lectDir = lectDir;
       this.partsFromAllLects();
       this.fillConcepts();
       this.findDeps();
@@ -44,9 +44,9 @@ class Parts
    //
    private partsFromAllLects() {
       this.parts = [];
-      const fileNames = bufferDir(LECT_DIR)?.sort();
+      const fileNames = bufferDir(this.lectDir)?.sort();
       // bodies
-      fileNames?.forEach(fname => this.bodyFromOneLect(LECT_DIR + fname));
+      fileNames?.forEach(fname => this.bodyFromOneLect(this.lectDir + fname));
       // ordNos
       this.parts.forEach((p, i) => p.ordNo = i)
    }
