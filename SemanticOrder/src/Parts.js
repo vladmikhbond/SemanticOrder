@@ -116,7 +116,7 @@ class Parts {
     }
     // Resume of a lecture course
     //
-    get resume() {
+    get summary() {
         let sum = { count: 0, posDistance: 0, negDistance: 0, bodyLength: 0 };
         for (const part of this.parts) {
             sum.bodyLength += part.body.length;

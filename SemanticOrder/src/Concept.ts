@@ -1,6 +1,4 @@
-﻿
-import { Part } from "./part.js";
-
+﻿import { Part } from "./part.js";
 
 // Поняття і частини, де воно визначається
 //

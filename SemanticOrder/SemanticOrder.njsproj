@@ -33,7 +33,7 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="111.txt" />
+    <Content Include="concepts.txt" />
     <Content Include="data\js\01 Введення.txt" />
     <Content Include="data\js\02 Прості типи.txt" />
     <Content Include="data\js\03 Конструкції керування.txt" />
@@ -90,6 +90,7 @@
     <Content Include="data\hs\41 ФП. Списки та кортежі.txt" />
     <Content Include="data\hs\43 ФП Типи даних.txt" />
     <Content Include="data\test\Тестова Лекція.txt" />
+    <Content Include="_doc\SemanticOrder.md" />
     <Content Include="_doc\readme.md" />
     <None Include="app.ts" />
     <Content Include="package.json" />

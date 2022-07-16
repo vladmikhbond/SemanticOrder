@@ -11,82 +11,97 @@ export function conceptsToFile(parts: Parts, fname: string) {
       str += `${c.marker}\t${c.regexp}\t${c.homeParts.length}\t${partLects}\t` +
          `${c.dependantParts.length}\t${dependLects}\t${c.badDistance}${EOL}`;
    }
+   str += summaryToString(parts);
+
    writeFileSync(fname, str);
 }
 
-
-/**
- * 
- * b - bad deps
- * d - deps
- * s - summary
- */
-export function show(parts: Parts, params = 'cr'): void
-{
-   if (params.includes('d')) {
-      console.log('\nDEPENDENCIES:\n');
-      showDeps(parts);
-   }
-   if (params.includes('b')) {
-      console.log('\nBAD DEPS:\n');
-      showBadDeps(parts);
-   }
-   if (params.includes('r')) {
-      console.log('\nSUMMARY:\n');
-      showSummary(parts);
-   }
+function summaryToString(parts: Parts) {
+   let res = parts.summary;
+   let str = `
+Concept number ${parts.concepts.length}
+Parts number ${res.count}
+Positive dist ${res.posDistance}
+Negative dist ${res.negDistance}
+Sum body size ${res.bodyLength}
+`;
+   return str;
 }
 
 
-function showDeps(parts: Parts) {
-   partsWithDeps(parts.parts);
-}
+
+///**
+// * 
+// * b - bad deps
+// * d - deps
+// * s - summary
+// */
+//function show(parts: Parts, params = 'cr'): void
+//{
+//   if (params.includes('d')) {
+//      console.log('\nDEPENDENCIES:\n');
+//      showDeps(parts);
+//   }
+//   if (params.includes('b')) {
+//      console.log('\nBAD DEPS:\n');
+//      showBadDeps(parts);
+//   }
+//   if (params.includes('r')) {
+//      console.log('\nSUMMARY:\n');
+//      showSummary(parts);
+//   }
+//}
 
 
-function showBadDeps(parts: Parts)
-{
-   const badParts = parts.parts.filter(p => p.sumOfInversions > 0);
-   if (badParts.length == 0) {
-      console.log("\nNo bad deps.");
-   } else {
-      partsWithDeps(badParts);
-   }
-}
-
-function partsWithDeps(parts: Part[]) {
-   let lectName = '';
-   for (const part of parts) {
-      // print lecture name
-      if (part.lectName !== lectName) {
-         lectName = part.lectName;
-         console.log(color.cian + '\n -------' + lectName + ' -------');
-      }
-
-      // print part id
-      let partMarkers = part.markers.join(' | ');
-      console.log(color.white + part.ordNo + '.' + part.id + '   ' + color.yellow, partMarkers);
+//function showDeps(parts: Parts) {
+//   partsWithDeps(parts.parts);
+//}
 
 
-      if (part.deps.length == 0)
-         console.log(color.green + '        - no deps');
+//function showBadDeps(parts: Parts)
+//{
+//   const badParts = parts.parts.filter(p => p.sumOfInversions > 0);
+//   if (badParts.length == 0) {
+//      console.log("\nNo bad deps.");
+//   } else {
+//      partsWithDeps(badParts);
+//   }
+//}
 
-      // print dependencies
-      for (let dep of part.deps) {
-         let distanceColor: string = dep.distance > 0 ? color.red : color.green;
-         let depOrdNo = dep.distance + part.ordNo;
-         console.log(`        ${color.white}${depOrdNo}.${dep.partId} ` +
-            color.yellow + dep.marker + ' ' +
-            distanceColor + dep.distance + color.white);
-      }
-   }
-}
+//function partsWithDeps(parts: Part[]) {
+//   let lectName = '';
+//   for (const part of parts) {
+//      // print lecture name
+//      if (part.lectName !== lectName) {
+//         lectName = part.lectName;
+//         console.log(color.cian + '\n -------' + lectName + ' -------');
+//      }
 
-function showSummary(parts: Parts) {
-   let res = parts.resume;
-   console.log('Concept number', parts.concepts.length);
-   console.log('Parts number  ', res.count);
-   console.log('Positive dist ', res.posDistance);
-   console.log('Negative dist ', res.negDistance);
-   console.log('Sum body size ', res.bodyLength);
-   console.log();
-}
+//      // print part id
+//      let partMarkers = part.markers.join(' | ');
+//      console.log(color.white + part.ordNo + '.' + part.id + '   ' + color.yellow, partMarkers);
+
+
+//      if (part.deps.length == 0)
+//         console.log(color.green + '        - no deps');
+
+//      // print dependencies
+//      for (let dep of part.deps) {
+//         let distanceColor: string = dep.distance > 0 ? color.red : color.green;
+//         let depOrdNo = dep.distance + part.ordNo;
+//         console.log(`        ${color.white}${depOrdNo}.${dep.partId} ` +
+//            color.yellow + dep.marker + ' ' +
+//            distanceColor + dep.distance + color.white);
+//      }
+//   }
+//}
+
+//function showSummary(parts: Parts) {
+//   let res = parts.summary;
+//   console.log('Concept number', parts.concepts.length);
+//   console.log('Parts number  ', res.count);
+//   console.log('Positive dist ', res.posDistance);
+//   console.log('Negative dist ', res.negDistance);
+//   console.log('Sum body size ', res.bodyLength);
+//   console.log();
+//}

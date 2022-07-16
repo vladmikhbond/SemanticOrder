@@ -5,7 +5,6 @@ import { Concept } from "./Concept.js";
 
 const PART_SEPAR: RegExp = /^@2\s*(.+)\r\n@@\s*(.+)/gm;   // \r\n
 
-
 const EMPTY_MARKERS = '-';
 
 export { Part, Parts }
@@ -150,7 +149,7 @@ class Parts
 
    // Resume of a lecture course
    //
-   public get resume() : Resume
+   public get summary() : Resume
    {
       let sum: Resume = { count: 0, posDistance: 0, negDistance: 0, bodyLength: 0 };
       for (const part of this.parts) {
