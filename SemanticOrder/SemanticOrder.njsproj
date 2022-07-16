@@ -65,7 +65,7 @@
     <Content Include="data\opr\07 Найбільший спільний дільник.txt" />
     <Content Include="data\opr\08 Функції.txt" />
     <Content Include="data\opr\09 Граматика функцій.txt" />
-    <Content Include="data\opr\10 Задача про кроликів.txt" />
+    <Content Include="data\opr\10 Виклики функцій з функцій.txt" />
     <Content Include="data\opr\11 Масиви.txt" />
     <Content Include="data\opr\12 Цикл for.txt" />
     <Content Include="data\opr\13 Методи масивів.txt" />
