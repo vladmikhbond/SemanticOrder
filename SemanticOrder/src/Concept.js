@@ -13,16 +13,12 @@ class Concept {
 }
 exports.Concept = Concept;
 // Виробляє регекс
-// Символам *\.'"-{}$^  передує бекслеш.
-// Заміни:
-//   space ->   \s+
-//   +     ->   \w{0,3}
-// Якщо маркер - слово, оточуємо його межами слова  \b
 //
 function marker2regex(marker) {
     const META = "-*/|\\.'\"{}$^()[]";
     const NON_ALPHA = "\\ $.=[_";
-    // stage 2 - insert '\' before META symbols
+    const LL = "цукенгшщзхїфівапролджєячсмитбю";
+    // stage 1 - insert '\' before META symbols
     let markerArray = [];
     for (let c of marker) {
         if (META.includes(c))
@@ -30,21 +26,24 @@ function marker2regex(marker) {
         markerArray.push(c);
     }
     ;
-    marker = markerArray.join('');
-    // stage 3 - replacement in regex
-    marker = marker
+    let marker1 = markerArray.join('');
+    // stage 2 - replacement in marker
+    let marker2 = marker1
         .replace(/\+/g, "\\w{0,3}") //        '+' -> '\w{0,3}'
         .replace(/\s/g, "\\s+") //      space -> '\s+'
         .replace(/ANYCHARS/g, ".+") // 'ANYCHARS' -> '.+'
-        .replace(/PLUS/g, "\\+") // 'PLUS' -> '\+'
-        .replace('VERBAR2', '\\|\\|') // 'VERBAR2' -> '\|\|'
-        .replace('VERBAR', '\\|'); // 'VERBAR' -> '\|'
-    ////////////////
-    if (!NON_ALPHA.includes(marker[0]))
-        marker = '\\W' + marker + '\\W';
-    ////////////////
-    return new RegExp(marker, "gm");
+        .replace(/PLUS/g, "\\+") //     'PLUS' -> '\+'
+        .replace('VERBAR2', '\\|\\|') //  'VERBAR2' -> '\|\|'
+        .replace('VERBAR', '\\|'); //   'VERBAR' -> '\|'
+    // stage 3 - add word bounds
+    const c0 = marker[0];
+    let marker3 = NON_ALPHA.includes(c0) ? marker2 : `\\W${marker2}\\W`;
+    if (LL.includes(c0)) {
+        let cC = '[' + c0 + '|' + c0.toUpperCase() + ']';
+        marker3 = marker3.replace(c0, cC);
+    }
+    return new RegExp(marker3, "gm");
 }
 // TEST ===============================
-// console.log(marker2regex("111+ 222+").toString());        //   \b111\w{0,3}\s+222\w{0,3}\b
+// console.log(marker2regex("111+ 222+").toString());       
 //# sourceMappingURL=Concept.js.map

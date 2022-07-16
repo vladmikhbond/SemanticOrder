@@ -24,6 +24,7 @@ export class Concept {
 function marker2regex(marker: string): RegExp {
    const META = "-*/|\\.'\"{}$^()[]";
    const NON_ALPHA = "\\ $.=[_";
+   const SMALL = "цукенгшщзхїфівапролджєячсмитбю";
 
    // stage 1 - insert '\' before META symbols
    let markerArray: string[] = [];
@@ -31,10 +32,10 @@ function marker2regex(marker: string): RegExp {
       if (META.includes(c)) markerArray.push('\\');
       markerArray.push(c);
    };
-   marker = markerArray.join('');
+   let marker1 = markerArray.join('');
 
    // stage 2 - replacement in marker
-   marker = marker
+   let marker2 = marker1
       .replace(/\+/g, "\\w{0,3}")      //        '+' -> '\w{0,3}'
       .replace(/\s/g, "\\s+")          //      space -> '\s+'
       .replace(/ANYCHARS/g, ".+")      // 'ANYCHARS' -> '.+'
@@ -43,10 +44,15 @@ function marker2regex(marker: string): RegExp {
       .replace('VERBAR', '\\|');       //   'VERBAR' -> '\|'
 
    // stage 3 - add word bounds
-   if (!NON_ALPHA.includes(marker[0]))  
-      marker = '\\W' + marker + '\\W'; 
+   const c0 = marker[0];
+   let marker3 = NON_ALPHA.includes(c0) ? marker2 : `\\W${marker2}\\W`; 
 
-   return new RegExp(marker, "gm");
+   if (SMALL.includes(c0)) {
+      let cC = '[' + c0 + '|' + c0.toUpperCase() + ']';
+      marker3 = marker3.replace(c0, cC);
+   }
+
+   return new RegExp(marker3, "gm");
 }
 
 
