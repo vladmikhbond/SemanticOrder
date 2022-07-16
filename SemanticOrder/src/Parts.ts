@@ -16,7 +16,7 @@ export { Part, Parts }
 type Temp = {
    index: number,
    name: string,
-   markers: string,
+   markersLine: string,
    start: number
 };
 
@@ -66,14 +66,15 @@ class Parts
 
       // 2-nd run: fill a part body
       for (let i = 0; i < ts.length - 1; i++) {
-         let markers = ts[i].markers.split('|');
-         if (ts[i].markers === EMPTY_MARKERS) {
+         let markers = ts[i].markersLine.split('|').filter(m => m.length > 0);
+         if (ts[i].markersLine === EMPTY_MARKERS) {
             markers = [];
          }
          let part = new Part(ts[i].name, markers);
          part.lectName = basename(lectFileName, 'txt');
          let line = text!.slice(ts[i].start, ts[i + 1].index).trim();
-         // cut of ignored part
+
+         // cut off ignored part
          let match = (/^@2/gm).exec(line);
          if (match) {
             line = line.slice(0, match.index);
@@ -97,14 +98,14 @@ class Parts
             ts.push({
                index: match.index,
                name: match[1], 
-               markers: match[2],
+               markersLine: match[2],
                start: match.index + match[0].length
             });
          } else {
             ts.push({
                index: text?.length!,
                name: "",
-               markers: "",
+               markersLine: "",
                start: -1
             });
          }
@@ -140,7 +141,7 @@ class Parts
                let distance = homePart.ordNo - part.ordNo;
                if (distance) {
                   part.deps.push({ partId: homePart.id, distance, marker: concept.marker });
-                  concept.dependantParts.push(part);
+                  concept.addDependantPart(part);
                }
             }
          }

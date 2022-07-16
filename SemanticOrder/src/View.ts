@@ -9,10 +9,10 @@ import { color } from "./utils.js";
  * s - summary
  */
 
-export function show(parts: Parts, params = 'cdbr'): void
+export function show(parts: Parts, params = 'cr'): void
 {
    if (params.includes('c')) {
-      console.log('CONCEPTS:\n');
+      //console.log('CONCEPTS:\n');
       showConcepts(parts);
    }
    if (params.includes('d')) {
@@ -76,11 +76,16 @@ function partsWithDeps(parts: Part[]) {
 
 function showConcepts(parts: Parts)
 {
-   for (const concept of parts.concepts) {
-      let t = concept.homeParts.map(p => `${p.ordNo}.${p.id} in  ${p.lectName.slice(0, 10)}`);
-      let ts = t.join(',');
-      console.log(`${concept.marker}~${concept.regexp}~${concept.homeParts.length}~${concept.dependantParts.length}~${ts}`);
+   console.log('concept~regex~home~home-lect~dep~dep-lect~badDist');
+
+   for (const c of parts.concepts) {
+      let partLects = c.homeParts.map(p => `${p.ordNo}.${p.id} (${p.lectName.slice(0, 15)})`).join(', ');
+      let dependLects = c.dependantParts.map(p => `${p.ordNo}.${p.id} (${p.lectName.slice(0, 15)})`).join(', ');
+      console.log(
+         `${c.marker}~${c.regexp}~${c.homeParts.length}~${partLects}~` +
+         `${c.dependantParts.length}~${dependLects}~${c.badDistance}`);
    }
+   console.log();
 
    //for (const concept of parts.concepts) {
    //   let markerColor = concept.homeParts.length > 1 ? color.white : color.yellow; 
