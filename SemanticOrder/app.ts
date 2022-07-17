@@ -1,9 +1,9 @@
 ﻿import { Parts } from './src/Parts.js';
-import { conceptsToFile } from "./src/View.js";
+import { toFiles } from "./src/View.js";
 
 
 const parts = new Parts('../data/opr/');
 
-conceptsToFile(parts, 'concepts.txt');
+toFiles(parts, 'excel_concepts.txt', 'excel_parts.txt');
 
 
