@@ -1,0 +1,85 @@
+@1 16 Текстовые файлы
+
+@3 Порядок работы с файлами: 
+1. Открыть файл (захватить ресурс ОС).
+2. Читать или писать в него.
+3. Закрыть файл (вернуть ресурс).
+
+@3 Файл можно рассматривать как поток байтов. 
+Это делает класс {FileStream}.
+
+@3 Файл можно рассматривать как поток символов.
+Это делают два абстрактных класса:
+[[text_file_classes.png]]
+
+
+@3 Методы класса TextReader: 
+{{
+public virtual string ReadLine();
+public virtual string ReadToEnd();
+public virtual int Read(ref char[] buffer, int index, int count);
+public virtual int Read();
+public virtual int Peek();  
+public virtual void Close(); 
+}}
+
+@3 Пример чтения. Задан файл, построчно вывести его на экран.  
+{{
+TextReader reader = new StreamReader("d:\\111.txt");    
+string line;
+while ((line = reader.ReadLine()) != null) {
+    Console.WriteLine(line);
+}
+reader.Close();    
+}}
+
+@3 Абстрактный класс TextWriter: 
+{{
+public virtual void Write(тип value);
+public virtual void WriteLine(тип value);
+public virtual void Write (string format,  params Object[] arg);
+public virtual void Flush();
+public virtual void Close(); 
+}}
+
+@3 Пример записи. Дан массив строк, сохранить его в текстовом файле.  
+{{
+string[] ss = { "aaaaa", "bbbbbb", "ccccccc" };
+
+TextWriter writer = new StreamWriter("d:\\111.txt");
+foreach (string s in ss) {
+    writer.WriteLine(s);
+}
+writer.Close();    
+}}
+
+@3 В данных примерах файл может и не закрыться, т.е. ресурс могут и не вернуть.
+
+
+@2 Кодировка символов
+
+@3 В конечном счете в файл попадают не символы, а байты.
+Способ перевода символов в байты и обратно определяется кодировкой.
+
+@3 Кодировку осуществляет экземпляр класса Encoder, который передается в объект StreamWriter. 
+{{
+string[] ss = { "привет", "медвед", "!!!!!" };
+using (TextWriter tw = 
+        new StreamWriter("111.txt", append: false, encoding: Encoding.GetEncoding("Windows-1251")))
+{
+    foreach (string s in ss)
+        tw.WriteLine(s);
+}    
+}}
+
+@2 Задачи
+
+@6 Класс ArrayReader | 1171
+
+
+
+
+
+
+
+

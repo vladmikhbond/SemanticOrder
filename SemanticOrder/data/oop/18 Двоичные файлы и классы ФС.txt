@@ -1,0 +1,75 @@
+@1 18 Двоичные файлы и классы ФС
+
+@2 Класс Stream
+
+@3 Двоичный файл - это поток байтов.
+API для работы с двоичными файлами предоставляет абстрктный класс System.IO.Stream.
+Там есть методы Read, Write, Seek.
+{{
+int Read(Byte[] buff, Int32 start, Int32 length)
+void Write(Byte[] buff, Int32 start, Int32 length)
+long Seek (long offset, System.IO.SeekOrigin origin); 
+}}
+
+@2 Класс FileStream
+
+@3 У класса Stream много потомков, и класс FileStream - один из них.
+Конструктор класса позволяет выбрать режим работы с файлом.
+{{
+public FileStream (
+    string path, 
+    System.IO.FileMode mode,       // как открывать: Append | Create | CreateNew | Open | OpenOrCreate | Trancate
+    System.IO.FileAccess access,   // допустимые операции: Read | ReadWrite | Write
+    System.IO.FileShare share,     // доступ для других: None | Read | Write | ReadWrite | Delete
+    int bufferSize, 
+    bool useAsync);
+}}
+
+@3 Класс StreamReader выполняет роль адаптера (переводит интерфейс Stream в интерфейс TextReader).
+{{
+FileStream stream = new FileStream("d:\\111.txt", FileMode.Open, FileAccess.Read, FileShare.Read);
+TextReader reader = new StreamReader(stream);
+}}
+
+@2 Классы файловой системы
+
+@3 Для работы с файловой системой служат три статических класса из пространства System.IO:  {File, Directory, Path}.
+
+@2 Класс File
+
+@3 bool Exists(имя_файла) - определяет, существует ли заданный файл.
+@3 Delete(имя_файла) - удаляет файл.
+@3 Copy(имя_старого_файла, имя_нового_файла) - копирует существующий файл в новый файл. 
+
+@2 Класс Directory
+
+@3 CreateDirectory(имя_папки) - создает все каталоги и подкаталоги по указанному пути.
+
+@3 Delete(имя_папки, bool recursive) - удаляет заданный каталог и, возможно, все подкаталоги и файлы в нем.
+
+@3 Exists(имя_папки) - определяет, указывает ли заданный путь на существующий каталог на диске.
+
+@3 GetCurrentDirectory(имя_папки) - получает текущий рабочий каталог приложения.
+
+@3 string[] GetDirectories(имя_папки) - получает имена подкаталогов (включая их пути) в заданном каталоге.
+
+@3 string[] GetFiles(имя_папки) - возвращает имена файлов (с указанием пути к ним) в заданном каталоге.
+
+@3 Move(имя_папки-источника, имя_папки-приемника) - перемещает файл или каталог со всем его содержимым в новое местоположение.
+
+
+@5 Список Файлов | Распечатать имена каталогов и файлов из заданного каталога.
+{{
+foreach (string dname in Directory.GetDirectories("d:"))
+{
+    Console.WriteLine("DIR: " + dname);
+}
+foreach (string fname in Directory.GetFiles("d:"))
+{
+    Console.WriteLine(fname);
+}
+}}
+
+@5 Дерево Файлов | Распечатать дерево файлов и каталогов для заданного каталога.
+
+

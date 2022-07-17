@@ -37,9 +37,12 @@ Sum body size ${res.bodyLength}
 }
 
 export function toFiles(parts: Parts, fileConcepts, fileParts): void {
-   const conceptStr = conceptsToString(parts) + summaryToString(parts);
+   const summary = summaryToString(parts);
+   const conceptStr = conceptsToString(parts) + summary;
    writeFileSync(fileConcepts, conceptStr);
    const partStr = partsToString(parts);
    writeFileSync(fileParts, partStr);
+
+   console.log(summary);
 }
 

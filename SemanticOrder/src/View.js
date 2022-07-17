@@ -32,10 +32,12 @@ Sum body size ${res.bodyLength}
     return str;
 }
 function toFiles(parts, fileConcepts, fileParts) {
-    const conceptStr = conceptsToString(parts) + summaryToString(parts);
+    const summary = summaryToString(parts);
+    const conceptStr = conceptsToString(parts) + summary;
     (0, fs_1.writeFileSync)(fileConcepts, conceptStr);
     const partStr = partsToString(parts);
     (0, fs_1.writeFileSync)(fileParts, partStr);
+    console.log(summary);
 }
 exports.toFiles = toFiles;
 //# sourceMappingURL=View.js.map

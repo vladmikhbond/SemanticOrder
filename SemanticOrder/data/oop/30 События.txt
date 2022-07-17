@@ -1,0 +1,131 @@
+@1 30 События
+
+@3 События - это полезная метафора.
+Имеется объект - источник событий.
+Имеются функции, которые подписаны на этот вид событий (слушатели события).
+Когда происходит событие, вызываются все функции, подписанные на это событие.
+[[events.png]]
+
+@3 Источник событий имеет список ссылок на слушателей, который первоначально пуст.
+Подписка состоит в  том, что в список добавляется ссылка на функцию, "отписка" - в том, что ссылка на функцию удаляется из списка.
+
+@2 События в C#
+
+@3 Поддержка событий в языке С# заключается в том, что есть специальный член класса - event.
+Тип event'a - делегат.
+
+@3 С event'ом можно выполнять три операции:
+- подписку,
+- отписку,
+- вызов (только из определения класса).
+
+@2 Пример. Коллекция с событиями
+
+@3 Имеется коллекция, в которую можно добавлять и удалять элементы.
+{{
+public class MyList<T> : List<T>  {   }
+}}
+
+@3 Коллекция издает событие Changed, когда ее содержимое меняется.
+{{
+public class MyList<T> : List<T>
+{
+    public event Action<T> Changed;
+
+    public new void Add(T item)
+    {
+        base.Add(item);
+        Changed?.Invoke(item);
+    }
+ 
+   //public new void Remove(T item) { ... }
+}
+
+}}
+
+
+@3 В приложении создадим коллекцию книг 
+{{
+class Book
+{
+    public string Title { set; get; }
+}
+
+class Application
+{
+    static void Main()
+    {
+        MyList<Book> books = new MyList<Book>();
+        // ...       
+    }
+}
+}}
+
+@3 ... и добавим слушателя события Changed.
+{{
+books.Changed += book => {
+    Console.WriteLine($" {book.Title} / {books.Count}");
+};
+
+// --- проверка ---
+Console.ReadLine();
+books.Add(new Book { Title = "aaaa" });
+Console.ReadLine();
+books.Add(new Book { Title = "bbbb" });
+Console.ReadLine();
+books.Add(new Book { Title = "cccc" });
+}}
+
+@2 Метод OnChange
+
+@3 Обычно событие Xxx возбуждается в специальном методе OnXxx().
+{{
+public void OnChanged(T item)
+{
+    Changed?.Invoke(item);
+}
+}}
+
+@3 Это позволяет выбирать способ обработки события 
+между наследованием и делегированием.
+
+@2 Информация о событии
+
+@3 В обработчик передается информация о событии. 
+В нашем случае это удаленная или добавленная книга.
+
+@2 Отписка
+
+@3 Отписаться от события можно операцией -=
+{{
+static void Main()
+{
+    MyList<Book> books = new MyList<Book>();
+
+    void changeHandler(Book book)
+    {
+        Console.WriteLine($" {book.Title} / {books.Count}");
+    }
+  
+    // --- подписка ---
+    books.Changed += changeHandler;
+
+    Console.ReadLine();
+    books.Add(new Book { Title = "aaaa" });
+
+    // --- отписка ---
+    books.Changed -= changeHandler;
+
+    Console.ReadLine();
+    books.Add(new Book { Title = "bbbb" });
+}
+}}
+
+@2 Задачи
+
+
+@6 События Создания и Удаления  | 227
+@6 Событие Простое Число  | 228
+@6 Класс с Событием Bang  | 647
+
+

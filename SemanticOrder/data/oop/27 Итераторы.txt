@@ -1,0 +1,82 @@
+@1 27 Итераторы
+
+@2 Интерфейсы IEnumerable и IEnumerator
+
+@3 [[CollectionInterfaces.png]]
+
+@3 Любая обобщенная коллекция реализует интерфейс {IEnumerable<T>}, 
+который имеет единственный метод
+{{
+   IEnumerator<T> GetEnumerator();
+}}
+
+@3 Объект, возвращаемый методом GetEnumerator(), называется {итератор} и служит для прохождения коллекции.
+
+@3 Итератор реализует интерфейс {IEnumerator<T>}, дающий инструменты для этого.
+{{
+public interface IEnumerator<out T> : IDisposable, IEnumerator 
+{
+    T Current { get; }
+    bool MoveNext();    // false, когда дальше ехать некуда
+    void Reset();
+}
+}}
+
+@2 Пример итератора
+
+@3 Снабдим итератором список List из раздела "Связанные списки".
+Для простоты будем рассматривать не обобщенную коллекцию, а коллекцию объектов.
+{{
+class ListNode
+{
+    public object Value;
+    public ListNode Next;
+}
+
+class MyList //: IEnumerable
+{
+    public ListNode Head { get; private set; }
+
+    public void Add(object value)
+    {
+        Head = new ListNode { Value = value, Next = Head };
+    }
+}
+}}
+
+@3 Класс итератора назовем ListIterator.
+Итератор коллекции должен получить в конструкторе ссылку на коллекцию
+{{
+class ListIterator : IEnumerator
+{
+    MyList _list;
+    ListNode _node;
+
+    public ListIterator(MyList list)
+    {
+        _list = list;
+        _node = new ListNode { Next = _list.Head };
+    }
+
+    public object Current => _node.Value;
+
+    public bool MoveNext()
+    {
+        if (_node != null)
+            _node = _node.Next;
+        return _node != null;
+    }
+
+    public void Reset() {  }
+}
+}}
+
+@3 Теперь коллекцию MyList можно проходить в цикле foreach
+{{
+MyList list = new MyList();
+list.Add(1); list.Add(2); list.Add(3);
+foreach (var t in list)
+    Console.WriteLine(t);
+}}
+
+

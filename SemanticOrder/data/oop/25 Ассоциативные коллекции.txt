@@ -1,0 +1,56 @@
+@1 25 Ассоциативные коллекции
+
+@3 В ассоциативной коллекции каждый элемент ассоциируется не с порядковым номером, 
+а с ключом – уникальным для коллекции значением. 
+
+@3 Возможности коллекции определяется ее интерфейсом. 
+Интерфейсы коллекций .NET:
+[[CollectionInterfaces.png]]
+
+@2 Интерфейс IDictionary<TKey, TValue>
+
+@3 Элементом словаря является пара (ключ, значение). 
+{{
+public struct KeyValuePair<TKey, TValue>
+{
+    public KeyValuePair(TKey k, TValue v);
+    public TKey Key { get; }
+    public TValue Value { get; }
+    public override string ToString();
+}
+}}
+
+@3 Словарь - это коллекция пар. 
+{{
+public interface IDictionary<TKey, TValue>: 
+        ICollection< KeyValuePair<TKey, TValue> >
+{
+    ICollection<TKey> Keys { get; }
+    ICollection<TValue> Values { get; }
+
+    TValue this[TKey key] { get; set; }
+
+    void Add(TKey key, TValue value);
+    bool ContainsKey(TKey key);
+    bool Remove(TKey key);
+    bool TryGetValue(TKey key, out TValue value);
+}   
+}}
+
+@2 Класс Dictionary<TKey, TValue> 
+
+@3 Интерфейс IDictionary реализуется классом {Dictionary<TKey, TValue>} .
+
+@3 Временная сложность операций (List vs Dictionary)
+{{
+//                      List      Dict
+Пополнение              O(1)      O(1)     
+Поиск по индексу        O(1)      O(1)     
+Вставка                 O(n)      O(1)     
+Удаление                O(n)      O(1)     
+Поиск по значению       O(n)      O(n)     
+}}
+
+
+
+

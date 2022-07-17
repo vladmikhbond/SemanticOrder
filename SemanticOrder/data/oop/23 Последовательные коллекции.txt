@@ -1,0 +1,75 @@
+@1 23 Последовательные коллекции
+
+@3 В последовательной коллекции каждый элемент характеризуется порядковым номером, нумерация начинается с 0.
+
+@3 Последовательные коллекции реализуют интерфейс {IList<T>}. 
+
+@2 Интерфейс IList<T>
+
+@3 В {IList<T>} собраны операции с индексами. 
+{{
+public interface IList<T> : ICollection<T>
+{
+    T this[int index] { get; set; }
+
+    void Insert(int index, T item);
+    void RemoveAt(int index);
+    int IndexOf(T item);
+}
+}}
+
+@3 Более общие операции собраны в {ICollection<T>}.   
+{{
+public interface ICollection<T> : IEnumerable<T>
+{
+    bool IsReadOnly { get; }
+    void Add(T item);
+    bool Remove(T item);
+    bool Contains(T item);
+    void Clear();
+    void CopyTo(T[] array, int arrayIndex);
+}
+}}
+
+@2 Коллекция List<T>
+
+@3 Коллекция {List<T>} построена на базе массива. 
+{{
+List<Point> list = new List<Point>();
+
+list.Add(new Point { X = 3, Y = 3 });
+list.Add(new Point { X = 2, Y = 4 });
+
+list.Sort();
+
+foreach (var p in list)
+    Console.WriteLine(p.X);  
+}}
+
+@3 Класс {List<T>} может добавлять к интерфейсу {IList<T>} собственные возможности,
+присущие структуре данных, лежащей в основе класса.
+{{
+void AddRange(otherCollection);
+int BinarySearch(T item);
+T[] ToArray(); 
+void Sort();
+}}
+
+@3 Благодаря индексатору, коллекцию можно проходить, как массив.  
+{{
+for (int i = 0; i < col.Count; i++) 
+    Console.WriteLine(col[i]);   
+}}
+
+@3 Благодаря интерфейсу IEnumerable{<}T>, коллекцию можно пройти в цикле foreach. 
+{{
+foreach (var v in col) 
+    Console.WriteLine(v);   
+}}
+
+@2 Задачи
+
+@6 Коллекция Индексов  | 207
+@6 Подсчет Уникальных  | 208
+@6 Вычитание Коллекций  | 209
+@6 Ограниченная Коллекция  | 213
