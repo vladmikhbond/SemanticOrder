@@ -6,6 +6,7 @@ const utils_js_1 = require("./utils.js");
 const Part_js_1 = require("./Part.js");
 Object.defineProperty(exports, "Part", { enumerable: true, get: function () { return Part_js_1.Part; } });
 const Concept_js_1 = require("./Concept.js");
+const os_1 = require("os");
 const PART_SEPAR = /^@2\s*(.+)\r\n@@\s*(.+)/gm; // \r\n
 const EMPTY_MARKERS = '-';
 ;
@@ -19,14 +20,26 @@ class Parts {
         this.fillConcepts();
         this.findDeps();
     }
+    createPrologPart() {
+        let fname = this.lectDir + "_prolog.txt";
+        let text = (0, utils_js_1.bufferFile)(fname);
+        let markers = text.split(os_1.EOL);
+        markers = markers
+            .map(m => m.trim().slice(0, -1))
+            .filter(m => m != '');
+        let part = new Part_js_1.Part("Prolog", markers);
+        part.lectName = "_prolog";
+        part.ordNo = 0;
+        return part;
+    }
     // Get part bodies from a lecture dir
     //
     partsFromAllLects() {
         var _a;
-        this.parts = [];
+        this.parts = [this.createPrologPart()];
         const fileNames = (_a = (0, utils_js_1.bufferDir)(this.lectDir)) === null || _a === void 0 ? void 0 : _a.sort();
         // bodies
-        fileNames === null || fileNames === void 0 ? void 0 : fileNames.forEach(fname => this.bodyFromOneLect(this.lectDir + fname));
+        fileNames === null || fileNames === void 0 ? void 0 : fileNames.forEach(fname => this.partsFromOneLect(this.lectDir + fname));
         // ordNos
         this.parts.forEach((p, i) => p.ordNo = i);
     }
@@ -35,7 +48,7 @@ class Parts {
     //    @2 Версії JS 
     //    @@ ECMAScript|ES2015|ES6|ES
     //
-    bodyFromOneLect(lectFileName) {
+    partsFromOneLect(lectFileName) {
         let text = (0, utils_js_1.bufferFile)(lectFileName);
         // 1-st run
         let ts = this.doTemps(text);

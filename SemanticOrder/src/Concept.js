@@ -4,10 +4,12 @@ exports.Concept = void 0;
 // Поняття і частини, де воно визначається
 //
 class Concept {
-    constructor(marker, homePart) {
-        this.marker = marker;
+    constructor(markerStr, homePart) {
+        this.marker = markerStr;
         this.homeParts = [homePart];
-        this.regexp = Concept.marker2regex(marker);
+        let ms = markerStr.split(';');
+        let v = ms.map(m => Concept.marker2regex(m)).join('|');
+        this.regexp = new RegExp(v, "gm");
         // fill later
         this.dependantParts = [];
         this.badDistance = 0;
@@ -41,7 +43,8 @@ class Concept {
             .replace(/ANYCHARS/g, ".+") // 'ANYCHARS' -> '.+'
             .replace(/PLUS/g, "\\+") //     'PLUS' -> '\+'
             .replace('VERBAR2', '\\|\\|') //  'VERBAR2' -> '\|\|'
-            .replace('VERBAR', '\\|'); //   'VERBAR' -> '\|'
+            .replace('VERBAR', '\\|') //   'VERBAR' -> '\|'
+            .replace('SEMICOLON', ';'); //'SEMICOLON' -> ';'
         // stage 3 - add word bounds
         const c0 = marker[0];
         let marker3 = NON_ALPHA.includes(c0) ? marker2 : `\\W${marker2}\\W`;
@@ -49,7 +52,7 @@ class Concept {
             let cC = '[' + c0 + '|' + c0.toUpperCase() + ']';
             marker3 = marker3.replace(c0, cC);
         }
-        return new RegExp(marker3, "gm");
+        return marker3;
     }
 }
 exports.Concept = Concept;

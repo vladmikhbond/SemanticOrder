@@ -9,10 +9,14 @@ export class Concept {
    dependantParts: Part[];
    badDistance: number;
 
-   constructor(marker: string, homePart: Part) {
-      this.marker = marker;
+   constructor(markerStr: string, homePart: Part) {
+      this.marker = markerStr;
       this.homeParts = [homePart];
-      this.regexp = Concept.marker2regex(marker);
+
+      let ms = markerStr.split(';')
+      let v = ms.map(m => Concept.marker2regex(m)).join('|');
+      this.regexp = new RegExp(v, "gm");
+
       // fill later
       this.dependantParts = [];
       this.badDistance = 0;
@@ -28,7 +32,7 @@ export class Concept {
 
    // Виробляє регекс
    //
-   static marker2regex(marker: string): RegExp {
+   static marker2regex(marker: string): string {
       const META = "-*/|\\.'\"{}$^()[]";
       const NON_ALPHA = "\\ $.=[_";
       const SMALL = "цукенгшщзхїфівапролджєячсмитбю";
@@ -48,7 +52,8 @@ export class Concept {
          .replace(/ANYCHARS/g, ".+")      // 'ANYCHARS' -> '.+'
          .replace(/PLUS/g, "\\+")         //     'PLUS' -> '\+'
          .replace('VERBAR2', '\\|\\|')    //  'VERBAR2' -> '\|\|'
-         .replace('VERBAR', '\\|');       //   'VERBAR' -> '\|'
+         .replace('VERBAR', '\\|')        //   'VERBAR' -> '\|'
+         .replace('SEMICOLON', ';');      //'SEMICOLON' -> ';'
 
       // stage 3 - add word bounds
       const c0 = marker[0];
@@ -59,7 +64,7 @@ export class Concept {
          marker3 = marker3.replace(c0, cC);
       }
 
-      return new RegExp(marker3, "gm");
+      return marker3;
    }
 
 }

@@ -10,7 +10,7 @@ export type Dep = {
 export class Part {
    id: string;
    markers: string[];
-   body: string;
+   body: string = '';
    deps: Dep[] = [];
    lectName: string;
    ordNo: number;

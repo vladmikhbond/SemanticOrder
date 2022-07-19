@@ -55,10 +55,11 @@
     <Content Include="data\js\23 Класи.txt" />
     <Content Include="data\js\24 Cпадкування класів.txt" />
     <Content Include="data\js\26 Домішки.txt" />
-    <Content Include="data\oop\01 Введение.txt" />
-    <Content Include="data\oop\02 Конструкции управления.txt" />
-    <Content Include="data\oop\03 Массивы.txt" />
-    <Content Include="data\oop\04 Нечисловые типы данных.txt" />
+    <Content Include="data\oop\_prolog.txt" />
+    <Content Include="data\oop\01 Вступ.txt" />
+    <Content Include="data\oop\02 Конструкції управління.txt" />
+    <Content Include="data\oop\03 Масиви.txt" />
+    <Content Include="data\oop\04 Нечислові типи даних.txt" />
     <Content Include="data\oop\05 Строки.txt" />
     <Content Include="data\oop\06 Структуры.txt" />
     <Content Include="data\oop\07 Основные понятия ООП.txt" />

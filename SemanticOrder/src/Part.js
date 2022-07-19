@@ -5,6 +5,7 @@ exports.Part = void 0;
 //
 class Part {
     constructor(id, markers) {
+        this.body = '';
         this.deps = [];
         this.id = id;
         this.markers = markers;

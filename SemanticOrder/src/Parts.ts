@@ -2,6 +2,7 @@
 import { bufferFile, bufferDir } from "./utils.js";
 import { Part} from "./Part.js";
 import { Concept } from "./Concept.js";
+import { EOL } from "os";
 
 const PART_SEPAR: RegExp = /^@2\s*(.+)\r\n@@\s*(.+)/gm;   // \r\n
 
@@ -28,6 +29,7 @@ class Parts
    parts: Part[];
    concepts: Concept[];
    lectDir: string;
+   
 
    // Load markers from 'markers.txt'
    //
@@ -39,13 +41,29 @@ class Parts
       this.findDeps();
    }
 
+   createPrologPart(): Part {
+      let fname = this.lectDir + "_prolog.txt";
+      let text: string | null = bufferFile(fname);
+      let markers = text!.split(EOL);
+      markers = markers
+         .map(m => m.trim().slice(0, -1))
+         .filter(m => m != '');
+
+      let part = new Part("Prolog", markers);
+      part.lectName = "_prolog";
+      part.ordNo = 0;
+      return part;
+   }
+
    // Get part bodies from a lecture dir
    //
-   private partsFromAllLects() {
-      this.parts = [];
+   private partsFromAllLects()
+   {
+      this.parts = [this.createPrologPart()];
+      
       const fileNames = bufferDir(this.lectDir)?.sort();
       // bodies
-      fileNames?.forEach(fname => this.bodyFromOneLect(this.lectDir + fname));
+      fileNames?.forEach(fname => this.partsFromOneLect(this.lectDir + fname));
       // ordNos
       this.parts.forEach((p, i) => p.ordNo = i)
    }
@@ -56,7 +74,7 @@ class Parts
    //    @2 Версії JS 
    //    @@ ECMAScript|ES2015|ES6|ES
    //
-   private bodyFromOneLect(lectFileName: string) {
+   private partsFromOneLect(lectFileName: string) {
       let text: string | null = bufferFile(lectFileName);
 
       // 1-st run
