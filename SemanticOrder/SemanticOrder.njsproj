@@ -60,11 +60,11 @@
     <Content Include="data\oop\02 Конструкції управління.txt" />
     <Content Include="data\oop\03 Масиви.txt" />
     <Content Include="data\oop\04 Нечислові типи даних.txt" />
-    <Content Include="data\oop\05 Строки.txt" />
-    <Content Include="data\oop\06 Структуры.txt" />
-    <Content Include="data\oop\07 Основные понятия ООП.txt" />
-    <Content Include="data\oop\08 Инкапсуляция.txt" />
-    <Content Include="data\oop\09 Свойства и индексаторы.txt" />
+    <Content Include="data\oop\05 Рядки.txt" />
+    <Content Include="data\oop\06 Структури.txt" />
+    <Content Include="data\oop\07 Основні поняття ООП.txt" />
+    <Content Include="data\oop\08 Інкапсуляція.txt" />
+    <Content Include="data\oop\09 Властивості та індексатори.txt" />
     <Content Include="data\oop\10 Наследование.txt" />
     <Content Include="data\oop\11 Классы и подклассы.txt" />
     <Content Include="data\oop\12 Виртуальные методы.txt" />

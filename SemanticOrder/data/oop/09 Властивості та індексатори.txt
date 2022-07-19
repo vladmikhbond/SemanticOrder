@@ -1,0 +1,153 @@
+@1 09 Властивості та індексатори
+
+@2 Властивості
+@@ властивіст+;властивост+|аксесор;accessor|set|get
+
+@3 Властивості поєднують переваги методів доступу зі зручністю полів.
+
+@3 Приклад - клас з властивостями.
+{{
+class Rectangle
+{
+    private int width;
+    private int height;
+
+    public int Height {
+        get { return height; } // get accessor
+        set {height=value; } // set accessor
+    }
+
+    public int Width {
+        get { return width; }
+        set {width=value; }
+    }
+}
+}}
+
+@3 У першому наближенні властивість це пара методів - для читання і для запису значення властивості.
+Для клієнта класу властивості виглядають як поля.
+
+@3 Властивості "тільки для читання" мають лише get-аксесор.
+{{
+class Rectangle
+{
+    int width;
+    int height;
+
+    public int Width {
+        get { return width; }
+    }
+ 
+    public int Height {
+        get { return height; }
+    }
+}
+}}
+
+@6 Клас із властивостями | 833
+
+@3 Властивість не повинна базуватися на полі. 
+Приклади - Array.Length або DateTime.Now.
+
+@2 Автоматичні властивості
+@@ автоматичн+ властивість;автоматичн+ властивост+
+
+@3 Автоматична властивість спирається на приховане поле, до якого немає безпосереднього доступу.
+{{
+class Rectangle
+{
+    public int Width {set; get; }
+    public int Height {set; get; }
+}
+}}
+
+@3 Щоб оголосити автоматичну властивість "тільки для читання", потрібно знизити рівень доступу до set-аксесору.
+{{
+class Rectangle
+{
+    public int Width {private set; get; }
+    public int Height {private set; get; }
+}
+}}
+
+@3 Автоматичну властивість можна ініціалізувати під час оголошення.
+{{
+public int Width {private set; get; } = 10;
+}}
+
+@2 Індексатори
+@@ індексатор+
+
+@3 Індексатор – це безіменна властивість із параметрами.
+На відміну від звичайної властивості, індексатор не має власного імені і оголошується за допомогою слова this.
+
+@3 Приклад. Клас Word інкапсулює масив символів.
+{{
+class Word
+{
+    char[] cs;
+
+    public Word(string s) {
+       cs = s.ToCharArray();
+    }
+
+    public char this[int i]
+    {
+        set { cs[i] = value; }
+        get {return cs[i]; }
+    }
+}
+}}
+
+@2 Приклад - колекція рядків
+@@ -
+
+@3 Масиви мають недолік - жорсткі межі.
+Оголосимо клас {StringCollection}, який поводиться як необмежений масив рядків.
+
+@3 Таке можливе, якщо прозоро для клієнта підмінювати поточний масив новим, більшої ємкості.
+
+@3 Клас StringCollection повинен відкривати клієнту:
+- властивість Count - поточна кількість елементів колекції (тільки для читання),
+- метод Add(string) - для додавання елемента до масиву,
+- індексатор - для читання та перезапису елементів.
+
+@3 Конструктор повинен створювати порожній масив фіксованого розміру.
+{{
+public class StringCollection
+{
+    private const int INIT_CAPACITY = 10;
+    private string[] arr;
+    public int Count { private set; get; }
+
+    public StringCollection() {
+        arr=new string[INIT_CAPACITY];
+        Count = 0;
+    }
+}
+}}
+
+@3 Метод Add.
+{{
+    public void Add(string s) {
+        if (Count == arr.Length)
+            Extend();
+        arr[Count++] = s;
+    }
+}}
+ 
+@3 Індексатор.
+{{
+    public string this[int i] {
+        set { arr [i] = value; }
+        get { return arr [i]; }
+    }
+}}
+
+@6 Колекція Рядок | 834
+
+@2 Завдання
+
+@6 Дивний Індексатор | 189
+@6 Грунтовний прямокутник | 190
+@6 Нова Колекція Рядок | 188
