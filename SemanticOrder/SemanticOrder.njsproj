@@ -65,10 +65,10 @@
     <Content Include="data\oop\07 Основні поняття ООП.txt" />
     <Content Include="data\oop\08 Інкапсуляція.txt" />
     <Content Include="data\oop\09 Властивості та індексатори.txt" />
-    <Content Include="data\oop\10 Наследование.txt" />
-    <Content Include="data\oop\11 Классы и подклассы.txt" />
-    <Content Include="data\oop\12 Виртуальные методы.txt" />
-    <Content Include="data\oop\13 Полиморфизм наследования.txt" />
+    <Content Include="data\oop\10 Спадкування.txt" />
+    <Content Include="data\oop\11 Класи та підкласи.txt" />
+    <Content Include="data\oop\12 Віртуалні методи.txt" />
+    <Content Include="data\oop\13 Поліморфізм спадкування.txt" />
     <Content Include="data\oop\14 Эквивалентность в DOT NET.txt" />
     <Content Include="data\oop\15 Исключения.txt" />
     <Content Include="data\oop\16 Текстовые файлы.txt" />

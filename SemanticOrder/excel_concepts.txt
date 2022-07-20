@@ -14,6 +14,7 @@ VERBAR2 	/\W\|\|\s+\W/gm	1	0.Prolog (_pro)	0		0
 функці+	/\W[ф|Ф]ункці\w{0,3}\W/gm	1	0.Prolog (_pro)	3	1.ООП і класи (01 В); 5.Файл Program.cs (01 В); 10.Функції (02 К)	0
 параметр+	/\W[п|П]араметр\w{0,3}\W/gm	1	0.Prolog (_pro)	4	21.Методи структури (06 С); 22.Конструктор копіювання (06 С); 24.Мова Smalltalk (07 О); 26.Приклад класу - Turtle (07 О)	0
 аргумент+	/\W[а|А]ргумент\w{0,3}\W/gm	1	0.Prolog (_pro)	0		0
+сигнатур+	/\W[с|С]игнатур\w{0,3}\W/gm	1	0.Prolog (_pro)	0		0
 побічн+ ефект+	/\W[п|П]обічн\w{0,3}\s+ефект\w{0,3}\W/gm	1	0.Prolog (_pro)	0		0
 област+ видимості	/\W[о|О]бласт\w{0,3}\s+видимості\W/gm	1	0.Prolog (_pro)	0		0
 \n	/\\n/gm	1	0.Prolog (_pro)	1	16.Рядкові літерали (05 Р)	0
@@ -82,9 +83,9 @@ this	/\Wthis\W/gm	1	21.Методи структури (06 С)	2	22.Констр
 повідомленн+	/\W[п|П]овідомленн\w{0,3}\W/gm	1	23.Ідея ООП (07 О)	2	24.Мова Smalltalk (07 О); 25.Мова Simula (07 О)	0
 Smalltalk	/\WSmalltalk\W/gm	1	24.Мова Smalltalk (07 О)	0		0
 Simula	/\WSimula\W/gm	1	25.Мова Simula (07 О)	0		0
-- private	/\W\-\s+private\W/gm	1	26.Приклад класу - Turtle (07 О)	0		0
+private	/\Wprivate\W/gm	1	26.Приклад класу - Turtle (07 О)	0		0
 
-Concept number 84
+Concept number 85
 Parts number 27
 Positive dist 0
 Negative dist 1150

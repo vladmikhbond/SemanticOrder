@@ -1,5 +1,5 @@
 OrdNo	PartId	LectName	Home	Deps	SumBad
-0	Prolog	_prolog	27	0	0
+0	Prolog	_prolog	28	0	0
 1	ООП і класи	01 Вступ.	1	4	0
 2	Платформа .NET	01 Вступ.	4	2	0
 3	CLI	01 Вступ.	2	1	0

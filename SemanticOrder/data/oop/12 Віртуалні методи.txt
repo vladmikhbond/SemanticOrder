@@ -1,0 +1,92 @@
+@1 12 Віртуальні методи
+
+@2 Віртуальні методи
+@@ віртуальн+|virtual|override
+
+@3 Поведінка віртуальних методів відрізняється від звичайних (не віртуальних),
+і це відкриває нові можливості для програмування.
+
+@3 Повернемося до прикладу, 
+коли клас ColoredPoint успадковує Point і перевизначає його метод Info().
+{{
+class Point
+{
+    public int X {set; get; }
+    public int Y {set; get; }
+    
+    public string Info() {
+        return $"Point: x={X}, y={Y}";
+    }
+}
+
+class ColoredPoint : Point
+{
+    public int Color {set; get; }
+
+    public new string Info() {
+        return $"ColoredPoint: x={X}, y={Y}, color={Color}";
+    }
+}
+}}
+
+@3 Те, який з двох методів Info() буде викликаний на об'єкті,
+залежить від оголошеного типу об'єкта.
+{{
+Point cp = new ColoredPoint {X = 1, Y = 2, Color = 3};
+Console.WriteLine(cp.Info());   // надрукує: Point: x=1, y=2
+}}
+
+@3 Віртуальними називають такі методи, 
+виклик яких залежить не від оголошеного, а від справжнього типу об'єкта.
+Зробимо метод Info() віртуальним.
+{{
+class Point
+{
+    public int X {set; get; }
+    public int Y {set; get; }
+    
+    public virtual string Info() {
+        return $"Point: x={X}, y={Y}";
+    }
+}
+
+class ColoredPoint : Point
+{
+    public int Color {set; get; }
+
+    public override string Info() {
+        return $"ColoredPoint: x={X}, y={Y}, color={Color}";
+    }
+}
+}}
+
+@3 Перша версія віртуального методу позначається словом virtual, 
+всі версії в нащадках - словом override.
+{{
+Point cp = new ColoredPoint {X = 1, Y = 2, Color = 3};
+Console.WriteLine(cp.Info());   // надрукує: ColoredPoint: x=1, y=2, color=3
+}}
+
+
+@3 Додамо до класу Point метод Print()
+і він буде викликати Info відповідно до справжнього типу посилання this.
+{{
+public void Print()
+{
+    Console.WriteLine(this.Info());
+}
+}}
+
+
+@2 Як реалізується віртуальність
+@@ ранн+ зв'язуванн+|пізн+ зв'язуванн+
+
+@3 {Зв'язування} – у виклику методу його ім'я замінюється адресою методу в памяті.
+
+@3 {Раннє зв'язування} – заміна відбувається під час компіляції.
+
+@3 {Пізнє зв'язування} – заміна відбувається під час виконання.
+
+@3 Звичайні методи зазнають раннього зв'язування.
+Віртуальні методи зазнають пізнього зв'язування.
+Тому виклик звичайних методів відбувається швидше.
