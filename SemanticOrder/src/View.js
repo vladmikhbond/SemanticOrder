@@ -23,11 +23,11 @@ function partsToString(parts) {
 function summaryToString(parts) {
     let res = parts.summary;
     let str = `
-Concept number ${parts.concepts.length}
-Parts number ${res.count}
-Positive dist ${res.posDistance}
-Negative dist ${res.negDistance}
-Sum body size ${res.bodyLength}
+ Concept number:      ${parts.concepts.length}
+ Parts number:        ${res.count}
+ Positive count/dist: ${res.posCount}/${res.posDistance}
+ Negative count/dist: ${res.negCount}/${res.negDistance}
+ Sum body size:       ${res.bodyLength}
 `;
     return str;
 }

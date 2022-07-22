@@ -130,15 +130,17 @@ class Parts {
     // Resume of a lecture course
     //
     get summary() {
-        let sum = { count: 0, posDistance: 0, negDistance: 0, bodyLength: 0 };
+        let sum = { count: 0, posCount: 0, posDistance: 0, negCount: 0, negDistance: 0, bodyLength: 0 };
         for (const part of this.parts) {
             sum.bodyLength += part.body.length;
             sum.count++;
             for (let dep of part.deps) {
                 if (dep.distance > 0) {
+                    sum.posCount++;
                     sum.posDistance += dep.distance;
                 }
                 else {
+                    sum.negCount++;
                     sum.negDistance += -dep.distance;
                 }
             }
