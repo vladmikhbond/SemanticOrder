@@ -55,6 +55,7 @@
     <Content Include="data\js\23 Класи.txt" />
     <Content Include="data\js\24 Cпадкування класів.txt" />
     <Content Include="data\js\26 Домішки.txt" />
+    <Content Include="data\oop\131 Гра Хрестики-Нулики.txt" />
     <Content Include="data\oop\_prolog.txt" />
     <Content Include="data\oop\01 Вступ.txt" />
     <Content Include="data\oop\02 Конструкції управління.txt" />
@@ -69,8 +70,8 @@
     <Content Include="data\oop\11 Класи та підкласи.txt" />
     <Content Include="data\oop\12 Віртуалні методи.txt" />
     <Content Include="data\oop\13 Поліморфізм спадкування.txt" />
-    <Content Include="data\oop\14 Эквивалентность в DOT NET.txt" />
-    <Content Include="data\oop\15 Исключения.txt" />
+    <Content Include="data\oop\141 Клас Object.txt" />
+    <Content Include="data\oop\15 Винятки.txt" />
     <Content Include="data\oop\16 Текстовые файлы.txt" />
     <Content Include="data\oop\17 Гарантированное исполнение.txt" />
     <Content Include="data\oop\18 Двоичные файлы и классы ФС.txt" />
