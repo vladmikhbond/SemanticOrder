@@ -1,0 +1,88 @@
+@1 16 Текстові файли
+
+@2 Текстові файли
+@@ текстов+ файл+|FileStream
+
+@3 Порядок роботи з файлами:
+1. Відкрити файл (захопити ресурс ОС).
+2. Читати чи писати до файлу.
+3. Закрити файл (повернути ресурс).
+
+@3 Файл можна розглядати як потік байтів.
+Це саме робить клас FileStream.
+
+@3 Файл можна розглядати як потік символів.
+Це роблять абстрактні класи TextReader і TextWriter:
+[[text_file_classes.png]]
+
+@2 Абстрактний клас TextReader
+@@ TextReader|ReadToEnd|Read|Peek|Close
+
+@3 Методи класу TextReader:
+{{
+public virtual string ReadLine();
+public virtual string ReadToEnd();
+public virtual int Read(ref char[] buffer, int index, int count);
+public virtual int Read();
+public virtual int Peek();
+public virtual void Close();
+}}
+
+@3 Приклад читання: заданий файл, вивести його на консоль.
+{{
+TextReader reader = new StreamReader("d:\\111.txt");
+string line;
+while ((line = reader.ReadLine()) != null) {
+    Console.WriteLine(line);
+}
+reader.Close();
+}}
+
+@2 Абстрактний клас TextWriter
+@@ TextWriter|Write|WriteLine|Flush
+
+@3 Методи класу TextWriter.
+{{
+public virtual void Write(тип value);
+public virtual void WriteLine(тип value);
+public virtual void Write (string format, params Object [] arg);
+public virtual void Flush();
+public virtual void Close();
+}}
+
+@3 Приклад запису: даний масив рядків, зберегти його в текстовому файлі.
+{{
+string[] ss = {"aaaaa", "bbbbbb", "ccccccc"};
+
+TextWriter writer = new StreamWriter("d:\\111.txt");
+foreach (string s in ss) {
+    writer.WriteLine(s);
+}
+writer.Close();
+}}
+
+@3 {Зауваження}. У наведених прикладах файл може і не закритися, тобто, захоплений ресурс можуть і не повернути.
+
+@2 Кодування символів
+@@ кодуванн+ символ+|Encoding|foreach
+
+@3 Зрештою у файл потрапляють не символи, а байти.
+Спосіб переведення символів у байти і назад визначається кодуванням.
+
+@3 Кодування здійснює екземпляр класу Encoding, який передається в об'єкт StreamWriter.
+{{
+string[] ss = { "привіт", "ведмідь", "!!!!!" };
+using (TextWriter tw =
+        new StreamWriter("c:\\111\\111.txt", append: false, encoding: Encoding.GetEncoding("UTF-8")))
+{
+   foreach (string s in ss)
+      tw.WriteLine(s);
+}
+}}
+
+@3 Цикл foreach дозволяє по черзі відвідати усі елементи масиву.
+
+
+@2 Завдання
+
+@6 Клас ArrayReader | 1171

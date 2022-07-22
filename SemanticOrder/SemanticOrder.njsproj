@@ -70,9 +70,9 @@
     <Content Include="data\oop\11 Класи та підкласи.txt" />
     <Content Include="data\oop\12 Віртуалні методи.txt" />
     <Content Include="data\oop\13 Поліморфізм спадкування.txt" />
-    <Content Include="data\oop\141 Клас Object.txt" />
+    <Content Include="data\oop\14 [Клас Object]" />
     <Content Include="data\oop\15 Винятки.txt" />
-    <Content Include="data\oop\16 Текстовые файлы.txt" />
+    <Content Include="data\oop\16 Текстові файли.txt" />
     <Content Include="data\oop\17 Гарантированное исполнение.txt" />
     <Content Include="data\oop\18 Двоичные файлы и классы ФС.txt" />
     <Content Include="data\oop\19 Параметры методов.txt" />
