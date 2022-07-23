@@ -1,0 +1,93 @@
+@1 20 Інтерфейси
+@@ інтерфейс+;interface
+
+@3 Інтерфейси в C# це абстрактні типи, навіть абстрактніші  за абстрактні класи.
+
+@3 На відміну від класів інтерфейси допускають множинне спадкування, що і виправдує їх існування в C# 
+(в С++ множинне спадкування можливе для класів, тому абстрактні класи там є, а інтерфейсів нема).
+
+@3 Якщо взяти клас, наприклад, Point.
+{{
+class Point
+{
+    public int X {set; get; }
+    public int Y {set; get; }
+    
+    public double Dist()
+    {
+         return Math.Sqrt (X * X + Y * Y);
+    }
+}
+}}
+
+@3 і очистити його від реалізації, вийде інтерфейс.
+{{
+interface IPoint
+{
+    int X {set; get; }
+    int Y {set; get; }
+    double Dist();
+}
+}}
+
+@3 Тип interface втілює тільки частину специфікації типу.
+Що саме мають робити методи та властивості даного інтерфейсу, додають на словах.
+
+@2 Стандартний інтерфейс System.IComparable
+@@ IComparable
+
+@3 Інтерфейс IComparable має єдиний метод – CompareTo.
+{{
+public interface IComparable
+{
+    // Якщо this > other, метод повертає додатне число.
+    // Якщо this = other, метод повертає 0.
+    // Якщо this < other, метод повертає від'ємне число.
+    //
+    int CompareTo(object other);
+}
+}}
+
+@3 Приклад - точки.
+{{
+interface IPoint
+{
+    int X {set; get; }
+    int Y {set; get; }
+}
+
+class Point : IPoint ...
+}}
+
+@3 Такі точки не можна сортувати.
+{{
+IPoint[] ps = { new Point { X = 10, Y = 20 }, new Point { X = 1, Y = 2 } };
+Array.Sort(ps);
+}}
+
+@3 А ось точки, які можна сортувати.
+{{
+class Point : IPoint, IComparable . . .
+}}
+
+
+@2 Інтерфейс System.IComparer
+@@ IComparer
+
+@3 Втім, якщо об'єкти не реалізують IComparable, їх все одно можна сортувати
+за допомогою "судді" - екземпляру  інтерфейсу IComparer.
+
+@3 Інтерфейс IComparer має метод Compare для порівняння двох об'єктів.
+{{
+class XComparer : IComparer
+{
+    public int Compare(object a, object b)
+    {
+        return (a as Point).X - (b as Point).X;
+    }
+}
+
+// іспит
+IPoint[] ps = { new Point { X = 10, Y = 20 }, new Point { X = 1, Y = 2 } };
+Array.Sort(ps, new XComparer());
+}}
