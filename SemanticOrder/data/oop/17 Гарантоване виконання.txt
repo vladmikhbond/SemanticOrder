@@ -1,0 +1,76 @@
+@1 17 Гарантоване виконання
+
+@2 Гарантоване виконання
+@@ finally|гарантован+ виконанн+
+
+@3 Для гарантованого виконання деякого коду його поміщають у блок finally, наступний за блоком try.
+{{
+try {
+     // ризикований код
+}
+finally
+{
+     // обов'язковий код
+}
+}}
+
+@3 Приклад: гарантоване закриття файлу.
+{{
+TextWriter writer = null;
+try
+{
+    writer = new StreamWriter("d:\111.txt");
+    foreach (string s in ss)
+        writer.WriteLine(s);
+}
+finally
+{
+    writer.Close();
+}
+}}
+
+@2 Переходи в блоці try
+@@ -
+
+@3 Якщо ризикований код не створив виняток, 
+виконання переходів відкладається до закінчення обов'язкового коду.
+{{
+try {
+     // ризикований код
+     return …
+     throw …
+     goto …
+}
+catch
+{
+     // код обробки
+}
+finally
+{
+     // обов'язковий код
+}
+}}
+
+@2 Команда using
+@@ команд+ using
+
+@3 Вивільнення ресурсів гарантує команда uіing.
+{{
+using (TextWriter writer = new StreamWriter("books.txt"))
+{
+    foreach (string s in ss) {
+        writer.WriteLine(s);
+   }
+}
+}}
+
+@3 Поряд з командою using, починаючі з C# 8, іcнyє using-директива.
+{{
+using (TextWriter writer = new StreamWriter("books.txt"))
+foreach (string s in ss) {
+     writer.WriteLine(s);
+}
+}} Ресурси будуть звільнені наприкінці області видимості, в якій знаходиться директива.
+
+
+@3 Нагадаємо, що в C# слово using має три застосування: директива (directive), команда (statement) і декларація (declaration).

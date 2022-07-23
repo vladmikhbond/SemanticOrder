@@ -55,6 +55,7 @@
     <Content Include="data\js\23 Класи.txt" />
     <Content Include="data\js\24 Cпадкування класів.txt" />
     <Content Include="data\js\26 Домішки.txt" />
+    <Content Include="data\oop\021 Функції.txt" />
     <Content Include="data\oop\131 Гра Хрестики-Нулики.txt" />
     <Content Include="data\oop\_prolog.txt" />
     <Content Include="data\oop\01 Вступ.txt" />
@@ -73,8 +74,8 @@
     <Content Include="data\oop\14 [Клас Object]" />
     <Content Include="data\oop\15 Винятки.txt" />
     <Content Include="data\oop\16 Текстові файли.txt" />
-    <Content Include="data\oop\17 Гарантированное исполнение.txt" />
-    <Content Include="data\oop\18 Двоичные файлы и классы ФС.txt" />
+    <Content Include="data\oop\17 Гарантоване виконання.txt" />
+    <Content Include="data\oop\18 Двійкові файли та класи ФС.txt" />
     <Content Include="data\oop\19 Параметры методов.txt" />
     <Content Include="data\oop\20 Интерфейсы.txt" />
     <Content Include="data\oop\21 Обобщенные методы.txt" />
