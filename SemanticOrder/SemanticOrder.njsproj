@@ -78,8 +78,8 @@
     <Content Include="data\oop\18 Двійкові файли та класи ФС.txt" />
     <Content Include="data\oop\19 Параметры методов.txt" />
     <Content Include="data\oop\20 Інтерфейси.txt" />
-    <Content Include="data\oop\21 Обобщенные методы.txt" />
-    <Content Include="data\oop\22 Обобщенные классы.txt" />
+    <Content Include="data\oop\21 Узагальнені методи.txt" />
+    <Content Include="data\oop\22 Узагальнені класи.txt" />
     <Content Include="data\oop\23 Последовательные коллекции.txt" />
     <Content Include="data\oop\24 Связанные списки.txt" />
     <Content Include="data\oop\25 Ассоциативные коллекции.txt" />

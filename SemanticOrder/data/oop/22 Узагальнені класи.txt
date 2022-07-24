@@ -1,0 +1,118 @@
+@1 22 Узагальнені класи
+
+@2 Узагальнені класи
+@@ узагальнен+ клас+
+
+@3 Узагальнені класи класи виробляють за тим самим рецептом, що узагальнені методи -
+спочатку пишуть звичайний клас, потім його узагальнюють.
+
+@3 Як приклад розробимо клас колекції об'єктів.
+На відміну від масиву колекцію можна необмежено поповнювати новими елементами
+(саме так влаштовані масиви у JS).
+{{
+public class MyCollection
+{
+    // первісна ємкість внутрішнього масиву
+    private const int INIT_CAPACITY = 10;
+
+    // внутрішній масив
+    private object[] arr;
+
+    // поточна кількість елементів
+    public int Count { private set; get; }
+
+    public MyCollection()
+    {
+        arr = new object[INIT_CAPACITY];
+        Count = 0;
+    }
+
+    // додає об'єкт до колекції
+    public void Add(object value)
+    {
+        if (Count == arr.Length - 1)
+            Extend();
+        arr[Count++] = value;
+    }
+
+    // подвоює ємкість внутрішнього масиву
+    private void Extend()
+    {
+        object[] arr1 = new object[arr.Length * 2];
+        Array.Copy(arr, arr1, arr.Length);
+        arr = arr1;
+    }
+}
+}}
+
+@3 Зробимо колекцію MyCollection узагальненою.
+Для цього добавимо параметр-тип
+{{
+class MyCollection<T> 
+}}
+і в коді механічно замінимо слово "object" на "T".
+
+@3 Узагальнені класи можуть успадковувати від простих або від узагальнених класів.
+
+
+@2 Узагальнені стандартні типи
+@@ Nullable<T>
+
+@3 Існує багато узагальнених стандартних типів,
+і серед них не тільки класи.
+
+@3 Відомо, що добавивши "?" до позначки значущого типу, ми отримаємо новий тип,
+який відрізняється від базового тим, що здатен приймати значення null.
+{{
+int? x = null;
+}}
+
+@3 Дізнаємось, що є узагальнена структура Nullable<T> i запис int?
+це скорочення для Nullable<int>, тобто
+{{
+int? x = null;
+і
+Nullable<int> x = null;
+}} одне і те саме.
+
+
+@2 Узагальнені інтерфейси
+@@ IComparable<T>|IComparer<T>
+
+@3 Існують узагальнення IComparable<T> i IComparer<T>.
+
+
+@3 Правильне визначення цілочисельних точок, які можна порівнювати таке
+{{
+class Point : IComparable<Point>
+{
+    public int X {set; get; }
+    public int Y {set; get; }
+
+    public int CompareTo(Point other)
+    {
+        return X = other.X;
+    }
+}
+}}
+
+@3 Узагальнені точки, які можна порівнювати.
+{{
+class Point<T>: IComparable<Point<T>> where T : IComparable<T>
+{
+    public T X {set; get; }
+    public T Y {set; get; }
+
+    public int CompareTo(Point<T> other)
+    {
+        return X.CompareTo(other.X);
+    }
+}
+}}
+
+
+@2 Завдання
+
+@6 Двовимірний Індексатор | 926
+@6 Клас із Методом ToString() | 200
+@6 Узагальнена Крапка | 204
