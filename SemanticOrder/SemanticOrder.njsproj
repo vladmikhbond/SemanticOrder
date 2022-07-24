@@ -80,14 +80,14 @@
     <Content Include="data\oop\20 Інтерфейси.txt" />
     <Content Include="data\oop\21 Узагальнені методи.txt" />
     <Content Include="data\oop\22 Узагальнені класи.txt" />
-    <Content Include="data\oop\23 Последовательные коллекции.txt" />
+    <Content Include="data\oop\23 Послідовні колекції.txt" />
     <Content Include="data\oop\24 Связанные списки.txt" />
     <Content Include="data\oop\25 Ассоциативные коллекции.txt" />
     <Content Include="data\oop\26 Хеш-таблицы.txt" />
     <Content Include="data\oop\27 Итераторы.txt" />
     <Content Include="data\oop\28 Генераторы.txt" />
-    <Content Include="data\oop\29 Делегаты.txt" />
-    <Content Include="data\oop\30 События.txt" />
+    <Content Include="data\oop\231 Делегати.txt" />
+    <Content Include="data\oop\232 Події.txt" />
     <Content Include="data\opr\01 Вступ.txt" />
     <Content Include="data\opr\011 Мови програмування.txt" />
     <Content Include="data\opr\02 Мова Javascript.txt" />

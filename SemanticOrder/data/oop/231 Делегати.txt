@@ -1,0 +1,131 @@
+@1 231 Делегати
+@@ делегат+|delegate
+
+@3 Програмістам потрібні посилання як на дані, так і на функції.
+Це необхідно, коли функцію передають як аргумент або повертають як значення.
+
+@3 Приклад. Нехай є масив чисел, і до кожного елемента масиву необхідно застосувати функцію sin,
+щоб отримати масив результатів.
+{{
+static double[] MapSin(double[] arr)
+{
+    double[] res = new double[arr.Length];
+    for (int i = 0; i < arr.Length; i++)
+        res[i] = Math.Sin(arr[i]);
+    return res;
+}
+}}
+
+@3 Замість sin можна застосувати  cos, abs або іншу функцію з такою ж сигнатурою.
+
+@3 Оголосимо функцію Map, яка отримує два аргументи: масив та функцію.
+{{
+static double[] Map(double[] arr, Function f)
+{
+    double[] res = new double[arr.Length];
+    for (int i = 0; i < arr.Length; i++)
+        res[i] = f(arr[i]);
+    return res;
+}
+}}
+
+@3 Тип функціонального параметра f називається делегатом,
+і цей тип має бути оголошений заздалегідь:
+{{
+delegate double Function(double x);
+}}
+Оголошення делегата нагадує заголовок методу.
+
+@3 Коли викликають метод Map, йому передають масив та функцію.
+{{
+double[] arr = {0.1, 0.2, 0.3};
+double [] res = Map(arr, Math.Sin);
+Console.WriteLine(res[0] + "  " + res[1] + "  " + res[2]);
+}}
+
+@2 Як влаштований делегат
+@@ MulticastDelegate|Invoke|Func|Action
+
+@3 Делегат - це клас.
+Оголошення
+{{
+delegate double Function(double x);
+}}
+компілятор перетворює на таке оголошення класу.
+{{
+public sealed class Function: System.MulticastDelegate
+{
+    public Function(object target);
+    public double Invoke(double x);
+    // public IAsyncResult BeginInvoke(int x, AsyncCallback cb, object state);
+    // public bool EndInvoke(IAsyncResult result);
+}
+}}
+
+@3 Метод Invoke() викликає цільовий метод делегата.
+
+@3 Якщо делегат це клас, то посилання на метод - це екземпляр класу і тому має створюватися з допомогою конструктора.
+{{
+double [] res = Map (arr, New Function (Math. Sin));
+}}
+
+@3 Але дозволяється писати скорочено.
+{{
+double [] xs = Map (arr, Math. Sin);
+}}
+
+@3 Делегати можуть посилатися на статичні методи так само, як на методи екземпляра.
+
+@3 Якщо розібратися, різних делегатів не так вже й багато, 
+тому в стандартній бібліотеці всі вони вже об'явлені так:
+{{
+Func<Tr>          // Tr F()
+Func<T1, Tr>      // Tr F(T1 x)
+Func<T1, T2, Tr>  // Tr F(T1 x, T2 y)
+. . .
+Action            // void A()
+Action<T1>        // void A(T1 x)
+Action<T1, T2>    // void A(T1 x, T2 y)
+. . .
+}}
+
+@3 Скориставшись стандартними типами, ми зможемо обійтися без об'явлення власного типу Function.
+{{
+static double[] Map(double[] arr, Func<double, double> f)
+}}
+
+
+@3 {Зауваження}. Назва типу MulticastDelegate свідчить про те, що делегат зберігає посилання не на одну,
+а на багато функцій, але про це ми поговоримо пізніше.
+
+@2 Лямбда-вирази
+@@ лямбд+|=>
+
+@3 Лямбда-вираз - це безіменний делегат. Наприклад,
+{{
+// функція з ім'ям
+double Circle(double r)
+{
+    return 2 * Math.PI * r;
+}
+
+// функція без імені
+r => 2 * Math.PI * r
+}}
+
+@3 Завдяки лямбда-виразам аргументами методів можуть бути не тільки безіменні дані, але й безіменні функції.
+{{
+double[] xs = Map(
+    new double[] { 0.1, 0.2, 0.3},
+    r => 2 * Math.PI * r);
+}}
+
+@2 Завдання
+
+@6 Вираз для підсумовування | 224
+@6 Функція Map | 643
+@6 Функція Zip | 644
+@6 Функція Join | 645
+@6 Функція Fold | 646
+
+@6 Узагальнений Делегат | 221

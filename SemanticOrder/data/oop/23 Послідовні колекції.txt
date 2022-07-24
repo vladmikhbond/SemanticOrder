@@ -1,0 +1,82 @@
+@1 23 Послідовні колекції
+
+@2 Інтерфейс IList<T>
+@@ IList<T>|ICollection<T>|IEnumerable<T>
+
+@3 У послідовній колекції кожен елемент характеризується порядковим номером, нумерація починається з 0.
+
+@3 Послідовні колекції реалізують інтерфейс IList<T>.
+в якому зібрані операції з індексами.
+{{
+public interface IList<T> : ICollection<T>
+{
+    T this[int index] { get; set; }
+
+    void Insert(int index, T item);
+    void RemoveAt(int index);
+    int IndexOf(T item);
+}
+}}
+
+@3 IList<T> успадковує інтерфейс ICollection<T>,
+в якому зібрані операції з елементами колекції.
+{{
+public interface ICollection<T> : IEnumerable<T>
+{
+    bool IsReadOnly { get; }
+    void Add(T item);
+    bool Remove (T item);
+    bool Contains(T item);
+    void Clear();
+    void CopyTo(T[] array, int arrayIndex);
+}
+}}
+
+@3 Вочевидь інтерфейс IEnumerable<T> ще більш фундаментальний.
+Це дійсно так, тому розмова про нього попереду, а зараз лише зауважимо, 
+що інтерфейс IEnumerable<T> забезпечує роботу циклу foreach.
+
+@2 Колекція List<T>
+@@ List<T>|BinarySearch
+
+@3 Колекція List<T> побудована на основі масиву.
+Принцип дії такий самий, як в саморобній колекції MyCollection<T> (розділ "Узагальнені класи").
+{{
+List<Point> list = new List<Point>();
+
+list.Add(new Point { X = 3, Y = 3 });
+list.Add(new Point { X = 2, Y = 4 });
+
+list.Sort();
+
+foreach (var p in list)
+    Console.WriteLine(p.X);
+}}
+
+@3 Клас List<T> додає до інтерфейсу IList<T> власні можливості,
+властиві масиву, який лежить під капотом класу.
+{{
+void AddRange(otherCollection);
+int BinarySearch(T item);
+T[] ToArray();
+void Sort();
+}}
+
+@3 Завдяки індексатору колекцію можна проходити, як масив.
+{{
+for (int i = 0; i < col.Count; i++)
+    Console.WriteLine(col[i]);
+}}
+
+@3 Завдяки інтерфейсу IEnumerable<T>, колекцію можна пройти у циклі foreach.
+{{
+foreach (var v in col)
+    Console.WriteLine(v);
+}}
+
+@2 Завдання
+
+@6 Колекція Індексів | 207
+@6 Підрахунок Унікальних | 208
+@6 Віднімання Колекцій | 209
+@6 Обмежена колекція | 213
