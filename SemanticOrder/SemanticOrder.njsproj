@@ -66,6 +66,7 @@
     <Content Include="data\oop\08 Інкапсуляція.txt" />
     <Content Include="data\oop\09 Властивості та індексатори.txt" />
     <Content Include="data\oop\10 Спадкування.txt" />
+    <Content Include="data\oop\111 Статичні методи та класи.txt" />
     <Content Include="data\oop\11 Класи та підкласи.txt" />
     <Content Include="data\oop\12 Віртуальні методи.txt" />
     <Content Include="data\oop\13 Поліморфізм спадкування.txt" />

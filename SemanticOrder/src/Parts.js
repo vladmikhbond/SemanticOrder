@@ -7,7 +7,7 @@ const Part_js_1 = require("./Part.js");
 Object.defineProperty(exports, "Part", { enumerable: true, get: function () { return Part_js_1.Part; } });
 const Concept_js_1 = require("./Concept.js");
 const os_1 = require("os");
-const PART_SEPAR = /^@2\s*(.+)\n@@\s*(.+)/gm; // (\r)\n
+const PART_SEPAR = /^@2\s*(.+)\r?\n@@\s*(.+)/gm; // (\r)\n
 const EMPTY_MARKERS = '-';
 ;
 ;
