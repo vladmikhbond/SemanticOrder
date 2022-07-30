@@ -26,7 +26,7 @@ short[] s = новий short[n + m];
 }}
 
 @2 Властивості та методи масиву
-@@ Array|Length|BinarySearch|IndexOf|LastIndexOf|Reverse|Sort
+@@ властивіст+;властивост+|Array|Length|BinarySearch|IndexOf|Sort
 
 @3 Масив має властивість {Length}, що зберігає довжину масиву.
 
@@ -43,23 +43,13 @@ while(i < m.Length)
 }
 }}
 
-@3 Інше рішення:
-{{
-int[] m = {1,2,3}; // Вираз ініціалізації
-
-foreach (int x in m)
-     Console.Write(x);
-}}
-
 
 @3 Будь-який масив є екземпляром класу System.Array.
-Статичні методи класу Array:
+Деякі статичні методи класу Array:
 {{
 BinarySearch
 Clear
 IndexOf
-LastIndexOf
-Reverse
 Sort
 }}
 
