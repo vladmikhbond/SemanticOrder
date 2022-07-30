@@ -4,7 +4,7 @@ import { Part} from "./Part.js";
 import { Concept } from "./Concept.js";
 import { EOL } from "os";
 
-const PART_SEPAR: RegExp = /^@2\s*(.+)\r\n@@\s*(.+)/gm;   // \r\n
+const PART_SEPAR: RegExp = /^@2\s*(.+)\n@@\s*(.+)/gm;   // (\r)\n
 
 const EMPTY_MARKERS = '-';
 
@@ -43,9 +43,15 @@ class Parts
       this.findDeps();
    }
 
-   createPrologPart(): Part {
+   createPrologPart(): Part[]
+   {
       let fname = this.lectDir + "_prolog.txt";
+
       let text: string | null = bufferFile(fname);
+      // no prolog file
+      if (!text)
+         return [];
+
       let markers = text!.split(EOL);
       markers = markers
          .map(m => m.trim().slice(0, -1))
@@ -54,14 +60,14 @@ class Parts
       let part = new Part("Prolog", markers);
       part.lectName = "_prolog";
       part.ordNo = 0;
-      return part;
+      return [part];
    }
 
    // Get part bodies from a lecture dir
    //
    private partsFromAllLects()
    {
-      this.parts = [this.createPrologPart()];
+      this.parts = this.createPrologPart();
       
       const fileNames = bufferDir(this.lectDir)?.sort();
       // bodies

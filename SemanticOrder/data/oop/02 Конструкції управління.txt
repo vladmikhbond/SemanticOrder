@@ -62,7 +62,7 @@ if (умова)
 @6 Сторони Трикутника | 118
 
 @2 Цикли
-@@ цикл+;while;do-while;for;foreach
+@@ цикл+;while;do-while;for
 
 @3 Цикл {while}
 {{
@@ -89,14 +89,6 @@ do {
 for (int i = 0; i < 10; i++)
 {
     Console.Write(i);
-}
-}}
-
-@3 Цикл {foreach}
-{{
-foreach (char c in "abcdef")
-{
-    Console.Write(c);
 }
 }}
 

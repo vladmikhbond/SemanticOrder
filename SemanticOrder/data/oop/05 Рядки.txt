@@ -64,7 +64,7 @@ string s2 = new string('a', 10);
 @3 {{s.LastIndexOf(c) // JS: s.lastIndexOf(c) }}
 
 @2 Введення та виведення на консоль
-@@ Console.ReadLine|Console.Write|Console.WriteLine|Convert.ToInt32|Convert.ToDouble
+@@ Console|ReadLine|Write|WriteLine|Convert
 
 @3 Введення з консолі
 {{

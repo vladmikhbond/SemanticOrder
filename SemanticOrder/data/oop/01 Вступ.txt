@@ -83,12 +83,12 @@ i = "нуль"; // помилка
 @3 {Залежності} - сторонні пакети програм або проекти, від яких проект залежить.
 
 @2 Файл Program.cs
-@@  прост+ імен;namespace|статичн+;static|точ+ входу|void|Console.Write|Console.WriteLine
+@@  прост+ імен;namespace|статичн+;static|точ+ входу|void|Console|Write|WriteLine
 
 @3 {{
 namespace ConsoleApp1
 {
-    internal class Program
+    class Program
     {
        static void Main(string[] args)
        {

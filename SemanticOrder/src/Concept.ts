@@ -33,7 +33,7 @@ export class Concept {
    // Виробляє регекс
    //
    static marker2regex(marker: string): string {
-      const META = "-*/|\\.'\"{}$^()[]";
+      const META = ".-*/|\\'\"{}$^()[]";
       const NON_ALPHA = "\\ $.=[_";
       const SMALL = "цукенгшщзхїфівапролджєячсмитбю";
 

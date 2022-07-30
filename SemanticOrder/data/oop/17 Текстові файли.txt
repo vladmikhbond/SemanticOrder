@@ -1,7 +1,7 @@
 @1 17 Текстові файли
 
 @2 Текстові файли
-@@ текстов+ файл+|FileStream
+@@ текстов+ файл+|FileStream|TextReader|TextWriter
 
 @3 Порядок роботи з файлами:
 1. Відкрити файл (захопити ресурс ОС).
@@ -16,7 +16,7 @@
 [[text_file_classes.png]]
 
 @2 Абстрактний клас TextReader
-@@ TextReader|ReadToEnd|Read|Peek|Close
+@@ ReadToEnd|Read|Peek|Close|StreamReader
 
 @3 Методи класу TextReader:
 {{
@@ -39,7 +39,7 @@ reader.Close();
 }}
 
 @2 Абстрактний клас TextWriter
-@@ TextWriter|Write|WriteLine|Flush
+@@ Write|WriteLine|Flush|StreamWriter
 
 @3 Методи класу TextWriter.
 {{
