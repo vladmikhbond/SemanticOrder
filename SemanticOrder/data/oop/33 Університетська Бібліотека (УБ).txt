@@ -1,0 +1,208 @@
+@1 33 Університетська Бібліотека (УБ)
+
+@3 Подальші відомості про WF будемо отримувати в ході розробки наступної програми.
+
+У вузі є бібліотека, я якій зберігаються книги.
+Бібліотекар вирішує наступні задачі:
+- долучити до фонду нову книгу,
+- відредагувати дані по книзі,
+- знайти книгу по назві, автору, року видання, 
+- підтримувати список читачів,
+- видавати та приймати книгу від читача.
+Такі самі функції повинна виконувати програма.
+До того ж вона має зберігати поточний стан бібліотеки на диску 
+і завантажувати збережені дані в пам'ять.
+
+@2 Модель
+
+@3 Модель зазвичай нараховує багато класів.
+Один з них може бути фасадним, тобто тільки його методи змінюють стан моделі.
+Всі класі моделі покладемо в папку Models.
+
+@3 Клас Book
+{{
+namespace WinFormsLibrary.Models
+{
+   public class Book
+   {
+      public int Id { get; set; }   // інв.номер
+      public string Title { get; set; }
+      public string Author { get; set; }
+      public int Year { get; set; }
+   }
+}
+
+}}
+
+@3 Клас BookCollection
+{{
+using System.Text.Json;
+
+namespace WinFormsLibrary.Models
+{
+   public class BookCollection
+   {
+      List<Book> books = new List<Book>();
+
+      public BookCollection()
+      {
+         books = new List<Book>();
+         // TODO: get out
+         FillWithTestData(100);
+      }
+
+      // Пошук за назвою, автором, роком видання, інв.номером
+      //
+      public List<Book> Find (Book wanted)
+      {
+         var result = new List<Book>();
+         foreach (var book in books)
+         {
+            if (wanted.Id != 0 && wanted.Id != book.Id)
+               continue;
+            if (wanted.Title != "" && book.Title.ToLower().IndexOf(wanted.Title) == -1)
+               continue;
+            if (wanted.Author != "" && book.Author.ToLower().IndexOf(wanted.Author) == -1)
+               continue;
+            if (wanted.Year != 0 && wanted.Year != book.Year)
+               continue;
+            result.Add(book);
+         }
+         return result; 
+      }
+
+      // Додає книгу до списку книг. Ставить інв.номер.
+      //
+      public void AddBook(Book book)
+      {
+         book.Id = UniqueId();
+         books.Add(book);
+      }
+
+      // Змінює книгу зі списку книг.
+      //
+      public bool ChangeBook(Book book)
+      {
+         for (int i = 0; i < books.Count; i++)
+         {
+            if (books[i].Id == book.Id)
+            {
+               books[i] = book;
+               return true;
+            }
+         }
+         return false;
+      }
+
+      int UniqueId()
+      {
+         if (books.Count == 0) 
+            return 1;
+         return books.Select(x => x.Id).Max() + 1;
+      }
+
+      // Наповнює список книг тестовими даними.
+      //
+      public void FillWithTestData(int n)
+      {
+         books.Clear();
+         for (int i = 0; i < n; i++)
+         {
+            AddBook(new Book { Title = "Harry Potter", Author = "Joanne Rowling", Year = 1997 });
+            AddBook(new Book { Title = "The Lord of the Rings", Author = "John Tolkien", Year = 1954 });
+         }
+      }
+   }
+}
+
+}}
+
+@2 Форма
+
+@3 На головній формі:
+головне меню,
+панель для умов пошуку з кнопками Find і Clear,
+список результатів пошуку.
+
+@3 Тут ми бачимо створення моделі в конструкторі форми 
+і два слухача події Click від двох кнопок. 
+{{
+using WinFormsLibrary.Models;
+
+namespace WinFormsLibrary.Forms
+{
+   public partial class MainForm : Form
+   {
+      BookCollection model;
+
+      public MainForm()
+      {
+         InitializeComponent();
+         model = new BookCollection();      
+      }
+
+      private void clearButton_Click(object sender, EventArgs e)
+      {
+         titleBox.Text = "";
+         authorBox.Text = "";
+         yearBox.Text = "";
+         idBox.Text = "";
+      }
+
+      private void findButton_Click(object sender, EventArgs e)
+      {
+         if (!int.TryParse(idBox.Text, out int id))
+            id = 0;
+         if (!int.TryParse(yearBox.Text, out int year))
+            year = 0;
+
+         Book wanted = new Book
+         {
+            Title = titleBox.Text.Trim().ToLower(),
+            Author = authorBox.Text.Trim().ToLower(),
+            Id = id,
+            Year = year
+         };
+
+         var books = model.Find(wanted);
+         bookBindingSource.DataSource = books;        
+      }
+
+
+      private void newToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         Book book = new Book();
+         var bookForm = new BookForm(book);
+         if (bookForm.ShowDialog() == DialogResult.OK)
+         {
+            model.AddBook(book);
+         }
+      }
+
+
+      private void editToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         // Знаходимо вибрану книгу в результатах пошуку
+         var book = bookBindingSource.Current as Book;
+         if (book == null)
+            return;
+
+         var bookForm = new BookForm(book);
+         if (bookForm.ShowDialog() == DialogResult.OK)
+         {
+            model.ChangeBook(book);
+            // оновлюємо результати пошуку
+            findButton_Click(null, null);
+         }
+
+      }
+
+   }
+}
+}}
+
+
+
+
+
+

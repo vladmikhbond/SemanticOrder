@@ -1,0 +1,184 @@
+@1 34 УБ - меню, події, прив'язка, валідація
+
+@2 Головне меню
+@@ головн+ меню
+
+@3 Усі функції програми мають бути доступні через головне меню.
+Пункти верхнього рівня не викликають дій, лише відкривають підменю.
+Найперший пункт – File, найостанніший – Help.
+Пункти, що відкривають підменю, мають трикутник.
+Пункти, що відкривають вікна, мають три крапки.
+Імена пунктів починаються з великої літери.
+Ім'я пункта-роздільника - тире.
+
+@2 Події у WinForms
+@@ EventHandler|EventArgs
+
+@3 Усі методи-обробники (або слухачі події) мають два параметри:
+1-й – джерело події,
+2-й – інформація про подію.
+{{
+void EventHandler(object sender, EventArgs e);
+}}
+
+@3 Всі типи (делегати) подій називаються на EventHandler, наприклад MouseDownEventHandler.
+Це немає ніякого відношення до наслідування, просто узгодження про найменування.
+
+@3 Всі типи інформації про подію називаються на EventArgs, наприклад MouseEventArgs.
+Це також узгодження про найменування, але до того ж ці класи успадковують клас EventArgs.
+
+
+@2 Прив'язка даних
+@@ DataSource|BindingSource
+
+@3 Щоб керуючий елемент показав властивості моделі,
+необхідно скопіювати ці  властивості у  властивості керуючого елемента.
+Коли стан керуючого елемента змінюється, потрібно виконувати зворотне копіювання.
+Прив'язка автоматизує ці дії.
+
+@3 Списочні елементі управління прив'язуються до колекцій.
+Прив'язка полягає в тому, що властивості списочного елементу DataSource присвоюється колекція.
+{{
+var books = library.Find(wanted);
+booksGridView.DataSource = books;   
+}}
+
+@3 На практиці у прив'язці приймає участь посередник - елемент, похідний від BindingSource,
+який заздалегідь встановлюється на формі.
+[[Middleware.png]]
+{{
+var books = library.Find(wanted);
+bookBindingSource.DataSource  = books;   
+}}
+
+@3 Прив'язка з посередником має багато переваг.
+Одна з них - це можливість настроювати dataGridView за допомогою дизайнера UI.
+
+@2 Додавання книг
+@@ -
+
+@3 Для додавання нової книги застосуємо окрему форму BookForm з полями вводу для 
+назви, автора і року видання. Поля вводу для інв. номеру не потрібно.
+На формі також розташуємо дві кнопки Save і Cancel,
+яким встановимо властивість DialogResult у OK і Cancel відповідно.
+
+@3 Клас BookForm.cs.
+{{
+using WinFormsLibrary.Models;
+
+namespace WinFormsLibrary.Forms
+{
+   public partial class BookForm : Form
+   {
+      public BookForm(Book book)
+      {
+         InitializeComponent();
+         bookBindingSource.DataSource = book;
+      }
+   }
+}
+}}
+
+@3 В конструктор передамо пустий екземпляр книги, 
+властивості якого будуть показані в полях форми завдяки прив`язці з посередником.
+Прив'язку полів виконаємо в дизайнері UI.
+
+@3 Додамо пункт Books / New в головне меню и в MainForm напишемо такий обробник для нього.
+{{
+private void newToolStripMenuItem_Click(object sender, EventArgs e)
+{
+   Book book = new Book();
+   var bookForm = new BookForm(book);
+   if (bookForm.ShowDialog() == DialogResult.OK)
+   {
+      library.AddBook(book);
+      // оновлюємо результати пошуку
+      findButton_Click(null, null);
+   }        
+}
+}}
+
+@3 Діалогові вікна відкриваються в модальному режимі (запускають власний цикл обробки повідомлень).
+Якщо в процесі роботи властивість вікна DialogResult стає відмінною від DialogResult.None,
+вікно негайно закривається.
+Після закриття поточне значення властивості DislogResult повертається в програму, що відкрила діалогове вікно.
+
+@2 Редагування книг
+@@ -
+
+@3 Для редагування скористаємось тією ж самою формою BookForm.
+Замість пустої книги в конструктор передамо книгу, що редагується.
+
+@3 Додамо пункт Books / Edit в головне меню и в MainForm напишемо такий обробник для нього.
+{{
+private void editToolStripMenuItem_Click(object sender, EventArgs e)
+{
+   // Знаходимо вибрану книгу в результатах пошуку
+   var book = bookBindingSource.Current as Book;
+   if (book == null)
+      return;
+      
+   var bookForm = new BookForm(book);
+   if (bookForm.ShowDialog() == DialogResult.OK)
+   {
+      // в моделі за Id знаходимо книгу що редагується
+      Book bookToChange = library.GetBookById(book.Id);
+
+      // копіюємо поля
+      bookToChange.Title = book.Title;
+      bookToChange.Author = book.Author;
+      bookToChange.Year = book.Year;
+
+      // оновлюємо результати пошуку
+      findButton_Click(null, null);
+   }
+}
+}}
+
+@2 Перевірка вводу користувача
+@@ Validating
+
+@3 Перевірку вводу користувача робити обов'язково.
+В панелі пошуку її не було, тому що там будь-які дані були валідними,
+але при створенні, або редагуванні книг вона доречна.
+
+@3 Домовимося, що валідною є така книга, в якої поле назви не пусте, 
+а рік видання знаходиться в межах від 0 до 3000.
+
+@3 {Події  -ing та  -ed}
+Подія XXXing видається перед дією XXX
+і дозволяє заблокувати дію за допомогою властивості події Cancel.
+Подія XXXed видається після завершення дії XXX.
+
+@3 Для перевірки заповнення форм використовують подію Validating.
+Вона трапляється, коли фокус вводу покидає текстова поле.
+{{
+private void titleBox_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+{
+   bool isValid = !string.IsNullOrEmpty((sender as TextBox).Text);
+   if (isValid)
+   {
+      titleStar.Visible = false;
+   } 
+   else
+   {
+      e.Cancel = true;
+      titleStar.Visible = true;
+   } 
+}
+
+private void yearBox_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+{
+   bool isValid = int.TryParse((sender as TextBox).Text, out int year);
+   isValid &= 0 < year && year < 3000;
+   if (isValid)
+   {
+      yearStar.Visible = false;
+   }
+   else
+   {
+      e.Cancel = true;
+      yearStar.Visible = true;
+   }
+}
+}}

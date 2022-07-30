@@ -1,0 +1,82 @@
+@1 54 LINQ. Прочие запросы
+
+@2 Запросы OrderBy и ThenBy
+
+@3 Пример. Упорядочить строки по алфавиту.
+{{
+string[] ss = { "SELECT", "FROM", "WHERE", "ORDER BY" };
+var res = ss.OrderBy(s => s);
+}}
+
+@3 Пример.Упорядочить строки по длине, а равной длины - по алфавиту.
+{{
+var res = ss.OrderBy(s => s.Length).ThenBy(s => s);
+}}
+
+@2 Разбиение
+
+@3 Take, Skip, TakeWhile, SkipWhile
+{{
+var result = Enumerable.Range(1, 30).Skip(10).Take(10);
+
+foreach (var x in result)
+     Console.WriteLine(x);
+}}
+
+@2 Множества
+
+@3 Union, Intersect, Except, Distinct
+
+@2 Отдельные элементы
+
+@3 First, Last, ElementAt, Single 
+@3 ...OrDefault
+
+@2 Кванторы
+
+@3 All, Any, Contains
+
+@2 Генераторы
+
+@3 Repeat, Range, Empty
+
+@5 Периодическая последовательность | Получить n первых членов последовательности, составленной из повторений четверки { 2, 5, 13, 10 } .
+{{
+int n = 10;
+int[] a = { 2, 5, 13, 10 };
+var result = Enumerable.Repeat(a, int.MaxValue)
+    .SelectMany(x => x)
+    .Take(n);
+}}
+
+@2 Преобразование типа итераторов
+
+@3 ToArray, ToList, ToDictionary, ToLookup
+ 
+@3 AsEnumerable - для разрешения вызова методов (когда коллекция имеет методы, одноименные с функциями LINQ)
+
+@2 Преобразование типа элементов
+
+@3 Cast{<}T{>}() - то же, что
+{{ 
+  foreach(object o in source)
+    yield return (T) o;
+}}
+
+@3 TypeOf{<}T{>}() - фильтрация по типу. То же, что
+{{
+  foreach(object o in source)
+    if(o is T)
+      yield return (T) o;
+}}
+
+@3 {Разное}
+Zip, Concat, Reverse, SequenceEqual, 
+
+DefaultIfEmpty - если коллекция{<}T{>} пуста, возвращается последовательность из одного элемента - default(T)
+
+@2 Задачи
+
+@6 Книги с Оценками  | 369
+@6 Книги Без Оценок  | 370
+@6 Факториал Числа  | 371

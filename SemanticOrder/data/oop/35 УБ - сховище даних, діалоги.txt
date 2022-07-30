@@ -1,0 +1,175 @@
+@1 35 УБ - сховище даних, діалоги
+
+
+@2 Дані у текстовому файлі 
+@@ -
+
+@3 Головне - зробити відповідні методи моделі.
+{{
+// Зберігає книги у текстовому файлі
+//      
+public void SaveText(string path)
+{
+   using (var writer = new StreamWriter(path))
+   {
+      foreach (var b in books)
+      {
+         writer.WriteLine(b.Id);
+         writer.WriteLine(b.Title);
+         writer.WriteLine(b.Author);
+         writer.WriteLine(b.Year);
+      }
+   }
+}
+
+// Завантажити книги з текстового файлу
+//
+public void LoadText(string path)
+{
+   var lines = File.ReadAllLines(path); 
+   books.Clear();
+   for (var i = 0; i < lines.Length; i += 4)
+   {
+      var book = new Book() {
+         Id = Convert.ToInt32(lines[i]),
+         Title = lines[i + 1],
+         Author = lines[i + 2],
+         Year = Convert.ToInt32(lines[i + 3])
+      };
+      books.Add(book);  
+   }                
+}
+
+}}
+
+@2 Серіалізація
+@@ серіалізац+|десеріалізац+|JsonSerializer
+
+@3 Альтернативним способом зберігання-завантаження є серіалізація.
+Серіалізація - це перетворення об'єкта на потік символів або байтів з метою збереження у файлі або передачі по мережі.
+Задача серіалізації не тривіальна, бо граф об'єктів у пам'яті може бути заплутаним (мати множинні та циклічні посилання).
+
+@3 Можлива бінарна, XML- та JSON-серіалізація. Остання найсучасніша.
+Роботу виконують два статичних методи класу JsonSerializer:
+Serialize, 
+Deserialize<T>,  де T - цільовий тип десеріалізації.
+
+@3 Методи моделі.
+{{
+bool isBooksDirty = false;
+
+public void SaveJson(string path)
+{
+   string jsonString = JsonSerializer.Serialize(books);
+   File.WriteAllText(path, jsonString);
+   isBooksDirty = false;
+}
+
+public void LoadJson(string path)
+{
+   string jsonString = File.ReadAllText(path);
+   books = JsonSerializer.Deserialize<List<Book>>(jsonString);
+   isBooksDirty = false;
+}
+
+}}
+
+@2 Меню File і стандартні діалоги
+@@ стандартн+ діалог+
+
+@3 Склад пункту  File в нас буде наступний:
+   New - в пам'яті створюється "пусті" дані,
+   Open... - відкривається вікно для вибору файлу або папки з даними,
+   Save - дані зберігаються там де відкривались,
+   Save As... - відкривається вікно для вибору файлу або папки де будуть збережені дані,
+   Close - програма завершує роботу. Нагадує про збереження даних.
+
+@3 Деякі діалоги вельми популярні, тому їх запрограмували і зберегли у вигляді компонентів.
+Стандартні діалоги можна знайти в тулбоксі Студії на вкладці Dialogs.
+OpenFileDialog і SaveFileDialog знадобляться нам у пунктах меню Open і Save As відповідно.
+
+@3 Обробники для пунктів меню File
+{{
+// пункт New
+private void newToolStripMenuItem1_Click(object sender, EventArgs e)
+{
+   model = new BookCollection();
+}
+
+// пункт Open
+private void openToolStripMenuItem_Click(object sender, EventArgs e)
+{
+   if (openFileDialog1.ShowDialog() == DialogResult.OK)
+   {
+      try
+      {
+         model.LoadJson(openFileDialog1.FileName);
+      }
+      catch (Exception ex)
+      {
+         MessageBox.Show("Завантаження не відбулося \n" + ex.Message);
+      }
+   }
+}
+
+// пункт Save
+private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+{
+   model.SaveJson(model.FileName);
+}
+
+// пункт Save As
+private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+{
+   if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+   {
+      model.SaveJson(saveFileDialog1.FileName);
+   }
+}
+}}
+
+@2 Завершення роботи програми
+@@ FormClosing|MessageBox
+
+@3 Метод Application.Run влаштований так, що коли закривається головна форма,
+він завершується, а з ним і програма в цілому.
+Тому для завершення достатньо закрити головну форму методом Close().
+{{
+// пункт Exit
+private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+{
+   Close();
+}
+}}
+
+@3 Це доволі просто, але може привести до втрати даних, якщо користувач їх не зберіг.
+Тому, по-перше, необхідно відстежувати внесення змін до даних,
+по-друге, нагадати користувачу про необхідність зберегти дані, якщо така необхідність існує.
+
+@3 Для відстежування змін добавимо класу BookCollection логічну властивість IsDirty,
+яка дорівнює true, якщо дані в пам'яті зазнали змін.
+Будем встановлювати цю властивість в конструкторі та методах AddBook, ChangeBook,  SaveJson та LoadJson.
+
+@3 Сценарій нагадування такий самий, як у будь-якому текстовому редакторі, наприклад, Notepad
+Реалізувати сценарій треба в події головної форми FormClosing.
+Ця подія обов'язково відбувається незалежно від того, яким чином закривається форма.
+{{
+private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+{
+   if (!model.IsDirty) 
+      return;
+   switch (MessageBox.Show("Do you want to save changes to " + model.FileName, "", MessageBoxButtons.YesNoCancel))
+   {
+      case DialogResult.Yes:
+         model.SaveJson(model.FileName);
+         break;
+      case DialogResult.No:
+         break;
+      case DialogResult.Cancel:
+         e.Cancel = true;
+         break;
+   }
+}
+}}
+
+

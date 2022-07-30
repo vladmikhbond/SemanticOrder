@@ -1,0 +1,93 @@
+@1 37 Асоціативні колекції
+
+@2 Асоціативні колекції
+@@ IDictionary|ключ+|словник+
+
+@3 В асоціативній колекції кожен елемент асоціюється не з порядковим номером,
+а з ключем – унікальним для колекції значенням.
+
+@3 Можливості колекції визначається її інтерфейсом.
+Інтерфейси колекцій .NET:
+[[CollectionInterfaces.png]]
+
+@3 Інтерфейс ICollection надає операції з індексами.
+Інтерфейс IDictionary надає операції з ключами. 
+
+@2 Інтерфейс IDictionary<TKey, TValue>
+@@ KeyValuePair
+
+@3 Елементом словника є пара (ключ, значення).
+{{
+public struct KeyValuePair<TKey, TValue>
+{
+    public KeyValuePair(TKey k, TValue v);
+    public TKey Key {get; }
+    public TValue Value { get; }
+    public override string ToString();
+}
+}}
+
+@3 Словник – це колекція пар.
+{{
+public interface IDictionary<TKey, TValue>:
+        ICollection< KeyValuePair<TKey, TValue> >
+{
+    ICollection<TKey> Keys { get; }
+    ICollection<TValue> Values ​​{ get; }
+
+    TValue this[TKey key] { get; set; }
+
+    void Add(TKey key, TValue value);
+    bool ContainsKey(TKey key);
+    bool Remove (TKey key);
+    bool TryGetValue(TKey key, out TValue value);
+}
+}}
+
+@2 Клас Dictionary<TKey, TValue>
+@@ Dictionary
+
+@3 Інтерфейс IDictionary реалізується класом {{Dictionary<TKey, TValue>}}.
+
+@3 В деяких випадках словники значно вигідніші за списки.
+Наприклад, є текст. Необхідно підрахувати кількість входжень в цей текст кожного слова.
+Щоб полегшити собі життя, будемо мати справу не з текстом, а з окремими словами
+{{
+List<string> words = new List<string> { "aaa", "ddd", "bbb", "ddd", "ddd", "ccc", "aaa"};
+
+Dictionary<string, int> dict = new ();
+
+foreach (var word in words)
+{
+   if (dict.ContainsKey(word)) 
+      dict[word] += 1;
+   else 
+      dict[word] = 1;
+}
+}}
+
+@3 Друк словника.
+{{
+foreach (var word in dict.Keys)
+{
+   Console.WriteLine(word + "  " + dict[word]);
+}
+}}
+
+@3 Щоб роздрукувати за алфавітом колекцію ключів впорядковують.
+{{
+dict.Keys.OrderBy(k => k)) 
+}}
+
+@2 Порівняння List із Dictionary
+@@ часов+ складніст+;часов+ складност+;
+
+@3 Часова складність операцій.
+{{
+//                 List  Dict
+Поповнення         O(1)  O(1)
+Пошук за індексом  O(1)  O(1)
+Вставка            O(n)  O(1)
+Видалення          O(n)  O(1)
+Пошук за значенням O(n)  O(n)
+}}

@@ -1,0 +1,137 @@
+@1 32 Хрестики-Нулики в WF
+
+@2 UI гри
+
+@3 Надамо грі графічний інтерфейс.
+Для цього започаткуємо застосування WinForms у тому ж рішенні, що і попереднє консольне застосування.
+
+@3 Основна частина коду - модель не потребує змін, бо вона не від чого не залежить.
+Клас моделі можна не копіювати, а зоставити там, де він є,
+встановивши залежність від консольного застосування.
+
+@3 Поле гри покажемо користувачеві у вигляді квадратної матриці N x N з кнопок.
+Натискання на кнопку буде означати хід гравця.
+
+Попереджаємо, що наш приклад відрізняється від типового WF-застосування тим,
+що UI цілком буде створюватися під час виконання програми, а не під час розробки.
+
+@3 Також не повній мірю буде впроваджений шаблон MVC,
+бо в формах і елементах управління проблематично відокремити функції контролера від функцій вигляду.
+
+@3 Для поділення відповідальності в GUI застосовується інший підхід, 
+який називають "користувацькі елементи управління" або "компоненти", але його ми торкатися не будем.
+
+@2 Клас XButton
+
+@3 Нам знадобиться кнопка, яка "знає" своє положення на ігровому полі.
+{{
+public class XButton : Button
+{
+   public int Row { get; private set; }
+   public int Col { get; private set; }
+
+   public XButton(int r, int c)
+   {
+      Row = r;
+      Col = c; 
+   }
+}
+}}
+
+
+@2 Код форми з поясненнями
+
+@3 Створимо застосування з однією формою на ім'я MainForm
+і в файлі MainForm.cs збережемо такий код.
+{{
+using OopCrossZero;
+
+namespace WinFormsCrossZero
+{
+   public partial class MainForm : Form
+   {      
+      // Cell Size
+      const int CS = 40;
+
+      Model model = new Model(10);
+
+      // for model viewing
+      XButton[,] xbuttons;  
+
+      public MainForm()
+      {
+         InitializeComponent();
+         InitializeField();
+      }
+
+      void InitializeField()
+      {
+         xbuttons = new XButton[model.Size, model.Size];
+
+         for (int r = 0; r < model.Size; r++)
+         {
+            for (int c = 0; c < model.Size; c++)
+            {
+               XButton xb = new XButton(r, c);
+               xb.Location = new Point(c * CS, r * CS);   // columns first, rows second
+               xb.Size = new Size(CS, CS);
+               this.Controls.Add(xb);
+
+               xbuttons[r, c] = xb;
+               xb.Click += XButton_Click;
+            }
+         }
+         this.ClientSize = new Size(model.Size * CS + 5, model.Size * CS + 5);
+      }
+
+      void XButton_Click(object sender, EventArgs e)
+      {
+         XButton xb = (XButton)sender;
+         GameState gameState = model.Turn(xb.Row, xb.Col);
+
+         switch (gameState)
+         {
+            case GameState.CrossWon:
+            case GameState.ZeroWon:
+            case GameState.Draw:
+               ShowModel();
+               Epilog(gameState);
+               break;
+            case GameState.Continue:
+               ShowModel();
+               break;
+            case GameState.BadTurn:
+               break;
+         }
+      }
+
+      void ShowModel()
+      {
+         for (int r = 0; r < model.Size; r++)
+         {
+            for (int c = 0; c < model.Size; c++)
+            {
+               xbuttons[r, c].Text =
+                  model[r, c] == CellState.Cross ? "X" :
+                  model[r, c] == CellState.Zero ? "O" : " ";
+            }
+         }
+      }
+
+      void Epilog(GameState gameState)
+      {
+         this.Text = gameState.ToString();
+      }
+   }
+}
+
+}}
+
+@3 Створити модель і поле для гри доцільно в конструкторі головної форми.
+Зберігати посилання на кнопки в масиві xbuttons не необхідно, але зручно.
+
+@3 Кожний кнопці надається один той самий обробник події Click - метод XButton_Click.
+
+@3 За відображення актуального стану моделі відповідає метод ShowModel().
+
+@3 Метод Epilog є радше заглушкою, ніж справжнім методом.

@@ -1,0 +1,100 @@
+@1 51 LINQ. Введение
+
+@3 LINQ - это язык запросов к данным, который встроен во все .NET совместимые языки. 
+Запросы, сформулированные на этом языке, транслируются на язык конкретного хранилища данных. 
+
+@3 Данные могут храниться:
+в реляционной базе данных (Entity Framework), 
+в файлах xml (LINQ to XML), 
+в коллекциях (LINQ to Objects)
+и других местах.
+
+@3 {Пример запроса:}  Имеется массив строк.
+{{
+string[] names = { "Burke", "Connor", "Frank", "Everett", "Albert", "George", "Harris", "David" };  
+}}
+Выбрать из него все пятибуквенные имена, упорядочить по алфавиту и перевести в верхний регистр. 
+
+@3 
+{{
+var words = from name in names
+            where name.Length == 5
+            orderby name
+            select name.ToUpper();   
+}}
+
+@3 За подобными выражениями скрывается композиция функций. 
+Эти функции являются итераторами и имеют форму методов-расширений для типа IEnumerable{<}T{>}.
+
+@2 Методы-расширения (extension methods)
+
+@3 Метод-расширение - это статический метод, вызов которого внешне похож на вызов метода экземпляра. 
+{{
+// обычный метод
+public static int Count<T>(IEnumerable<T> source)
+{
+    int n = 0;
+    foreach (var x in source)
+        n++;
+    return n;
+}
+}}
+
+@3 {{
+// метод-расширение
+public static int Count<T>(this IEnumerable<T> source)
+{
+    int n = 0;
+    foreach (var x in source)
+        n++;
+    return n;
+}
+}}
+
+@3 Вызов метода-расширения:
+{{
+int[] arr = { 1, 2, 3 };
+int n = arr.Count();    
+}}
+
+@2 Композиция итераторов
+
+@3 В статическом классе System.Linq.Enumerable определены методы Count, Where, Range.
+{{
+// возвращает длину последовательности
+int Count(this IEnumerable<T> e);  
+
+// фильтрует последовательность
+IEnumerable<T> Where(this IEnumerable<T> e, Func<T, bool> predicat); 
+
+// порождает отрезок целых чисел [beg, end) 
+IEnumerable<int> Range(int beg, int end);  
+}}
+
+@3 Из этих методов можно составлять сложные запросы, например,
+ "Из первой тысячи натуральных чисел выбрать все кратные 11 и сосчитать их количество".
+{{
+var v1 = Enumerable.Range(1, 1001);   // Первая тысяча натуральных чисел 
+var v2 = Enumerable.Where(v1, x => x % 11 == 0);   // Числа кратные 11 
+int n = Enumerable.Count(v2);   //Количество чисел 
+}}
+
+@3 Все вместе
+{{
+int n = Enumerable.Count(Enumerable.Where(Enumerable.Range(1, 1001), x => x % 11 == 0));
+}}
+
+@3 То же, но в виде цепочечной композиции.
+{{
+int n = Enumerable.Range(1, 1001).Where(x => x % 11 == 0).Count();
+}}
+
+@3 То же, но в виде выражения запроса. 
+{{
+int n = (from x in Enumerable.Range(1, 10)
+        where x % 11 == 0
+        select x).Count();  
+}}
+
+@3 Итак, LINQ - это встроенный язык запросов + поддержка трансляции с этого языка на язык конкретного хранилища данных.
+Если "хранилищем данных" служит память процесса, запросы LINQ компилируются в команды MSIL.
