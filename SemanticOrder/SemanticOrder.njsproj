@@ -87,9 +87,9 @@
     <Content Include="data\oop\33 Університетська Бібліотека %28УБ%29.txt" />
     <Content Include="data\oop\34 УБ - меню, події, прив%27язка, валідація.txt" />
     <Content Include="data\oop\35 УБ - сховище даних, діалоги.txt" />
-    <Content Include="data\oop\36 [Связанные списки].txt" />
+    <Content Include="data\oop\36 Зв%27язані списки.txt" />
     <Content Include="data\oop\37 Асоціативні колекції.txt" />
-    <Content Include="data\oop\38 Хеш-таблицы.txt" />
+    <Content Include="data\oop\38 Хеш-таблиці.txt" />
     <Content Include="data\oop\39 Итераторы.txt" />
     <Content Include="data\oop\40 Генераторы.txt" />
     <Content Include="data\oop\51 LINQ. Введение.txt" />
