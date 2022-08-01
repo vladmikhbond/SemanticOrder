@@ -23,7 +23,7 @@ var result = a2.SelectMany(x => x);
 }}
 
 @2 Запит GroupBy
-@@ GroupBy|IGrouping|групуванн+
+@@ GroupBy|IGrouping
 
 @3 Здійснює групування елементів вхідної послідовності.
 На виході - послідовність послідовностей IGrouping з додатковою властивістю Key.
