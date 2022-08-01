@@ -91,7 +91,7 @@
     <Content Include="data\oop\37 Асоціативні колекції.txt" />
     <Content Include="data\oop\38 Хеш-таблиці.txt" />
     <Content Include="data\oop\39 Ітератори.txt" />
-    <Content Include="data\oop\40 Генераторы.txt" />
+    <Content Include="data\oop\40 Генератори.txt" />
     <Content Include="data\oop\51 LINQ. Введение.txt" />
     <Content Include="data\oop\52 LINQ. Фильтрация, проекция, агрегация.txt" />
     <Content Include="data\oop\53 LINQ. Группирование и соединение.txt" />
