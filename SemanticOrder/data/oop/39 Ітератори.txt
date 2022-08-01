@@ -1,0 +1,89 @@
+@1 39 Ітератори
+
+@2 Інтерфейси IEnumerable та IEnumerator
+@@ IEnumerable<T>|IEnumerator<T>|ітератор+|MoveNext
+
+@3 [[CollectionInterfaces.png]]
+
+@3 Будь-яка узагальнена колекція реалізує інтерфейс {IEnumerable<T>},
+який має єдиний метод
+{{
+   IEnumerator<T> GetEnumerator();
+}}
+
+@3 Об'єкт, який повертається методом GetEnumerator(), називається {ітератор} і забезпечує проходження колекції.
+
+@3 Ітератор реалізує інтерфейс IEnumerator<T>, який надає інструменти для проходження.
+{{
+public interface IEnumerator<out T> : IDisposable, IEnumerator
+{
+    T Current {get; }
+    bool MoveNext(); // false, коли далі йти нікуди
+    void Reset();
+}
+}}
+
+@2 Приклад ітератора
+
+@3 Визначимо ітератор для колекції LinkList<T> з розділу "Зв'язані списки".
+{{
+class ListIterator<T> : IEnumerator<T>
+{ 
+   LinkList<T> _list;
+   T _curr;
+
+   // конструктор отримує посилання на колекцію
+   public ListIterator(LinkList<T> list)
+   {
+      _list = list;
+   }
+
+   T IEnumerator<T>.Current => _curr;
+
+   bool IEnumerator.MoveNext()
+   {
+      if (_list == null)
+         return false;
+      _curr = _list.Head;
+      _list = _list.Tail;
+      return true;
+   }
+   // тут інші методи інтерфейсу . . .
+   
+}
+}}
+
+@2 Цикл foreach
+@@ foreach
+
+@3 Цикл foreach можливий для всякого об'єкту, який реалізує інтерфейс  IEnumerable<T>
+
+@3 Реалізуємо цей інтерфейс в колекції LinkList<T>.
+{{
+class LinkList<T>: IEnumerable<T>
+{
+   // тут все, що було раніше
+   // . . . 
+
+   IEnumerator<T> IEnumerable<T>.GetEnumerator()
+   {
+      return new ListIterator<T>(this);
+   }
+
+   IEnumerator IEnumerable.GetEnumerator()
+   {
+      throw new NotImplementedException();
+   }
+}
+}}
+
+@3 Спробуємо.
+{{
+var list = new LinkList<string>("aaa");
+list.Add("bbb"); list.Add("ccc");
+
+foreach (var item in list)
+{
+   Console.WriteLine(item);
+}
+}}
