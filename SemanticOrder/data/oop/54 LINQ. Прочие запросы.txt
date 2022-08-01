@@ -1,19 +1,23 @@
-@1 54 LINQ. Прочие запросы
+@1 54 LINQ. Інші запити
 
-@2 Запросы OrderBy и ThenBy
+@2 Запити OrderBy та ThenBy
+@@ OrderBy|ThenBy
 
-@3 Пример. Упорядочить строки по алфавиту.
+@3 Приклад. Впорядкувати рядки за абеткою.
 {{
-string[] ss = { "SELECT", "FROM", "WHERE", "ORDER BY" };
+string[] ss = {"SELECT", "FROM", "WHERE", "ORDER BY"};
 var res = ss.OrderBy(s => s);
 }}
 
-@3 Пример.Упорядочить строки по длине, а равной длины - по алфавиту.
+@3 Приклад. Впорядкувати рядки за довжиною, а рядки однакової довжини - за абеткою.
 {{
-var res = ss.OrderBy(s => s.Length).ThenBy(s => s);
+var res = ss
+   .OrderBy(s => s.Length)
+   .ThenBy(s => s);
 }}
 
-@2 Разбиение
+@2 Розбиття
+@@ Take|Skip|TakeWhile|SkipWhile
 
 @3 Take, Skip, TakeWhile, SkipWhile
 {{
@@ -23,60 +27,62 @@ foreach (var x in result)
      Console.WriteLine(x);
 }}
 
-@2 Множества
+@2 Множини
 
 @3 Union, Intersect, Except, Distinct
 
-@2 Отдельные элементы
+@2 Окремі елементи
 
-@3 First, Last, ElementAt, Single 
+@3 First, Last, ElementAt, Single
 @3 ...OrDefault
 
-@2 Кванторы
+@2 Квантори
 
 @3 All, Any, Contains
 
-@2 Генераторы
+@2 Генератори
 
 @3 Repeat, Range, Empty
 
-@5 Периодическая последовательность | Получить n первых членов последовательности, составленной из повторений четверки { 2, 5, 13, 10 } .
+@5 Періодична послідовність | Отримати n перших членів послідовності, складеної з повторень четвірки {2, 5, 13, 10}.
 {{
 int n = 10;
-int[] a = { 2, 5, 13, 10 };
+int[] a = {2, 5, 13, 10};
 var result = Enumerable.Repeat(a, int.MaxValue)
     .SelectMany(x => x)
-    .Take(n);
+    . Так (n);
 }}
 
-@2 Преобразование типа итераторов
+@2 Перетворення типу ітераторів
 
 @3 ToArray, ToList, ToDictionary, ToLookup
  
-@3 AsEnumerable - для разрешения вызова методов (когда коллекция имеет методы, одноименные с функциями LINQ)
+@3 AsEnumerable - для дозволу виклику методів (коли колекція має методи, однойменні з функціями LINQ)
 
-@2 Преобразование типа элементов
+@2 Перетворення типу елементів
 
-@3 Cast{<}T{>}() - то же, что
-{{ 
+@3 Cast<T>() - те саме, що
+{{
   foreach(object o in source)
     yield return (T) o;
 }}
 
-@3 TypeOf{<}T{>}() - фильтрация по типу. То же, что
+@3 TypeOf<T>() - фільтрація за типом. Те саме, що
 {{
   foreach(object o in source)
     if(o is T)
       yield return (T) o;
 }}
 
-@3 {Разное}
-Zip, Concat, Reverse, SequenceEqual, 
+@3 {Різне}
+Zip, 
+Concat, 
+Reverse, 
+SequenceEqual,
+DefaultIfEmpty - якщо колекція IEnumerable<T> порожня, повертається послідовність з одного елемента - default(T)
 
-DefaultIfEmpty - если коллекция{<}T{>} пуста, возвращается последовательность из одного элемента - default(T)
+@2 Завдання
 
-@2 Задачи
-
-@6 Книги с Оценками  | 369
-@6 Книги Без Оценок  | 370
-@6 Факториал Числа  | 371
+@6 Книги з оцінками | 369
+@6 Книги Без Оцінок | 370
+@6 Факторіал Числа | 371

@@ -29,7 +29,7 @@ public static IEnumerable<T> Where<T>(this IEnumerable<T> source, Func<T, bool> 
 [[https://github.com/dotnet/corefx/blob/master/src/System.Linq/src/System/Linq/Where.cs]]
 
 @2 Запит Select
-@@ Select
+@@ Select|проекц+
 
 @3 Select відображає один тип даних на інший.
 
@@ -58,7 +58,7 @@ IEnimerable<Tr> Select<T, Tr> (this IEnimerable<T> source, Func <T, Tr> f)
 }}
 
 @2 Запити агрегації
-@@ Aggregate|згортк+
+@@ Aggregate|згортк+;агрегаці+
 
 @3 Агрегація "згортає" послідовність у якесь одне значення.
 Згортка потребує три параметри:
