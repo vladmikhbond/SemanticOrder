@@ -58,7 +58,7 @@ IEnumerator<T> IEnumerable<T>.GetEnumerator()
 
 @3 Приклад генератора, який виробляє послідовність цілих чисел від a до b.
 {{
-static IEnumerable<int> Range(int a, int b)
+static IEnumerable<int> IntRange(int a, int b)
 {
     for (int i = a; i <= b; i++)
         yield return i;

@@ -1,0 +1,106 @@
+@1 51 LINQ. Вступ
+
+@2 LINQ. Вступ
+@@ LINQ
+
+@3 LINQ - це мова запитів до даних, яка вбудована у всі .NET сумісні мови.
+Запити, зроблені цією мовою, перекладаються на мову конкретного сховища даних.
+
+@3 Дані можуть зберігатися:
+у реляційній базі даних (Entity Framework),
+у файлах xml (LINQ to XML),
+у колекціях (LINQ to Objects)
+та інших місцях.
+
+@3 Приклад запиту. Є масив рядків.
+{{
+string[] names = {"Burke", "Connor", "Frank", "Everett", "Albert", "George", "Harris", "David"};
+}}
+Запит: Вибрати з нього всі п'ятилітерні імена, упорядкувати за абеткою і перевести у верхній регістр.
+
+@3 Той же запит у вигляді виразу LINQ.
+{{
+var words = from name in names
+            where name.Length == 5
+            orderby name
+            select name.ToUpper();
+}}
+
+@3 За подібними виразами ховається композиція функцій.
+Ці функції є ітераторами і мають форму методів-розширень типу IEnumerable<T>.
+
+@2 Методи-розширення (extension methods)
+@@ розширенн+
+
+@3 Метод-розширення - це статичний метод, виклик якого зовні схожий з викликом методу екземпляра.
+Наприклад, визначимо метод, який підраховує кількість елементів в послідовності.
+{{
+// Звичайний метод
+public static int Count<T>(IEnumerable<T> source)
+{
+    int n = 0;
+    foreach (var x in source)
+        n++;
+    return n;
+}
+}}
+
+@3 {{
+// метод-розширення
+public static int Count<T>(this IEnumerable<T> source)
+{
+    int n = 0;
+    foreach (var x in source)
+        n++;
+    return n;
+}
+}}
+
+@3 Виклик методу-розширення:
+{{
+int[] arr = {1, 2, 3};
+int n = arr.Count();
+}}
+
+@2 Композиція ітераторів
+@@ Where|Range
+
+@3 У статичному класі System.Linq.Enumerable визначено методи Count, Where, Range.
+{{
+// Повертає довжину послідовності
+int Count(this IEnumerable<T> e);
+
+// фільтрує послідовність
+IEnumerable<T> Where(this IEnumerable<T> e, Func<T, bool> predicat);
+
+// породжує відрізок цілих чисел [beg, end)
+IEnumerable<int> Range(int beg, int end);
+}}
+
+@3 З цих методів можна складати складні запити, наприклад,
+ "З першої тисячі натуральних чисел вибрати всі кратні 11 і порахувати їхню кількість".
+{{
+var v1 = Enumerable.Range(1, 1001);              // Перша тисяча натуральних чисел
+var v2 = Enumerable.Where(v1, x => x % 11 == 0); // Числа кратні 11
+int n = Enumerable.Count(v2);                    //Кількість чисел
+}}
+
+@3 Можна об'єднати три запита в один вираз.
+{{
+int n = Enumerable.Count(Enumerable.Where(Enumerable.Range(1, 1001), x => x % 11 == 0));
+}}
+
+@3 Те саме, але у вигляді ланцюжкової композиції.
+{{
+int n = Enumerable.Range(1, 1001).Where(x => x % 11 == 0).Count();
+}}
+
+@3 Те саме, але у вигляді виразу запиту.
+{{
+int n = (from x in Enumerable.Range(1, 10)
+        where x % 11 == 0
+        select x). Count ();
+}}
+
+@3 Отже, LINQ - це вбудована мова запитів + ​​підтримка трансляції з неї на мову конкретного сховища даних.
+Якщо "сховищем даних" служить пам'ять процесу, запити LINQ компілюються в методи MSIL.
