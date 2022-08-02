@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.color = exports.bufferDir = exports.bufferFile = void 0;
+exports.color = exports.trimArray = exports.bufferDir = exports.bufferFile = void 0;
 const fs_1 = require("fs");
 const path_1 = require("path");
 function bufferFile(relPath) {
@@ -23,6 +23,14 @@ function bufferDir(relPath) {
     }
 }
 exports.bufferDir = bufferDir;
+function trimArray(arr) {
+    let i = arr.length - 1;
+    while (arr[i] == 0)
+        i--;
+    arr.length = i + 1;
+    return arr;
+}
+exports.trimArray = trimArray;
 exports.color = {
     white: '\x1b[0m',
     red: '\x1b[31m',

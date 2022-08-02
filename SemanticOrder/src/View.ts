@@ -26,7 +26,7 @@ function partsToString(parts: Parts): string {
 }
 
 function summaryToString(parts: Parts): string {
-   let res = parts.summary;
+   let res = parts.conceptSummary;
    let str = `
  Concept number:      ${parts.concepts.length}
  Parts number:        ${res.count}

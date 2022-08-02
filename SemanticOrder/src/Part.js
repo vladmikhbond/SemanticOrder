@@ -16,6 +16,12 @@ class Part {
             .forEach(d => sum += d.distance);
         return sum;
     }
+    get conceptDefCount() {
+        return this.markers.length;
+    }
+    get partDependantCount() {
+        return this.deps.length;
+    }
 }
 exports.Part = Part;
 //# sourceMappingURL=Part.js.map

@@ -30,6 +30,10 @@ export class Concept {
       }
    }
 
+   get usingCount(): number {
+      return this.dependantParts.length;
+   }
+
    // Виробляє регекс
    //
    static marker2regex(marker: string): string {

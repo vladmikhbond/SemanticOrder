@@ -9,11 +9,17 @@ export type Dep = {
 //
 export class Part {
    id: string;
-   markers: string[];
+   markers: string[]; 
    body: string = '';
    deps: Dep[] = [];
    lectName: string;
    ordNo: number;
+
+   constructor(id: string, markers: string[])
+   {
+      this.id = id;
+      this.markers = markers;
+   }
 
    get sumOfInversions(): number {
       let sum = 0;
@@ -22,10 +28,12 @@ export class Part {
       return sum;
    }
 
-   constructor(id: string, markers: string[])
-   {
-      this.id = id;
-      this.markers = markers;
+   get conceptDefCount(): number {
+      return this.markers.length;
+   }
+
+   get partDependantCount(): number {
+      return this.deps.length;
    }
 }
 

@@ -22,7 +22,7 @@ function partsToString(parts) {
     return str;
 }
 function summaryToString(parts) {
-    let res = parts.summary;
+    let res = parts.conceptSummary;
     let str = `
  Concept number:      ${parts.concepts.length}
  Parts number:        ${res.count}

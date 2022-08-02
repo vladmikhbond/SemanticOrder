@@ -21,6 +21,9 @@ class Concept {
             this.badDistance -= dist;
         }
     }
+    get usingCount() {
+        return this.dependantParts.length;
+    }
     // Виробляє регекс
     //
     static marker2regex(marker) {

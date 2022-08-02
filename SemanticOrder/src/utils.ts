@@ -20,7 +20,12 @@ export function bufferDir(relPath: string): string[] | null {
    }
 }
 
-
+export function trimArray(arr: number[]): number[] {
+   let i = arr.length - 1;
+   while (arr[i] == 0) i--;
+   arr.length = i + 1;
+   return arr;
+}
 
 
 export const color = {
