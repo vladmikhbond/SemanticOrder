@@ -28,7 +28,7 @@ Public FileStream (
     bool useAsync);
 }}
 
-@3 Клас StreamReader виконує роль адаптера (переводить інтерфейс Stream в інтерфейс TextReader).
+@3 Клас StreamReader виконує роль адаптера (переводить тип Stream в тип TextReader).
 {{
 FileStream stream = new FileStream("d:\111.txt", FileMode.Open, FileAccess.Read, FileShare.Read);
 TextReader reader = new StreamReader(stream);

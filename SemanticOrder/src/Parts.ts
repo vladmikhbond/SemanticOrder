@@ -4,7 +4,7 @@ import { Part} from "./Part.js";
 import { Concept } from "./Concept.js";
 import { EOL } from "os";
 
-const PART_SEPAR: RegExp = /^@2\s*(.+)\r?\n@@\s*(.+)/gm;   // (\r)\n
+const PART_SEPAR: RegExp = /^@[12]\s*(.+)\r?\n@@\s*(.+)/gm;   // (\r)\n
 
 const EMPTY_MARKERS = '-';
 
