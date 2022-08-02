@@ -8,8 +8,9 @@ function conceptsToString(parts) {
     for (const c of parts.concepts) {
         let partLects = c.homeParts.map(p => `${p.ordNo}.${p.id} (${p.lectName.slice(0, 4)})`).join('; ');
         let dependLects = c.dependantParts.map(p => `${p.ordNo}.${p.id} (${p.lectName.slice(0, 4)})`).join('; ');
+        let badDistance = c.badDistance ? c.badDistance.toString() : " ";
         str += `${c.marker}\t${c.regexp}\t${c.homeParts.length}\t${partLects}\t` +
-            `${c.dependantParts.length}\t${dependLects}\t${c.badDistance}${os_1.EOL}`;
+            `${c.dependantParts.length}\t${dependLects}\t${badDistance}${os_1.EOL}`;
     }
     return str;
 }
