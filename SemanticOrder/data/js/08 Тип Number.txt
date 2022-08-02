@@ -1,6 +1,4 @@
 @1 08 Тип Number
-
-@2 Тип Number
 @@ IEEE-754|isFinite|isNaN|Math
 
 @3 Всі числа зберігаються за стандартом IEEE-754 - «double precision»

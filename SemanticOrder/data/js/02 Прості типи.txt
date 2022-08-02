@@ -1,6 +1,4 @@
 @1 02 Прості типи
-
-@2 Прості типи
 @@ typeof|number|bigint|string|boolean|null|undefined|new
 
 @3 Операція визначення типу - typeof.
