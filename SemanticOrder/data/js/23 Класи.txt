@@ -40,7 +40,7 @@ class Person {
  Посилання на поля та методи заносяться до Person.prototype.
 
 @2 Class expression
-@@ сlass expression
+@@ class expression
 
 @3 Класи можна оголошувати і виразом.
 Class Expression аналогічно Function Expression.
