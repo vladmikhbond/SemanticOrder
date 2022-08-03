@@ -6,7 +6,7 @@ export function bufferFile(relPath: string): string | null {
    try {
       return readFileSync(join(__dirname, relPath)).toString();
    } catch (err) {
-      console.error(err);
+      console.error("No file " + relPath);
       return null;
    }
 }

@@ -1,7 +1,66 @@
 ﻿import { writeFileSync } from 'fs';
 import { EOL } from 'os';
-import { Parts, Part } from './Parts.js';
-import { color } from "./utils.js";
+import { Parts } from './Parts.js';
+import { trimArray } from "./utils.js";
+
+interface ConceptSummary {
+   count: number,
+   posCount: number,
+   posDistance: number,
+   negCount: number,
+   negDistance: number,
+   bodyLength: number
+};
+
+
+   // Summary of a lecture course
+   //
+function conceptSummary(parts: Parts): ConceptSummary
+{ 
+   let summary: ConceptSummary =
+      { count: 0, posCount: 0, posDistance: 0, negCount: 0, negDistance: 0, bodyLength: 0 };
+
+   for (const part of parts.parts) {
+      summary.bodyLength += part.body.length;
+      summary.count++;
+      for (let dep of part.deps) {
+         if (dep.distance > 0) {
+            summary.posCount++;
+            summary.posDistance += dep.distance;
+         } else {
+            summary.negCount++;
+            summary.negDistance += -dep.distance;
+         }
+      }
+   }
+   return summary;
+}
+
+// Строит гистограмму востребованности концептов 
+// по гор - востребованность (в скольких частях использован), по вер - количество коцептов
+//
+function conceptUsingGist(parts: Parts): Number[] {
+   let counters: number[] = new Array(50).fill(0);
+   for (const c of parts.concepts) {
+      counters[c.usingCount] += 1;
+   }
+   return trimArray(counters);
+}
+
+// Строит гистограмму зависимости частей
+// по гор - зависимость (от скольких частей зависима часть), по вер - количество частей
+//
+function partDependGist(parts: Parts): Number[] {
+   let counters: number[] = new Array(50).fill(0);
+   for (const p of parts.parts) {
+      counters[p.partDependantCount] += 1;
+   }
+   return trimArray(counters);
+}
+
+Array.prototype.toString = function (): string {
+   return this.join("\n");   
+}
 
 function conceptsToString(parts: Parts): string
 {
@@ -26,7 +85,7 @@ function partsToString(parts: Parts): string {
 }
 
 function summaryToString(parts: Parts): string {
-   let res = parts.conceptSummary;
+   let res = conceptSummary(parts);
    let str = `
  Concept number:      ${parts.concepts.length}
  Parts number:        ${res.count}
@@ -35,15 +94,20 @@ function summaryToString(parts: Parts): string {
  Sum body size:       ${res.bodyLength}
 `;
    return str;
-}
+} 
 
 export function toFiles(parts: Parts, fileConcepts, fileParts): void {
-   const summary = summaryToString(parts);
-   const conceptStr = conceptsToString(parts) + summary;
+
+   const conceptStr = conceptsToString(parts) + EOL +
+      conceptUsingGist(parts).toString();
+
+   const partStr = partsToString(parts) + EOL +
+      partDependGist(parts).toString();
+
    writeFileSync(fileConcepts, conceptStr);
-   const partStr = partsToString(parts);
    writeFileSync(fileParts, partStr);
 
-   console.log(summary);
+   const summaryStr = summaryToString(parts);
+   console.log(summaryStr);
 }
 

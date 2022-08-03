@@ -10,7 +10,6 @@ const os_1 = require("os");
 const PART_SEPAR = /^@[12]\s*(.+)\r?\n@@\s*(.+)/gm; // (\r)\n
 const EMPTY_MARKERS = '-';
 ;
-;
 class Parts {
     // Load markers from 'markers.txt'
     //
@@ -129,46 +128,6 @@ class Parts {
                 }
             }
         }
-    }
-    // Resume of a lecture course
-    //
-    get conceptSummary() {
-        let summary = { count: 0, posCount: 0, posDistance: 0, negCount: 0, negDistance: 0, bodyLength: 0 };
-        for (const part of this.parts) {
-            summary.bodyLength += part.body.length;
-            summary.count++;
-            for (let dep of part.deps) {
-                if (dep.distance > 0) {
-                    summary.posCount++;
-                    summary.posDistance += dep.distance;
-                }
-                else {
-                    summary.negCount++;
-                    summary.negDistance += -dep.distance;
-                }
-            }
-        }
-        return summary;
-    }
-    // Строит гистограмму востребованности концептов 
-    // по гор - востребованность (в скольких частях использован), по вер - количество коцептов
-    //
-    get conceptUsingGist() {
-        let counters = new Array(50).fill(0);
-        for (const c of this.concepts) {
-            counters[c.usingCount] += 1;
-        }
-        return (0, utils_js_1.trimArray)(counters);
-    }
-    // Строит гистограмму зависимости частей
-    // по гор - зависимость (от скольки частей зависима часть), по вер - количество частей
-    //
-    get partDependGist() {
-        let counters = new Array(50).fill(0);
-        for (const p of this.parts) {
-            counters[p.partDependantCount] += 1;
-        }
-        return (0, utils_js_1.trimArray)(counters);
     }
 }
 exports.Parts = Parts;

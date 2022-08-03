@@ -4,6 +4,4 @@ const Parts_js_1 = require("./src/Parts.js");
 const View_js_1 = require("./src/View.js");
 const parts = new Parts_js_1.Parts('../data/opr/');
 (0, View_js_1.toFiles)(parts, 'excel_concepts.txt', 'excel_parts.txt');
-console.log(parts.conceptUsingGist);
-console.log(parts.partDependGist);
 //# sourceMappingURL=app.js.map

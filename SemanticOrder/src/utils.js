@@ -8,7 +8,7 @@ function bufferFile(relPath) {
         return (0, fs_1.readFileSync)((0, path_1.join)(__dirname, relPath)).toString();
     }
     catch (err) {
-        console.error(err);
+        console.error("No file " + relPath);
         return null;
     }
 }

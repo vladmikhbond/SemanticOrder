@@ -3,6 +3,51 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.toFiles = void 0;
 const fs_1 = require("fs");
 const os_1 = require("os");
+const utils_js_1 = require("./utils.js");
+;
+// Summary of a lecture course
+//
+function conceptSummary(parts) {
+    let summary = { count: 0, posCount: 0, posDistance: 0, negCount: 0, negDistance: 0, bodyLength: 0 };
+    for (const part of parts.parts) {
+        summary.bodyLength += part.body.length;
+        summary.count++;
+        for (let dep of part.deps) {
+            if (dep.distance > 0) {
+                summary.posCount++;
+                summary.posDistance += dep.distance;
+            }
+            else {
+                summary.negCount++;
+                summary.negDistance += -dep.distance;
+            }
+        }
+    }
+    return summary;
+}
+// Строит гистограмму востребованности концептов 
+// по гор - востребованность (в скольких частях использован), по вер - количество коцептов
+//
+function conceptUsingGist(parts) {
+    let counters = new Array(50).fill(0);
+    for (const c of parts.concepts) {
+        counters[c.usingCount] += 1;
+    }
+    return (0, utils_js_1.trimArray)(counters);
+}
+// Строит гистограмму зависимости частей
+// по гор - зависимость (от скольких частей зависима часть), по вер - количество частей
+//
+function partDependGist(parts) {
+    let counters = new Array(50).fill(0);
+    for (const p of parts.parts) {
+        counters[p.partDependantCount] += 1;
+    }
+    return (0, utils_js_1.trimArray)(counters);
+}
+Array.prototype.toString = function () {
+    return this.join("\n");
+};
 function conceptsToString(parts) {
     let str = 'Concept\tRegex\tHome\tHomePartLects\tDeps\tDepPartLects\tSumBadDist' + os_1.EOL;
     for (const c of parts.concepts) {
@@ -22,7 +67,7 @@ function partsToString(parts) {
     return str;
 }
 function summaryToString(parts) {
-    let res = parts.conceptSummary;
+    let res = conceptSummary(parts);
     let str = `
  Concept number:      ${parts.concepts.length}
  Parts number:        ${res.count}
@@ -33,12 +78,14 @@ function summaryToString(parts) {
     return str;
 }
 function toFiles(parts, fileConcepts, fileParts) {
-    const summary = summaryToString(parts);
-    const conceptStr = conceptsToString(parts) + summary;
+    const conceptStr = conceptsToString(parts) + os_1.EOL +
+        conceptUsingGist(parts).toString();
+    const partStr = partsToString(parts) + os_1.EOL +
+        partDependGist(parts).toString();
     (0, fs_1.writeFileSync)(fileConcepts, conceptStr);
-    const partStr = partsToString(parts);
     (0, fs_1.writeFileSync)(fileParts, partStr);
-    console.log(summary);
+    const summaryStr = summaryToString(parts);
+    console.log(summaryStr);
 }
 exports.toFiles = toFiles;
 //# sourceMappingURL=View.js.map
