@@ -122,7 +122,7 @@ class Parts {
                     // залежність: part -> homePart
                     let distance = homePart.ordNo - part.ordNo;
                     if (distance) {
-                        part.deps.push({ partId: homePart.id, distance, marker: concept.marker });
+                        part.deps.push({ part: homePart, distance, marker: concept.marker });
                         concept.addDependantPart(part);
                     }
                 }

@@ -1,6 +1,6 @@
 ﻿
 export type Dep = {
-   partId: string,
+   part: Part,
    distance: number,
    marker: string
 };

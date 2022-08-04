@@ -70,9 +70,15 @@ function conceptsToString(parts) {
     return str;
 }
 function partsToString(parts) {
-    let str = 'OrdNo\tPartId\tLectName\tHome\tDeps\tSumBad' + os_1.EOL;
+    let str = 'OrdNo\tPartId\tLectName\tDefs\tDeps\tCumDefs\tCumDeps\tSumBad' + os_1.EOL;
+    let cumDefs = 0, cumDeps = 0;
     for (const p of parts.parts) {
-        str += `${p.ordNo}\t${p.id}\t${p.lectName}\t${p.markers.length}\t${p.deps.length}\t${p.sumOfInversions}${os_1.EOL}`;
+        cumDefs += p.conceptDefCount;
+        cumDeps += p.partDependantCount;
+        str +=
+            `${p.ordNo}\t${p.id}\t${p.lectName}\t` +
+                `${p.conceptDefCount}\t${p.partDependantCount}\t${cumDefs}\t${cumDeps}\t` +
+                `${p.sumOfInversions}${os_1.EOL}`;
     }
     return str;
 }

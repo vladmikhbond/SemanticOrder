@@ -58,7 +58,7 @@ function partDependGist(parts: Parts): Number[] {
    return trimArray(counters);
 }
 
-// Гистограмма плодвитости частей
+// Гистограмма плодовитости частей
 // по гор - количество концептов, порожденных частью, по вер - количество частей
 //
 function partDefGist(parts: Parts): Number[] {
@@ -89,9 +89,15 @@ function conceptsToString(parts: Parts): string
 }
 
 function partsToString(parts: Parts): string {
-   let str = 'OrdNo\tPartId\tLectName\tHome\tDeps\tSumBad' + EOL;
+   let str = 'OrdNo\tPartId\tLectName\tDefs\tDeps\tCumDefs\tCumDeps\tSumBad' + EOL;
+   let cumDefs = 0, cumDeps = 0;
    for (const p of parts.parts) {
-      str += `${p.ordNo}\t${p.id}\t${p.lectName}\t${p.markers.length}\t${p.deps.length}\t${p.sumOfInversions}${EOL}`;
+      cumDefs += p.conceptDefCount;
+      cumDeps += p.partDependantCount;
+      str +=
+         `${p.ordNo}\t${p.id}\t${p.lectName}\t` +
+      `${p.conceptDefCount}\t${p.partDependantCount}\t${cumDefs}\t${cumDeps}\t` +
+         `${p.sumOfInversions}${EOL}`;
    }
    return str;
 }
