@@ -5,7 +5,7 @@ const fs_1 = require("fs");
 const os_1 = require("os");
 const utils_js_1 = require("./utils.js");
 ;
-// Summary of a lecture course
+// Резюме курса (концепты)
 //
 function conceptSummary(parts) {
     let summary = { count: 0, posCount: 0, posDistance: 0, negCount: 0, negDistance: 0, bodyLength: 0 };
@@ -25,7 +25,7 @@ function conceptSummary(parts) {
     }
     return summary;
 }
-// Строит гистограмму востребованности концептов 
+// Гистограмма востребованности концептов 
 // по гор - востребованность (в скольких частях использован), по вер - количество коцептов
 //
 function conceptUsingGist(parts) {
@@ -35,13 +35,23 @@ function conceptUsingGist(parts) {
     }
     return (0, utils_js_1.trimArray)(counters);
 }
-// Строит гистограмму зависимости частей
+// Гистограмма зависимости частей
 // по гор - зависимость (от скольких частей зависима часть), по вер - количество частей
 //
 function partDependGist(parts) {
     let counters = new Array(50).fill(0);
     for (const p of parts.parts) {
         counters[p.partDependantCount] += 1;
+    }
+    return (0, utils_js_1.trimArray)(counters);
+}
+// Гистограмма плодвитости частей
+// по гор - количество концептов, порожденных частью, по вер - количество частей
+//
+function partDefGist(parts) {
+    let counters = new Array(50).fill(0);
+    for (const p of parts.parts) {
+        counters[p.conceptDefCount] += 1;
     }
     return (0, utils_js_1.trimArray)(counters);
 }
@@ -78,10 +88,14 @@ function summaryToString(parts) {
     return str;
 }
 function toFiles(parts, fileConcepts, fileParts) {
-    const conceptStr = conceptsToString(parts) + os_1.EOL +
+    const conceptStr = conceptsToString(parts) +
+        os_1.EOL + conceptUsingGist.name + os_1.EOL +
         conceptUsingGist(parts).toString();
-    const partStr = partsToString(parts) + os_1.EOL +
-        partDependGist(parts).toString();
+    const partStr = partsToString(parts) +
+        os_1.EOL + partsToString.name + os_1.EOL +
+        partDependGist(parts).toString() +
+        os_1.EOL + partDefGist.name + os_1.EOL +
+        partDefGist(parts).toString();
     (0, fs_1.writeFileSync)(fileConcepts, conceptStr);
     (0, fs_1.writeFileSync)(fileParts, partStr);
     const summaryStr = summaryToString(parts);

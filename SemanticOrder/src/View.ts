@@ -13,8 +13,8 @@ interface ConceptSummary {
 };
 
 
-   // Summary of a lecture course
-   //
+// Резюме курса (концепты)
+//
 function conceptSummary(parts: Parts): ConceptSummary
 { 
    let summary: ConceptSummary =
@@ -36,7 +36,7 @@ function conceptSummary(parts: Parts): ConceptSummary
    return summary;
 }
 
-// Строит гистограмму востребованности концептов 
+// Гистограмма востребованности концептов 
 // по гор - востребованность (в скольких частях использован), по вер - количество коцептов
 //
 function conceptUsingGist(parts: Parts): Number[] {
@@ -47,7 +47,7 @@ function conceptUsingGist(parts: Parts): Number[] {
    return trimArray(counters);
 }
 
-// Строит гистограмму зависимости частей
+// Гистограмма зависимости частей
 // по гор - зависимость (от скольких частей зависима часть), по вер - количество частей
 //
 function partDependGist(parts: Parts): Number[] {
@@ -57,6 +57,18 @@ function partDependGist(parts: Parts): Number[] {
    }
    return trimArray(counters);
 }
+
+// Гистограмма плодвитости частей
+// по гор - количество концептов, порожденных частью, по вер - количество частей
+//
+function partDefGist(parts: Parts): Number[] {
+   let counters: number[] = new Array(50).fill(0);
+   for (const p of parts.parts) {
+      counters[p.conceptDefCount] += 1;
+   }
+   return trimArray(counters);
+}
+
 
 Array.prototype.toString = function (): string {
    return this.join("\n");   
@@ -98,11 +110,15 @@ function summaryToString(parts: Parts): string {
 
 export function toFiles(parts: Parts, fileConcepts, fileParts): void {
 
-   const conceptStr = conceptsToString(parts) + EOL +
+   const conceptStr = conceptsToString(parts) +
+      EOL + conceptUsingGist.name + EOL + 
       conceptUsingGist(parts).toString();
 
-   const partStr = partsToString(parts) + EOL +
-      partDependGist(parts).toString();
+   const partStr = partsToString(parts) +
+      EOL + partsToString.name + EOL + 
+      partDependGist(parts).toString() +
+      EOL + partDefGist.name + EOL + 
+      partDefGist(parts).toString();
 
    writeFileSync(fileConcepts, conceptStr);
    writeFileSync(fileParts, partStr);
