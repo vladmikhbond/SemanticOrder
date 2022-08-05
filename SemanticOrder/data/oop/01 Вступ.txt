@@ -32,8 +32,7 @@
 (.NET 6 - стабільна, .NET 7 - preview)
 
 @2 Мова C#
-
-@@ C#|статично типізован+|Андерс+ Хейлсберг+;Anders Heylsberg
+@@ C#|статичн+;static|Андерс+ Хейлсберг+;Anders Heylsberg
 
 @3 C# - статично типізована мова.
 Це означає, що тип мають мають не тільки значення, а й імена.
@@ -72,7 +71,7 @@ i = "нуль"; // помилка
 
 
 @2 Visual Studio
-@@ VS|проект+project|рішенн+;solution|пакет+;package|Console
+@@ VS|проект+;project|рішенн+;solution|пакет+;package|Console
 
 @3 Версія студії – 17, рік – 2022.
 
@@ -89,7 +88,7 @@ i = "нуль"; // помилка
 
 
 @2 Файл Program.cs
-@@  прост+ імен;namespace|статичн+;static|точ+ входу|void|Write|WriteLine
+@@  прост+ імен;namespace|точ+ входу|void|Write|WriteLine|String;string
 
 @3 Якщо обрати прапорець "Do not use top-level statements", 
 шаблон програми буде таким, як він насправді є.

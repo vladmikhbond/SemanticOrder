@@ -1,7 +1,7 @@
 @1 02 Конструкції управління
 
 @2 Система типів
-@@ значущі+ тип+;value types|посилальн+ тип+;reference types
+@@ значущ+ тип+;value type;value types|посилальн+ тип+;reference type;reference types
 
 @3 Типи С# поділяються на значущі (value types) та посилальні (reference types).
 

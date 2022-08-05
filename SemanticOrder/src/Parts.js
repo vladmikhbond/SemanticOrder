@@ -119,10 +119,9 @@ class Parts {
             for (let concept of this.concepts) {
                 if (concept.regexp.test(part.body)) {
                     let homePart = concept.homeParts[0];
-                    // залежність: part -> homePart
-                    let distance = homePart.ordNo - part.ordNo;
-                    if (distance) {
-                        part.deps.push(part);
+                    // залежність: part -> homePar            
+                    if (homePart != part) {
+                        part.deps.push(homePart);
                         concept.addDependantPart(part);
                     }
                 }

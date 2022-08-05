@@ -8,12 +8,12 @@ const utils_js_1 = require("./utils.js");
 // Резюме курса (концепты)
 //
 function conceptSummary(parts) {
-    let summary = { count: 0, posCount: 0, posDistance: 0, negCount: 0, negDistance: 0, bodyLength: 0 };
+    let summary = { partCount: 0, posCount: 0, posDistance: 0, negCount: 0, negDistance: 0, bodyLength: 0 };
     for (const part of parts.parts) {
         summary.bodyLength += part.body.length;
-        summary.count++;
+        summary.partCount++;
         for (let dep of part.deps) {
-            let distance = part.ordNo - dep.ordNo;
+            let distance = dep.ordNo - part.ordNo;
             if (distance > 0) {
                 summary.posCount++;
                 summary.posDistance += distance;
@@ -30,7 +30,7 @@ function summaryToString(parts) {
     let sum = conceptSummary(parts);
     let str = ` ----- ${parts.lectDir} ------
  Concept number:      ${parts.concepts.length}
- Parts number:        ${sum.count}
+ Parts number:        ${sum.partCount}
  Positive count/dist: ${sum.posCount}/${sum.posDistance}
  Negative count/dist: ${sum.negCount}/${sum.negDistance}
  Sum body size:       ${sum.bodyLength}
@@ -98,10 +98,10 @@ function partsToString(parts) {
 // -----------------------------------------------------------------------------------
 function toFiles(parts, fileConcepts, fileParts) {
     const conceptStr = conceptsToString(parts) +
-        os_1.EOL + conceptUsingGist.name + os_1.EOL +
+        conceptUsingGist.name + os_1.EOL +
         conceptUsingGist(parts).toString();
     const partStr = partsToString(parts) +
-        os_1.EOL + partsToString.name + os_1.EOL +
+        partsToString.name + os_1.EOL +
         partDependGist(parts).toString() +
         os_1.EOL + partDefGist.name + os_1.EOL +
         partDefGist(parts).toString();

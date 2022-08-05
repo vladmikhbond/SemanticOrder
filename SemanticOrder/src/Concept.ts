@@ -51,7 +51,7 @@ export class Concept {
 
       // stage 2 - replacement in marker
       let marker2 = marker1
-         .replace(/\+/g, "\\w{0,3}")      //        '+' -> '\w{0,3}'
+         .replace(/\+/g, "["+ SMALL +"]{0,3}")      //        '+' -> '\w{0,3}'
          .replace(/\s/g, "\\s+")          //      space -> '\s+'
          .replace(/ANYCHARS/g, ".+")      // 'ANYCHARS' -> '.+'
          .replace(/PLUS/g, "\\+")         //     'PLUS' -> '\+'

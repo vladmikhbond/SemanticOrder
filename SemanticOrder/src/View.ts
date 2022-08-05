@@ -7,7 +7,7 @@ import { trimArray } from "./utils.js";
 // ------------------------------------ ConceptSummary -------------------------------
 
 interface ConceptSummary {
-   count: number,
+   partCount: number,
    posCount: number,
    posDistance: number,
    negCount: number,
@@ -21,13 +21,13 @@ interface ConceptSummary {
 function conceptSummary(parts: Parts): ConceptSummary
 { 
    let summary: ConceptSummary =
-      { count: 0, posCount: 0, posDistance: 0, negCount: 0, negDistance: 0, bodyLength: 0 };
+      { partCount: 0, posCount: 0, posDistance: 0, negCount: 0, negDistance: 0, bodyLength: 0 };
 
    for (const part of parts.parts) {
       summary.bodyLength += part.body.length;
-      summary.count++;
+      summary.partCount++;
       for (let dep of part.deps) {
-         let distance = part.ordNo - dep.ordNo;
+         let distance = dep.ordNo - part.ordNo;
          if (distance > 0) {
             summary.posCount++;
             summary.posDistance += distance;
@@ -44,7 +44,7 @@ function summaryToString(parts: Parts): string {
    let sum = conceptSummary(parts);
    let str = ` ----- ${parts.lectDir} ------
  Concept number:      ${parts.concepts.length}
- Parts number:        ${sum.count}
+ Parts number:        ${sum.partCount}
  Positive count/dist: ${sum.posCount}/${sum.posDistance}
  Negative count/dist: ${sum.negCount}/${sum.negDistance}
  Sum body size:       ${sum.bodyLength}
@@ -126,11 +126,11 @@ function partsToString(parts: Parts): string {
 export function toFiles(parts: Parts, fileConcepts, fileParts): void {
 
    const conceptStr = conceptsToString(parts) +
-      EOL + conceptUsingGist.name + EOL + 
+      conceptUsingGist.name + EOL + 
       conceptUsingGist(parts).toString();
 
    const partStr = partsToString(parts) +
-      EOL + partsToString.name + EOL + 
+      partsToString.name + EOL + 
       partDependGist(parts).toString() +
       EOL + partDefGist.name + EOL + 
       partDefGist(parts).toString();
