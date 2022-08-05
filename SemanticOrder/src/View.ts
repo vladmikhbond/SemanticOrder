@@ -3,6 +3,9 @@ import { EOL } from 'os';
 import { Parts } from './Parts.js';
 import { trimArray } from "./utils.js";
 
+
+// ------------------------------------ ConceptSummary -------------------------------
+
 interface ConceptSummary {
    count: number,
    posCount: number,
@@ -24,17 +27,32 @@ function conceptSummary(parts: Parts): ConceptSummary
       summary.bodyLength += part.body.length;
       summary.count++;
       for (let dep of part.deps) {
-         if (dep.distance > 0) {
+         let distance = part.ordNo - dep.ordNo;
+         if (distance > 0) {
             summary.posCount++;
-            summary.posDistance += dep.distance;
+            summary.posDistance += distance;
          } else {
             summary.negCount++;
-            summary.negDistance += -dep.distance;
+            summary.negDistance += -distance;
          }
       }
    }
    return summary;
 }
+
+function summaryToString(parts: Parts): string {
+   let sum = conceptSummary(parts);
+   let str = ` ----- ${parts.lectDir} ------
+ Concept number:      ${parts.concepts.length}
+ Parts number:        ${sum.count}
+ Positive count/dist: ${sum.posCount}/${sum.posDistance}
+ Negative count/dist: ${sum.negCount}/${sum.negDistance}
+ Sum body size:       ${sum.bodyLength}
+`;
+   return str;
+}
+
+// ------------------------------ Gistorgrams ---------------------------------------- 
 
 // Гистограмма востребованности концептов 
 // по гор - востребованность (в скольких частях использован), по вер - количество коцептов
@@ -74,6 +92,8 @@ Array.prototype.toString = function (): string {
    return this.join("\n");   
 }
 
+// --------------------------------------
+
 function conceptsToString(parts: Parts): string
 {
    let str = 'Concept\tRegex\tHome\tHomePartLects\tDeps\tDepPartLects\tSumBadDist' + EOL;
@@ -89,30 +109,19 @@ function conceptsToString(parts: Parts): string
 }
 
 function partsToString(parts: Parts): string {
-   let str = 'OrdNo\tPartId\tLectName\tDefs\tDeps\tCumDefs\tCumDeps\tSumBad' + EOL;
+   let str = 'OrdNo\tPartId\tLectName\tDefs\tDeps\tCumDefs\tCumDeps' + EOL;
    let cumDefs = 0, cumDeps = 0;
    for (const p of parts.parts) {
       cumDefs += p.conceptDefCount;
       cumDeps += p.partDependantCount;
       str +=
          `${p.ordNo}\t${p.id}\t${p.lectName}\t` +
-      `${p.conceptDefCount}\t${p.partDependantCount}\t${cumDefs}\t${cumDeps}\t` +
-         `${p.sumOfInversions}${EOL}`;
+         `${p.conceptDefCount}\t${p.partDependantCount}\t${cumDefs}\t${cumDeps}\t${EOL}`;
    }
    return str;
 }
 
-function summaryToString(parts: Parts): string {
-   let res = conceptSummary(parts);
-   let str = `
- Concept number:      ${parts.concepts.length}
- Parts number:        ${res.count}
- Positive count/dist: ${res.posCount}/${res.posDistance}
- Negative count/dist: ${res.negCount}/${res.negDistance}
- Sum body size:       ${res.bodyLength}
-`;
-   return str;
-} 
+// -----------------------------------------------------------------------------------
 
 export function toFiles(parts: Parts, fileConcepts, fileParts): void {
 

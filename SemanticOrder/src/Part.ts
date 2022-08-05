@@ -1,17 +1,11 @@
 ﻿
-export type Dep = {
-   part: Part,
-   distance: number,
-   marker: string
-};
-
 // Частина лекційного курсу
 //
 export class Part {
    id: string;
    markers: string[]; 
    body: string = '';
-   deps: Dep[] = [];
+   deps: Part[] = [];
    lectName: string;
    ordNo: number;
 
@@ -19,13 +13,6 @@ export class Part {
    {
       this.id = id;
       this.markers = markers;
-   }
-
-   get sumOfInversions(): number {
-      let sum = 0;
-      this.deps.filter(d => d.distance > 0)
-          .forEach(d => sum += d.distance);
-      return sum;
    }
 
    get conceptDefCount(): number {

@@ -10,12 +10,6 @@ class Part {
         this.id = id;
         this.markers = markers;
     }
-    get sumOfInversions() {
-        let sum = 0;
-        this.deps.filter(d => d.distance > 0)
-            .forEach(d => sum += d.distance);
-        return sum;
-    }
     get conceptDefCount() {
         return this.markers.length;
     }
