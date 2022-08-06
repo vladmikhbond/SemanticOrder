@@ -27,8 +27,8 @@ class Concept {
     // Виробляє регекс
     //
     static marker2regex(marker) {
-        const META = ".-*/|\\'\"{}$^()[]";
-        const NON_ALPHA = "\\ $.=[_!/|+-*";
+        const META = ".-*/|\\'\"{}$^()[]?";
+        const NON_ALPHA = "\\ $.=[_!/|+-*?";
         const SMALL = "цукенгшщзхїфівапролджєячсмитбю";
         // stage 1 - insert '\' before META symbols
         let markerArray = [];

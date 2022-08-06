@@ -37,8 +37,8 @@ export class Concept {
    // Виробляє регекс
    //
    static marker2regex(marker: string): string {
-      const META = ".-*/|\\'\"{}$^()[]";
-      const NON_ALPHA = "\\ $.=[_!/|+-*";
+      const META = ".-*/|\\'\"{}$^()[]?";
+      const NON_ALPHA = "\\ $.=[_!/|+-*?";
       const SMALL = "цукенгшщзхїфівапролджєячсмитбю";
 
       // stage 1 - insert '\' before META symbols
