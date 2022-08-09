@@ -45,10 +45,10 @@ class Parts {
         // ordNos
         this.parts.forEach((p, i) => p.ordNo = i);
     }
-    // Get part bodiy from a lecture file.
-    // Example of a header:
+    // Get part bodies from a lecture file.
+    // Example of a part header:
     //    @2 Версії JS 
-    //    @@ ECMAScript|ES2015|ES6|ES
+    //    @@ ECMAScript|ES2015;ES6|ES
     //
     partsFromOneLect(lectFileName) {
         let text = (0, utils_js_1.bufferFile)(lectFileName);

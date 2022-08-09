@@ -7,7 +7,6 @@ import { trimArray } from "./utils.js";
 // ------------------------------------ ConceptSummary -------------------------------
 
 interface ConceptSummary {
-   partCount: number,
    posCount: number,
    posDistance: number,
    negCount: number,
@@ -16,16 +15,15 @@ interface ConceptSummary {
 };
 
 
-// Резюме курса (концепты)
+// Резюме курса 
 //
-function conceptSummary(parts: Parts): ConceptSummary
+function couseSummary(parts: Parts): ConceptSummary
 { 
    let summary: ConceptSummary =
-      { partCount: 0, posCount: 0, posDistance: 0, negCount: 0, negDistance: 0, bodyLength: 0 };
+      { posCount: 0, posDistance: 0, negCount: 0, negDistance: 0, bodyLength: 0 };
 
    for (const part of parts.parts) {
       summary.bodyLength += part.body.length;
-      summary.partCount++;
       for (let dep of part.deps) {
          let distance = dep.ordNo - part.ordNo;
          if (distance > 0) {
@@ -40,11 +38,18 @@ function conceptSummary(parts: Parts): ConceptSummary
    return summary;
 }
 
+
 function summaryToString(parts: Parts): string {
-   let sum = conceptSummary(parts);
+   let sum = couseSummary(parts);
+   // Концепты пролога не считаются
+   let [concepts, part] = parts.parts[0].id === "Prolog" ? [parts.parts[0].conceptDefCount, 1] : [0, 0];
+   let conceptNum = parts.concepts.length - concepts;
+   let partsNum = parts.parts.length - part;
+
    let str = ` ----- ${parts.lectDir} ------
- Concept number:      ${parts.concepts.length}
- Parts number:        ${sum.partCount}
+ Concept number:      ${conceptNum}
+ Parts number:        ${partsNum}
+ Concepts / Parts:    ${conceptNum / partsNum}
  Positive count/dist: ${sum.posCount}/${sum.posDistance}
  Negative count/dist: ${sum.negCount}/${sum.negDistance}
  Sum body size:       ${sum.bodyLength}
@@ -92,31 +97,29 @@ Array.prototype.toString = function (): string {
    return this.join("\n");   
 }
 
-// --------------------------------------
+// -------------------------------------- Excell -------------------------------
 
 function conceptsToString(parts: Parts): string
 {
-   let str = 'Concept\tRegex\tHome\tHomePartLects\tDeps\tDepPartLects\tSumBadDist' + EOL;
+   let str = 'Concept\tRegex\tDefed\tDefedInParts\tUsed\tUsedInParts\tdistance1\tSumBadDist' + EOL;
    for (const c of parts.concepts) {
       let partLects = c.homeParts.map(p => `${p.ordNo}.${p.id} (${p.lectName.slice(0, 4)})`).join('; ');
       let dependLects = c.dependantParts.map(p => `${p.ordNo}.${p.id} (${p.lectName.slice(0, 4)})`).join('; ');
+      let dist_1 = c.dependantParts[0] ? c.dependantParts[0].ordNo - c.homeParts[0].ordNo : 0;
       let badDistance: String = c.badDistance ? c.badDistance.toString() : " ";
 
       str += `${c.marker}\t${c.regexp}\t${c.homeParts.length}\t${partLects}\t` +
-         `${c.dependantParts.length}\t${dependLects}\t${badDistance}${EOL}`;
+         `${c.dependantParts.length}\t${dependLects}\t${dist_1}\t${badDistance}${EOL}`;
    }
    return str;
 }
 
 function partsToString(parts: Parts): string {
-   let str = 'OrdNo\tPartId\tLectName\tDefs\tDeps\tCumDefs\tCumDeps' + EOL;
-   let cumDefs = 0, cumDeps = 0;
+   let str = 'OrdNo\tPartId\tLectName\tDefed\tUsed' + EOL;
    for (const p of parts.parts) {
-      cumDefs += p.conceptDefCount;
-      cumDeps += p.partDependantCount;
       str +=
          `${p.ordNo}\t${p.id}\t${p.lectName}\t` +
-         `${p.conceptDefCount}\t${p.partDependantCount}\t${cumDefs}\t${cumDeps}\t${EOL}`;
+         `${p.conceptDefCount}\t${p.partDependantCount}\t${EOL}`;
    }
    return str;
 }
@@ -125,16 +128,10 @@ function partsToString(parts: Parts): string {
 
 export function toFiles(parts: Parts, fileConcepts, fileParts): void {
 
-   const conceptStr = conceptsToString(parts) +
-      conceptUsingGist.name + EOL + 
-      conceptUsingGist(parts).toString();
+   const conceptStr = conceptsToString(parts);
 
-   const partStr = partsToString(parts) +
-      partsToString.name + EOL + 
-      partDependGist(parts).toString() +
-      EOL + partDefGist.name + EOL + 
-      partDefGist(parts).toString();
-
+   const partStr = partsToString(parts);
+      
    writeFileSync(fileConcepts, conceptStr);
    writeFileSync(fileParts, partStr);
 
