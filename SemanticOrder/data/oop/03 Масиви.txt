@@ -24,7 +24,7 @@ short[] s = новий short[n + m];
 }}
 
 @2 Властивості та методи масиву
-@@ властивіст+;властивост+|Array|Length|BinarySearch|IndexOf|Sort
+@@ Array|Length|BinarySearch|IndexOf|Sort
 
 @3 Масив має властивість {Length}, що зберігає довжину масиву.
 

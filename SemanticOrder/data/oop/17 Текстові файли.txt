@@ -70,12 +70,11 @@ writer.Close();
 @3 Кодування здійснює екземпляр класу Encoding, який передається в об'єкт StreamWriter.
 {{
 string[] ss = { "привіт", "ведмідь", "!!!!!" };
-using (TextWriter tw =
-        new StreamWriter("c:\\111\\111.txt", append: false, encoding: Encoding.GetEncoding("UTF-8")))
-{
-   foreach (string s in ss)
-      tw.WriteLine(s);
-}
+TextWriter writer =
+        new StreamWriter("c:\\111\\111.txt", append: false, encoding: Encoding.GetEncoding("UTF-8")));
+foreach (string s in ss)
+   writer.WriteLine(s);
+writer.Close();
 }}
 
 @3 Цикл foreach дозволяє по черзі відвідати усі елементи масиву.
