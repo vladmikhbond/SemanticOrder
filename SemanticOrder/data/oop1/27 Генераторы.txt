@@ -1,0 +1,121 @@
+@1 27 Генераторы
+
+@3 Генератор - это метод, который возвращает интерфейс IEnumerator{<}T{>} 
+и  вместо команды return содержит команду yield return.
+{{
+static IEnumerator<int> Iter()
+{
+    yield return 1;
+    yield return 2;
+    yield return 3;
+}
+}}
+
+@3 Слово yield побуждает компилятор превращать метод в объект с состоянием, а не в функцию.
+Все значения, "заключенные" в таком объекте, можно получить методами интерфейса IEnumerator
+{{
+for(var e = Iter(); e.MoveNext(); )
+    Console.WriteLine(e.Current);
+}}
+
+@2 Генераторы в коллекциях
+
+@3 Генератор можно использовать для реализации интерфейса IEnumerable{<}T{>} в коллекции 
+и тем самым избежать объявления дополнительного класса.
+Метод-генератор для коллекции MyList:
+{{
+public IEnumerator GetEnumerator()
+{
+    for (var t = Head; t != null; t = t.Next)
+        yield return t.Value;
+}
+}}
+
+@3 Теперь коллекция MyList пригодна для цикла foreach.
+{{
+var list = new MyList();
+list.Add(10); list.Add(20); list.Add(30);
+
+foreach(var e in list)
+    Console.WriteLine(e);
+}}
+
+@2 Генераторы сами по себе
+
+@3 В заголовке генератора можно заменить IEnumerator, на IEnumerable: 
+{{
+IEnumerable<int> Iter()
+{
+    yield return 1;
+    yield return 2;
+    yield return 3;
+}
+}}
+
+@3 Тогда возвращаемый объект можно проходить в цикле foreach.
+{{
+foreach(var v in Iter() )
+    Console.WriteLine(v);
+}}
+
+@2 Примеры генераторов
+
+@3 Генератор, который вырабатывает последовательность целых чисел от {a} до {b}.  
+{{
+static IEnumerable<int> Range(int a, int b)
+{
+    for (int i = a; i <= b; i++)
+        yield return i;
+}    
+}}
+
+@3 Генератор, который получает на вход последовательность.  
+{{
+static IEnumerable<int> Filter(IEnumerable<int> it)
+{
+    foreach (var x in it) {
+        if (x % 2 == 0)
+            yield return x; 
+        if (x == 10)
+            yield break;         
+    } 
+}    
+}}
+
+
+@3 Генератор, который получает две последовательности, {a} и {b}. 
+{{
+static IEnumerable<(int, int)> Decart(IEnumerable<int> a, IEnumerable<int> b)
+{
+    foreach (var x in a)
+        foreach (var y in b)                
+            yield return (x, y);
+}    
+}}
+
+@5 Генератор Maximes | Объявить генератор Maximes, который получает произвольное количество целочисленных последовательностей 
+и из их максимальных элементов составляет новую последовательность,  
+{{
+static IEnumerable<int> Maximes(params IEnumerable<int>[] lists)  }}
+{{{
+    foreach (var list in lists)
+        yield return Max(list);
+}   }}
+
+
+@3 {Вывод:} Генератор - это алгоритм, который вырабатывает последовательность однотипных значений. 
+Параметрами генератора может быть все что угодно, в т.ч. другие генераторы.
+
+
+@2 Задачи
+
+@6 Интерфейс IEnumerator  | 210
+@6 Обратный Итератор для Массива | 338
+@6 Обратный Итератор для Последовательности | 339
+@6 Итератор для Соседей Клетки  | 340
+@6 Итератор для Ферзя  | 341
+
+@6 Реализация Интерфейса IEnumerable  | 211
+@6 Реализация ICloneable  | 212
+
+

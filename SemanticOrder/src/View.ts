@@ -54,48 +54,61 @@ function summaryToString(parts: Parts): string {
  Negative count/dist: ${sum.negCount}/${sum.negDistance}
  Sum body size:       ${sum.bodyLength}
 `;
+   str += EOL + inversions(parts);
    return str;
 }
 
-// ------------------------------ Gistorgrams ---------------------------------------- 
-
-// Гистограмма востребованности концептов 
-// по гор - востребованность (в скольких частях использован), по вер - количество коцептов
-//
-function conceptUsingGist(parts: Parts): Number[] {
-   let counters: number[] = new Array(50).fill(0);
+function inversions(parts: Parts): string {
+   let str = '';
    for (const c of parts.concepts) {
-      counters[c.usingCount] += 1;
+      if (c.badDistance) {
+         str += `${c.marker} :  ${c.homeParts[0].face} <--- ${c.dependantParts[0].face}${EOL}`;
+      }
    }
-   return trimArray(counters);
-}
-
-// Гистограмма зависимости частей
-// по гор - зависимость (от скольких частей зависима часть), по вер - количество частей
-//
-function partDependGist(parts: Parts): Number[] {
-   let counters: number[] = new Array(50).fill(0);
-   for (const p of parts.parts) {
-      counters[p.partDependantCount] += 1;
-   }
-   return trimArray(counters);
-}
-
-// Гистограмма плодовитости частей
-// по гор - количество концептов, порожденных частью, по вер - количество частей
-//
-function partDefGist(parts: Parts): Number[] {
-   let counters: number[] = new Array(50).fill(0);
-   for (const p of parts.parts) {
-      counters[p.conceptDefCount] += 1;
-   }
-   return trimArray(counters);
+   return str;
 }
 
 
-Array.prototype.toString = function (): string {
-   return this.join("\n");   
-}
+
+// ------------------------------ Gistorgrams ----------------------------------------
+
+//// Гистограмма востребованности концептов
+//// по гор - востребованность (в скольких частях использован), по вер - количество коцептов
+////
+//function conceptUsingGist(parts: Parts): Number[] {
+//   let counters: number[] = new Array(50).fill(0);
+//   for (const c of parts.concepts) {
+//      counters[c.usingCount] += 1;
+//   }
+//   return trimArray(counters);
+//}
+
+//// Гистограмма зависимости частей
+//// по гор - зависимость (от скольких частей зависима часть), по вер - количество частей
+////
+//function partDependGist(parts: Parts): Number[] {
+//   let counters: number[] = new Array(50).fill(0);
+//   for (const p of parts.parts) {
+//      counters[p.partDependantCount] += 1;
+//   }
+//   return trimArray(counters);
+//}
+
+//// Гистограмма плодовитости частей
+//// по гор - количество концептов, порожденных частью, по вер - количество частей
+////
+//function partDefGist(parts: Parts): Number[] {
+//   let counters: number[] = new Array(50).fill(0);
+//   for (const p of parts.parts) {
+//      counters[p.conceptDefCount] += 1;
+//   }
+//   return trimArray(counters);
+//}
+
+
+//Array.prototype.toString = function (): string {
+//   return this.join("\n");
+//}
 
 // -------------------------------------- Excell -------------------------------
 

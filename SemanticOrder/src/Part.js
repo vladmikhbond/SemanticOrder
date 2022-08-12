@@ -16,6 +16,9 @@ class Part {
     get partDependantCount() {
         return this.deps.length;
     }
+    get face() {
+        return `${this.lectName} (${this.ordNo}.${this.id})`;
+    }
 }
 exports.Part = Part;
 //# sourceMappingURL=Part.js.map

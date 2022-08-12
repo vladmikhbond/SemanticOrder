@@ -22,5 +22,9 @@ export class Part {
    get partDependantCount(): number {
       return this.deps.length;
    }
+
+   get face(): string {
+      return `${this.lectName} (${this.ordNo}.${this.id})`;
+   }
 }
 

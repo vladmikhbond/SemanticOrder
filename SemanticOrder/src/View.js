@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.toFiles = void 0;
 const fs_1 = require("fs");
 const os_1 = require("os");
-const utils_js_1 = require("./utils.js");
 ;
 // Резюме курса 
 //
@@ -39,42 +38,52 @@ function summaryToString(parts) {
  Negative count/dist: ${sum.negCount}/${sum.negDistance}
  Sum body size:       ${sum.bodyLength}
 `;
+    str += os_1.EOL + inversions(parts);
     return str;
 }
-// ------------------------------ Gistorgrams ---------------------------------------- 
-// Гистограмма востребованности концептов 
-// по гор - востребованность (в скольких частях использован), по вер - количество коцептов
-//
-function conceptUsingGist(parts) {
-    let counters = new Array(50).fill(0);
+function inversions(parts) {
+    let str = '';
     for (const c of parts.concepts) {
-        counters[c.usingCount] += 1;
+        if (c.badDistance) {
+            str += `${c.marker} :  ${c.homeParts[0].face} <--- ${c.dependantParts[0].face}${os_1.EOL}`;
+        }
     }
-    return (0, utils_js_1.trimArray)(counters);
+    return str;
 }
-// Гистограмма зависимости частей
-// по гор - зависимость (от скольких частей зависима часть), по вер - количество частей
-//
-function partDependGist(parts) {
-    let counters = new Array(50).fill(0);
-    for (const p of parts.parts) {
-        counters[p.partDependantCount] += 1;
-    }
-    return (0, utils_js_1.trimArray)(counters);
-}
-// Гистограмма плодовитости частей
-// по гор - количество концептов, порожденных частью, по вер - количество частей
-//
-function partDefGist(parts) {
-    let counters = new Array(50).fill(0);
-    for (const p of parts.parts) {
-        counters[p.conceptDefCount] += 1;
-    }
-    return (0, utils_js_1.trimArray)(counters);
-}
-Array.prototype.toString = function () {
-    return this.join("\n");
-};
+// ------------------------------ Gistorgrams ----------------------------------------
+//// Гистограмма востребованности концептов
+//// по гор - востребованность (в скольких частях использован), по вер - количество коцептов
+////
+//function conceptUsingGist(parts: Parts): Number[] {
+//   let counters: number[] = new Array(50).fill(0);
+//   for (const c of parts.concepts) {
+//      counters[c.usingCount] += 1;
+//   }
+//   return trimArray(counters);
+//}
+//// Гистограмма зависимости частей
+//// по гор - зависимость (от скольких частей зависима часть), по вер - количество частей
+////
+//function partDependGist(parts: Parts): Number[] {
+//   let counters: number[] = new Array(50).fill(0);
+//   for (const p of parts.parts) {
+//      counters[p.partDependantCount] += 1;
+//   }
+//   return trimArray(counters);
+//}
+//// Гистограмма плодовитости частей
+//// по гор - количество концептов, порожденных частью, по вер - количество частей
+////
+//function partDefGist(parts: Parts): Number[] {
+//   let counters: number[] = new Array(50).fill(0);
+//   for (const p of parts.parts) {
+//      counters[p.conceptDefCount] += 1;
+//   }
+//   return trimArray(counters);
+//}
+//Array.prototype.toString = function (): string {
+//   return this.join("\n");
+//}
 // -------------------------------------- Excell -------------------------------
 function conceptsToString(parts) {
     let str = 'Concept\tRegex\tDefed\tDefedInParts\tUsed\tUsedInParts\tdistance1\tSumBadDist' + os_1.EOL;
