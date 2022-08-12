@@ -1,7 +1,8 @@
 @1 04 Нечислові типи даних
 
 @2 Тип bool
-@@ xor| ^ |
+@@ xor|^|VERBAR2|&&
+
 @3 Літерали - {false}, {true}.
 
 @3 Логічні операції:
@@ -102,8 +103,6 @@ Console.OutputEncoding = Encoding.UTF8;
 {{
 int один = 1;
 }}
-
-
 
 
 @2 Завдання

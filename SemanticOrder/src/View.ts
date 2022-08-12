@@ -62,10 +62,14 @@ function inversions(parts: Parts): string {
    let str = '';
    for (const c of parts.concepts) {
       if (c.badDistance) {
-         str += `${c.marker} :  ${c.homeParts[0].face} <--- ${c.dependantParts[0].face}${EOL}`;
+         str += `${align(c.marker, 20)} :  ${align(c.homeParts[0].face, 40)} <--- ${align(c.dependantParts[0].face, 40)}${EOL}`;
       }
    }
    return str;
+
+   function align(s, n) {
+      return (s + "                                       ").slice(0, n);
+   }
 }
 
 
