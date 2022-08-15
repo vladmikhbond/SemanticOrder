@@ -8,7 +8,7 @@ const PART_SEPAR: RegExp = /^@[12]\s*(.+)\r?\n@@\s*(.+)/gm;   // (\r)\n
 
 const EMPTY_MARKERS = '-';
 
-export { Part, Parts }
+export { Part, Course }
 
 interface Temp {
    index: number,
@@ -17,7 +17,7 @@ interface Temp {
    start: number
 };
 
-class Parts
+class Course
 {
    parts: Part[];
    concepts: Concept[];

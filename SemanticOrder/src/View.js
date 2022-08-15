@@ -6,9 +6,9 @@ const os_1 = require("os");
 ;
 // Резюме курса 
 //
-function couseSummary(parts) {
+function couseSummary(course) {
     let summary = { posCount: 0, posDistance: 0, negCount: 0, negDistance: 0, bodyLength: 0 };
-    for (const part of parts.parts) {
+    for (const part of course.parts) {
         summary.bodyLength += part.body.length;
         for (let dep of part.deps) {
             let distance = dep.ordNo - part.ordNo;
@@ -24,13 +24,13 @@ function couseSummary(parts) {
     }
     return summary;
 }
-function summaryToString(parts) {
-    let sum = couseSummary(parts);
+function summaryToString(course) {
+    let sum = couseSummary(course);
     // Концепты пролога не считаются
-    let [concepts, part] = parts.parts[0].id === "Prolog" ? [parts.parts[0].conceptDefCount, 1] : [0, 0];
-    let conceptNum = parts.concepts.length - concepts;
-    let partsNum = parts.parts.length - part;
-    let str = ` ----- ${parts.lectDir} ------
+    let [concepts, part] = course.parts[0].id === "Prolog" ? [course.parts[0].conceptDefCount, 1] : [0, 0];
+    let conceptNum = course.concepts.length - concepts;
+    let partsNum = course.parts.length - part;
+    let str = ` ----- ${course.lectDir} ------
  Concept number:      ${conceptNum}
  Parts number:        ${partsNum}
  Concepts / Parts:    ${conceptNum / partsNum}
@@ -38,12 +38,12 @@ function summaryToString(parts) {
  Negative count/dist: ${sum.negCount}/${sum.negDistance}
  Sum body size:       ${sum.bodyLength}
 `;
-    str += os_1.EOL + inversions(parts);
+    str += os_1.EOL + inversions(course);
     return str;
 }
-function inversions(parts) {
+function inversions(course) {
     let str = '';
-    for (const c of parts.concepts) {
+    for (const c of course.concepts) {
         if (c.badDistance) {
             str += `${align(c.marker, 20)} :  ${align(c.homeParts[0].face, 40)} <--- ${align(c.dependantParts[0].face, 40)}${os_1.EOL}`;
         }

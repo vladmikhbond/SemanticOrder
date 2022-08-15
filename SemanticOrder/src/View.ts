@@ -1,6 +1,6 @@
 ﻿import { writeFileSync } from 'fs';
 import { EOL } from 'os';
-import { Parts } from './Parts.js';
+import { Course } from './Parts.js';
 import { trimArray } from "./utils.js";
 
 
@@ -17,12 +17,12 @@ interface ConceptSummary {
 
 // Резюме курса 
 //
-function couseSummary(parts: Parts): ConceptSummary
+function couseSummary(course: Course): ConceptSummary
 { 
    let summary: ConceptSummary =
       { posCount: 0, posDistance: 0, negCount: 0, negDistance: 0, bodyLength: 0 };
 
-   for (const part of parts.parts) {
+   for (const part of course.parts) {
       summary.bodyLength += part.body.length;
       for (let dep of part.deps) {
          let distance = dep.ordNo - part.ordNo;
@@ -39,14 +39,14 @@ function couseSummary(parts: Parts): ConceptSummary
 }
 
 
-function summaryToString(parts: Parts): string {
-   let sum = couseSummary(parts);
+function summaryToString(course: Course): string {
+   let sum = couseSummary(course);
    // Концепты пролога не считаются
-   let [concepts, part] = parts.parts[0].id === "Prolog" ? [parts.parts[0].conceptDefCount, 1] : [0, 0];
-   let conceptNum = parts.concepts.length - concepts;
-   let partsNum = parts.parts.length - part;
+   let [concepts, part] = course.parts[0].id === "Prolog" ? [course.parts[0].conceptDefCount, 1] : [0, 0];
+   let conceptNum = course.concepts.length - concepts;
+   let partsNum = course.parts.length - part;
 
-   let str = ` ----- ${parts.lectDir} ------
+   let str = ` ----- ${course.lectDir} ------
  Concept number:      ${conceptNum}
  Parts number:        ${partsNum}
  Concepts / Parts:    ${conceptNum / partsNum}
@@ -54,13 +54,13 @@ function summaryToString(parts: Parts): string {
  Negative count/dist: ${sum.negCount}/${sum.negDistance}
  Sum body size:       ${sum.bodyLength}
 `;
-   str += EOL + inversions(parts);
+   str += EOL + inversions(course);
    return str;
 }
 
-function inversions(parts: Parts): string {
+function inversions(course: Course): string {
    let str = '';
-   for (const c of parts.concepts) {
+   for (const c of course.concepts) {
       if (c.badDistance) {
          str += `${align(c.marker, 20)} :  ${align(c.homeParts[0].face, 40)} <--- ${align(c.dependantParts[0].face, 40)}${EOL}`;
       }
@@ -116,7 +116,7 @@ function inversions(parts: Parts): string {
 
 // -------------------------------------- Excell -------------------------------
 
-function conceptsToString(parts: Parts): string
+function conceptsToString(parts: Course): string
 {
    let str = 'Concept\tRegex\tDefed\tDefedInParts\tUsed\tUsedInParts\tdistance1\tSumBadDist' + EOL;
    for (const c of parts.concepts) {
@@ -131,7 +131,7 @@ function conceptsToString(parts: Parts): string
    return str;
 }
 
-function partsToString(parts: Parts): string {
+function partsToString(parts: Course): string {
    let str = 'OrdNo\tPartId\tLectName\tDefed\tUsed' + EOL;
    for (const p of parts.parts) {
       str +=
@@ -143,7 +143,7 @@ function partsToString(parts: Parts): string {
 
 // -----------------------------------------------------------------------------------
 
-export function toFiles(parts: Parts, fileConcepts, fileParts): void {
+export function toFiles(parts: Course, fileConcepts, fileParts): void {
 
    const conceptStr = conceptsToString(parts);
 

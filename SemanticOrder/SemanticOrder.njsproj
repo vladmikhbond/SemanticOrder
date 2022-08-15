@@ -147,7 +147,7 @@
     <Content Include="_doc\readme.md" />
     <None Include="app.ts" />
     <Content Include="package.json" />
-    <Content Include="src\Parts.ts" />
+    <Content Include="src\Course.ts" />
     <Content Include="README.md" />
     <Content Include="tsconfig.json" />
   </ItemGroup>

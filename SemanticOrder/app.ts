@@ -1,7 +1,7 @@
-﻿import { Parts } from './src/Parts.js';
+﻿import { Course } from './src/Course.js';
 import { toFiles } from "./src/View.js";
 
 
-const parts = new Parts('../data/oop/');
+const course = new Course('../data/oop/');
 
-toFiles(parts, 'excel_concepts.txt', 'excel_parts.txt');
+toFiles(course, 'excel_concepts.txt', 'excel_parts.txt');
