@@ -13,7 +13,7 @@ export class Concept {
       this.marker = markerStr;
       this.homeParts = [homePart];
 
-      let ms = markerStr.split(';')
+      let ms = markerStr.split(';');
       let v = ms.map(m => Concept.marker2regex(m)).join('|');
       this.regexp = new RegExp(v, "gm");
 
